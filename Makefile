@@ -12,7 +12,7 @@ MAKEFILE_COMMON	:= $(shell $(find-makefile-common))
 ifeq ($(MAKEFILE_COMMON),)
 # attept a checkout
 define checkout-makefile-common
-test -f CVS/Rootx && { cvs -Q -d $$(cat CVS/Root) checkout common && echo "common/Makefile.common" ; } || { echo "ERROR: I can't figure out how to checkout the 'common' module." ; exit -1 ; } >&2
+test -f CVS/Root && { cvs -Q -d $$(cat CVS/Root) checkout common && echo "common/Makefile.common" ; } || { echo "ERROR: I can't figure out how to checkout the 'common' module." ; exit -1 ; } >&2
 endef
 
 MAKEFILE_COMMON := $(shell $(checkout-makefile-common))
