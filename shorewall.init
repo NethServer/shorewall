@@ -1,0 +1,83 @@
+#!/bin/sh
+#
+# shorewall The Shoreline Firewall
+#
+# chkconfig:   2345 09 91
+# description: Packet filtering firewall
+#
+# config:      /etc/shorewall/
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+exec="/sbin/shorewall"
+prog=$(basename $exec)
+
+[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+
+lockfile=/var/lock/subsys/$prog
+
+start() {
+    echo -n $"Starting $prog: "
+    # start it up here, usually something like "daemon $exec"
+    $exec start >/dev/null 2>&1 && success $"$exec startup" || failure $"$exec startup"
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    # stop it here, often "killproc $prog"
+    $exec stop >/dev/null 2>&1 && success $"$exec stop" || failure $"$exec stop"
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+    return $retval
+}
+
+restart() {
+    echo -n $"Restarting $prog: "
+    $exec restart >/dev/null 2>&1 && success $"$exec restart" || failure $"$exec restart"
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+
+reload() {
+    restart
+}
+
+force_reload() {
+    restart
+}
+
+fdr_status() {
+    status $prog
+}
+
+case "$1" in
+    start|stop|restart|reload)
+        $1
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status|clear)
+        $exec $1
+        ;;
+    condrestart)
+  	[ ! -f $lockfile ] || restart
+	;;
+    *)
+        echo $"Usage: $0 {start|stop|status|clear|restart|condrestart|reload|force-reload}"
+        exit 2
+esac
