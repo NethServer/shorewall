@@ -1,6 +1,6 @@
 Name: shorewall
 Version: 1.4.8
-Release: 1.fdr.2.rh90
+Release: 1.fdr.2.1
 Epoch: 0
 Summary: Shoreline Firewall is an iptables-based firewall for Linux systems.
 
