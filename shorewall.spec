@@ -1,8 +1,7 @@
 Name: shorewall
 Version: 1.4.8
 Release: 2
-Epoch: 0
-Summary: Shoreline Firewall is an iptables-based firewall for Linux systems.
+Summary: Iptables-based firewall for Linux systems
 
 Group: Applications/System
 License: GPL
@@ -32,7 +31,7 @@ http://www.shorewall.net/
 
 %prep
 
-%setup -q 
+%setup -q
 
 # Clean backup doc files
 rm -rf documentation/*~
@@ -56,7 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 
 if [ $1 -eq 1 ]; then
-    	echo \
+	echo \
 "########################################################################
 #      REMOVE THIS FILE AFTER YOU HAVE CONFIGURED SHOREWALL            #
 ########################################################################" \
@@ -66,9 +65,9 @@ fi
 
 %preun
 
-if [ $1 = 0 ]; then
-        /sbin/chkconfig --del shorewall
-        rm -f %{_sysconfdir}/shorewall/startup_disabled
+if [ $1 -eq 0 ]; then
+	/sbin/chkconfig --del shorewall
+	rm -f %{_sysconfdir}/shorewall/startup_disabled
 fi
 
 %files
@@ -94,15 +93,19 @@ fi
 * Tue Nov 11 2003 Miguel Armas <kuko@maarmas.com> - 1.4.8-1.fdr.2
 - Clean backup doc files
 - Fix some entries in files section
+
 * Mon Nov 10 2003 Miguel Armas <kuko@maarmas.com> - 1.4.8-1.fdr.1
 - Upgraded to shorewall 1.4.8
+
 * Fri Oct 31 2003 Miguel Armas <kuko@maarmas.com> - 1.4.7-1.fdr.3.a
 - Start shorewall *before* network for better security.
 - Added clear command to shorewall init script to run "shorewall clear"
 - Changed status command in shorewall init script to run "shorewall status"
+
 * Thu Oct 30 2003 Miguel Armas <kuko@maarmas.com> - 1.4.7-1.fdr.2.a
 - Lots of bugfixes in spec file (Thanks to Michael Schwendt)
+
 * Sat Oct 25 2003 Miguel Armas <kuko@maarmas.com> - 1.4.7-1.fdr.1.a
 - Fedorized package
 - Split documentation in a subpackage (we don't need de docs in a production
-firewall) 
+firewall)
