@@ -1,6 +1,7 @@
 Name: shorewall
 Version: 1.4.8
-Release: 2
+Release: 3
+
 Summary: Iptables-based firewall for Linux systems
 
 Group: Applications/System
@@ -90,6 +91,9 @@ fi
 %doc documentation/*
 
 %changelog
+* Fri Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
+- rebuilt
+
 * Tue Nov 11 2003 Miguel Armas <kuko@maarmas.com> - 1.4.8-1.fdr.2
 - Clean backup doc files
 - Fix some entries in files section
