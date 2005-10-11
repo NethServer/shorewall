@@ -1,6 +1,6 @@
 Name: shorewall
 Version: 2.4.5
-Release: 1
+Release: 2%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
 
