@@ -1,13 +1,15 @@
+%define alphatag Beta1
+
 Name: shorewall
-Version: 2.4.5
-Release: 2%{?dist}
+Version: 3.0.0
+Release: 0.1.%{alphatag}%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
 
 Group: Applications/System
 License: GPL
 URL: http://www.shorewall.net/
-Source: http://www.shorewall.net/pub/shorewall/2.4/shorewall-2.4.5/shorewall-2.4.5.tar.bz2
+Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-3.0.0-Beta1/shorewall-3.0.0-Beta1.tar.bz2
 Patch0: shorewall-2.4.4-init.patch
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -25,7 +27,7 @@ a multi-function gateway/router/server or on a standalone GNU/Linux system.
 
 %prep
 
-%setup -q
+%setup -q -n shorewall-%{version}-%{alphatag}
 %patch0 -p1
 
 %install
@@ -36,7 +38,7 @@ export DEST=%{_initrddir} ;\
 ./install.sh
 # Create %ghost files
 install -d $RPM_BUILD_ROOT/%{_localstatedir}/lib/shorewall
-touch $RPM_BUILD_ROOT/%{_localstatedir}/lib/shorewall/{chains,nat,proxyarp,restarted,zones,restore-base,restore-tail}
+touch $RPM_BUILD_ROOT/%{_localstatedir}/lib/shorewall/{chains,nat,proxyarp,restarted,zones,restore-base,restore-tail,state}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,8 +66,8 @@ fi
 
 %{_datadir}/shorewall/action.*
 %{_datadir}/shorewall/actions.std
-%{_datadir}/shorewall/bogons
 %{_datadir}/shorewall/configpath
+%{_datadir}/shorewall/macro.*
 %{_datadir}/shorewall/rfc1918
 %{_datadir}/shorewall/version
 
@@ -76,9 +78,12 @@ fi
 %attr(0700,root,root) %dir %{_localstatedir}/lib/shorewall
 %attr(0600,root,root) %ghost %{_localstatedir}/lib/shorewall/*
 %attr(0750,root,root) /sbin/shorewall
-%doc COPYING INSTALL changelog.txt releasenotes.txt tunnel
+%doc COPYING INSTALL changelog.txt releasenotes.txt README.txt
 
 %changelog
+* Thu Oct 14 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.1.Beta1
+- Update to upstream 3.0.0-Beta1, package README.txt as a documentation file
+
 * Sat Oct 08 2005 Robert Marcano <robert@marcanoonline.com> - 2.4.5-1
 - Update to upstream version 2.4.5
 
