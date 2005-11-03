@@ -1,4 +1,4 @@
-%define alphatag RC2
+%define alphatag RC3
 
 Name: shorewall
 Version: 3.0.0
@@ -78,9 +78,12 @@ fi
 %attr(0700,root,root) %dir %{_localstatedir}/lib/shorewall
 %attr(0600,root,root) %ghost %{_localstatedir}/lib/shorewall/*
 %attr(0750,root,root) /sbin/shorewall
-%doc COPYING INSTALL changelog.txt releasenotes.txt README.txt
+%doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
+* Thu Nov 03 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.3.RC3
+- Update to upstream 3.0.0-RC3. Samples added to the doc directory
+
 * Sun Oct 23 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.3.RC2
 - Update to upstream 3.0.0-RC2
 
