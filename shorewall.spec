@@ -1,15 +1,13 @@
-%define alphatag RC3
-
 Name: shorewall
 Version: 3.0.0
-Release: 0.3.%{alphatag}%{?dist}
+Release: 1%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
 
 Group: Applications/System
 License: GPL
 URL: http://www.shorewall.net/
-Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-%{version}-%{alphatag}/shorewall-%{version}-%{alphatag}.tar.bz2
+Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-%{version}/shorewall-%{version}.tar.bz2
 Patch0: shorewall-2.4.4-init.patch
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -27,7 +25,7 @@ a multi-function gateway/router/server or on a standalone GNU/Linux system.
 
 %prep
 
-%setup -q -n shorewall-%{version}-%{alphatag}
+%setup -q
 %patch0 -p1
 
 %install
@@ -81,6 +79,9 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
+* Fri Nov 11 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-1
+- Update to final 3.0.0 release
+
 * Thu Nov 03 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.3.RC3
 - Update to upstream 3.0.0-RC3. Samples added to the doc directory
 
