@@ -1,5 +1,5 @@
 Name: shorewall
-Version: 3.0.2
+Version: 3.0.3
 Release: 1%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
@@ -8,7 +8,7 @@ Group: Applications/System
 License: GPL
 URL: http://www.shorewall.net/
 Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-%{version}/shorewall-%{version}.tar.bz2
-Patch0: shorewall-2.4.4-init.patch
+Patch0: shorewall-3.0.3-init.patch
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -79,6 +79,9 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
+* Tue Jan 03 2006 Robert Marcano <robert@marcanoonline.com> - 3.0.3-1
+- Update to upstream 3.0.3
+
 * Sun Nov 27 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.2-1
 - Update to upstream 3.0.2
 
