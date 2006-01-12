@@ -1,5 +1,5 @@
 Name: shorewall
-Version: 3.0.3
+Version: 3.0.4
 Release: 1%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
@@ -68,6 +68,7 @@ fi
 %{_datadir}/shorewall/macro.*
 %{_datadir}/shorewall/rfc1918
 %{_datadir}/shorewall/version
+%{_datadir}/shorewall/Limit
 
 %attr(0754,root,root) %{_datadir}/shorewall/firewall
 %attr(0754,root,root) %{_datadir}/shorewall/functions
@@ -79,6 +80,9 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
+* Thu Jan 12 2006 Robert Marcano <robert@marcanoonline.com> - 3.0.4-1
+- Update to upstream 3.0.4
+
 * Tue Jan 03 2006 Robert Marcano <robert@marcanoonline.com> - 3.0.3-1
 - Update to upstream 3.0.3
 
