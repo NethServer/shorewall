@@ -1,5 +1,5 @@
 Name: shorewall
-Version: 3.0.5
+Version: 3.0.6
 Release: 1%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
@@ -80,7 +80,10 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
-* Mon Feb 13 2006 Robert Marcano <robert[AT]marcanoonline.com> - 3.0.5-1
+* Fri Mar 31 2006 Robert Marcano <roberti@marcanoonline.com> - 3.0.6-1
+- Update to upstream 3.0.6
+
+* Mon Feb 13 2006 Robert Marcano <robert@marcanoonline.com> - 3.0.5-1
 - Rebuild for Fedora Extras 5, Update to upstream 3.0.5
 
 * Thu Jan 12 2006 Robert Marcano <robert@marcanoonline.com> - 3.0.4-1
