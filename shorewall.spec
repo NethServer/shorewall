@@ -1,13 +1,16 @@
+%define beta_release Beta4
+
 Name: shorewall
-Version: 3.0.6
-Release: 1%{?dist}
+Version: 3.2.0
+Release: 0.1.%{beta_release}%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
 
 Group: Applications/System
 License: GPL
 URL: http://www.shorewall.net/
-Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-%{version}/shorewall-%{version}.tar.bz2
+#Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-%{version}/shorewall-%{version}.tar.bz2
+Source: http://www.shorewall.net/pub/shorewall/development/3.2/shorewall-%{version}-%{beta_release}/shorewall-%{version}-%{beta_release}.tar.bz2
 Patch0: shorewall-3.0.3-init.patch
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -25,7 +28,7 @@ a multi-function gateway/router/server or on a standalone GNU/Linux system.
 
 %prep
 
-%setup -q
+%setup -q -n %{name}-%{version}-%{beta_release}
 %patch0 -p1
 
 %install
@@ -69,9 +72,12 @@ fi
 %{_datadir}/shorewall/rfc1918
 %{_datadir}/shorewall/version
 %{_datadir}/shorewall/Limit
+%{_datadir}/shorewall/prog.*
 
 %attr(0754,root,root) %{_datadir}/shorewall/firewall
 %attr(0754,root,root) %{_datadir}/shorewall/functions
+%attr(0754,root,root) %{_datadir}/shorewall/compiler
+%attr(0754,root,root) %{_datadir}/shorewall/shorecap
 %attr(0754,root,root) %{_datadir}/shorewall/help
 
 %attr(0700,root,root) %dir %{_localstatedir}/lib/shorewall
@@ -80,6 +86,9 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
+* Fri Apr 14 2006 Robert Marcano <roberti@marcanoonline.com> - 3.2.0-0.1.Beta4
+- Update to upstream 3.2.0-Beta4
+
 * Fri Mar 31 2006 Robert Marcano <roberti@marcanoonline.com> - 3.0.6-1
 - Update to upstream 3.0.6
 
