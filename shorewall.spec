@@ -1,4 +1,4 @@
-%define beta_release Beta4
+%define beta_release Beta7
 
 Name: shorewall
 Version: 3.2.0
@@ -9,8 +9,8 @@ Summary: Iptables-based firewall for Linux systems
 Group: Applications/System
 License: GPL
 URL: http://www.shorewall.net/
-#Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-%{version}/shorewall-%{version}.tar.bz2
-Source: http://www.shorewall.net/pub/shorewall/development/3.2/shorewall-%{version}-%{beta_release}/shorewall-%{version}-%{beta_release}.tar.bz2
+#Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-3.2.0/shorewall-3.2.0.tar.bz2
+Source: http://www.shorewall.net/pub/shorewall/development/3.2/shorewall-3.2.0-Beta7/shorewall-3.2.0-Beta7.tar.bz2
 Patch0: shorewall-3.0.3-init.patch
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -86,6 +86,9 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
+* Sun May 14 2006 Robert Marcano <roberti@marcanoonline.com> - 3.2.0-0.1.Beta7
+- Update to upstream 3.2.0-Beta7
+
 * Fri Apr 14 2006 Robert Marcano <roberti@marcanoonline.com> - 3.2.0-0.1.Beta4
 - Update to upstream 3.2.0-Beta4
 
