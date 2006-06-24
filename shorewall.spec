@@ -1,4 +1,4 @@
-%define beta_release Beta8
+%define beta_release RC4
 
 Name: shorewall
 Version: 3.2.0
@@ -9,8 +9,7 @@ Summary: Iptables-based firewall for Linux systems
 Group: Applications/System
 License: GPL
 URL: http://www.shorewall.net/
-#Source: http://www.shorewall.net/pub/shorewall/3.0/shorewall-3.2.0/shorewall-3.2.0.tar.bz2
-Source: http://www.shorewall.net/pub/shorewall/development/3.2/shorewall-3.2.0-Beta8/shorewall-3.2.0-Beta8.tar.bz2
+Source: http://www.shorewall.net/pub/shorewall/development/3.2/shorewall-%{version}-%{beta_release}/shorewall-%{version}-%{beta_release}.tar.bz2
 Patch0: shorewall-3.0.3-init.patch
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -75,11 +74,11 @@ fi
 %{_datadir}/shorewall/prog.*
 %{_datadir}/shorewall/modules
 %{_datadir}/shorewall/xmodules
+%{_datadir}/shorewall/configfiles
 
 %attr(0754,root,root) %{_datadir}/shorewall/firewall
 %attr(0754,root,root) %{_datadir}/shorewall/functions
 %attr(0754,root,root) %{_datadir}/shorewall/compiler
-%attr(0754,root,root) %{_datadir}/shorewall/shorecap
 %attr(0754,root,root) %{_datadir}/shorewall/help
 
 %attr(0700,root,root) %dir %{_localstatedir}/lib/shorewall
@@ -88,16 +87,19 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
-* Thu Jun 01 2006 Robert Marcano <roberti@marcanoonline.com> - 3.2.0-0.1.Beta8
+* Sat Jun 24 2006 Robert Marcano <robert@marcanoonline.com> - 3.2.0-0.1.RC4
+- Update to upstream 3.2.0-RC4
+
+* Thu Jun 01 2006 Robert Marcano <robert@marcanoonline.com> - 3.2.0-0.1.Beta8
 - Update to upstream 3.2.0-Beta8
 
-* Sun May 14 2006 Robert Marcano <roberti@marcanoonline.com> - 3.2.0-0.1.Beta7
+* Sun May 14 2006 Robert Marcano <robert@marcanoonline.com> - 3.2.0-0.1.Beta7
 - Update to upstream 3.2.0-Beta7
 
-* Fri Apr 14 2006 Robert Marcano <roberti@marcanoonline.com> - 3.2.0-0.1.Beta4
+* Fri Apr 14 2006 Robert Marcano <robert@marcanoonline.com> - 3.2.0-0.1.Beta4
 - Update to upstream 3.2.0-Beta4
 
-* Fri Mar 31 2006 Robert Marcano <roberti@marcanoonline.com> - 3.0.6-1
+* Fri Mar 31 2006 Robert Marcano <robert@marcanoonline.com> - 3.0.6-1
 - Update to upstream 3.0.6
 
 * Mon Feb 13 2006 Robert Marcano <robert@marcanoonline.com> - 3.0.5-1
