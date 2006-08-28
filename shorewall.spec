@@ -1,6 +1,6 @@
 Name: shorewall
 Version: 3.2.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
 
@@ -85,6 +85,9 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
+* Mon Aug 28 2006 Robert Marcano <robert@marcanoonline.com> - 3.2.3-2
+- Rebuild
+
 * Sat Aug 26 2006 Robert Marcano <robert@marcanoonline.com> - 3.2.3-1
 - Update to upstream 3.2.3
 
