@@ -1,5 +1,5 @@
 Name: shorewall
-Version: 3.4.3
+Version: 3.4.4
 Release: 1%{?dist}
 
 Summary: Iptables-based firewall for Linux systems
@@ -87,7 +87,10 @@ fi
 %doc COPYING INSTALL changelog.txt releasenotes.txt README.txt Samples
 
 %changelog
-* Fri May 11 2007 Robert Marcano <robert@marcanoonline.com> - 3.4.2-1
+* Mon Jun 18 2007 Robert Marcano <robert@marcanoonline.com> - 3.4.4-1
+- Update to upstream 3.4.4
+
+* Fri May 11 2007 Robert Marcano <robert@marcanoonline.com> - 3.4.3-1
 - Update to upstream 3.4.3
 
 * Sun Apr 15 2007 Robert Marcano <robert@marcanoonline.com> - 3.4.2-1
