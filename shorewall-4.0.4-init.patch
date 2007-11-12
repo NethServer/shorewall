@@ -1,0 +1,56 @@
+--- shorewall-common-4.0.4-orig/init.sh	2007-09-08 17:07:36.000000000 +0100
++++ shorewall-common-4.0.4/init.sh	2007-10-06 21:41:49.000000000 +0100
+@@ -1,5 +1,4 @@
+ #!/bin/sh
+-RCDLINKS="2,S41 3,S41 6,K41"
+ #
+ #     The Shoreline Firewall (Shorewall) Packet Filtering Firewall - V4.0
+ #
+@@ -33,28 +32,32 @@
+ #	   shorewall restart			  Restarts the firewall
+ #	   shorewall reload			  Reload the firewall
+ #						  (same as restart)
++#	   shorewall force-reload		  Reload the firewall
++#						  (same as restart)
+ #	   shorewall stop			  Stops the firewall
+ #	   shorewall status			  Displays firewall status
+ #
+ 
+-# chkconfig: 2345 25 90
++# chkconfig: - 25 90
+ # description: Packet filtering firewall
+ 
+ ### BEGIN INIT INFO
+-# Provides:	  shorewall
++# Provides: shorewall
+ # Required-Start: $network
+ # Should-Start: VMware
+ # Required-Stop:
+-# Default-Start:  2 3 5
+-# Default-Stop:	  0 1 6
+-# Description:	  starts and stops the shorewall firewall
++# Default-Start:
++# Default-Stop: 0 1 2 3 4 5 6
++# Short-Description: starts and stops the shorewall firewall
++# Description: The Shoreline Firewall, more commonly known as "Shorewall", is a
++#              Netfilter (iptables) based firewall
+ ### END INIT INFO
+ 
+ ################################################################################
+ # Give Usage Information						       #
+ ################################################################################
+ usage() {
+-    echo "Usage: $0 start|stop|reload|restart|status"
++    echo "Usage: $0 start|stop|reload|force-reload|restart|status"
+     exit 1
+ }
+ 
+@@ -80,7 +83,7 @@
+     stop|restart|status)
+ 	exec /sbin/shorewall $@
+ 	;;
+-    reload)
++    reload|force-reload)
+ 	shift
+ 	exec /sbin/shorewall restart $@
+ 	;;

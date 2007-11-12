@@ -1,0 +1,49 @@
+--- shorewall-lite-4.0.4-orig/init.sh	2007-10-07 23:04:14.000000000 +0100
++++ shorewall-lite-4.0.4/init.sh	2007-10-07 23:07:22.000000000 +0100
+@@ -1,5 +1,4 @@
+ #!/bin/sh
+-RCDLINKS="2,S41 3,S41 6,K41"
+ #
+ #     The Shoreline Firewall (Shorewall) Packet Filtering Firewall - V4.0
+ #
+@@ -37,23 +36,26 @@
+ #	   shorewall status			  Displays firewall status
+ #
+ 
+-# chkconfig: 2345 25 90
++# chkconfig: - 25 90
+ # description: Packet filtering firewall
+ 
+ ### BEGIN INIT INFO
+ # Provides:	  shorewall-lite
+ # Required-Start: $network
+ # Required-Stop:
+-# Default-Start:  2 3 5
+-# Default-Stop:	  0 1 6
+-# Description:	  starts and stops the shorewall firewall
++# Default-Start:
++# Default-Stop: 0 1 2 3 4 5 6
++# Description: Shorewall Lite is a lightweight iptables based firewall that will
++#              run a firewall script generated on another machine by a
++#              shorewall compiler 
++# Short-Description: starts and stops the shorewall-lite firewall
+ ### END INIT INFO
+ 
+ ################################################################################
+ # Give Usage Information						       #
+ ################################################################################
+ usage() {
+-    echo "Usage: $0 start|stop|reload|restart|status"
++    echo "Usage: $0 start|stop|reload|force-reload|restart|status"
+     exit 1
+ }
+ 
+@@ -79,7 +81,7 @@
+     stop|restart|status)
+ 	exec /sbin/shorewall-lite $@
+ 	;;
+-    reload)
++    reload|force-reload)
+ 	shift
+ 	exec /sbin/shorewall-lite restart $@
+ 	;;
