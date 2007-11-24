@@ -1,0 +1,106 @@
+Index: Shorewall/Tunnels.pm
+===================================================================
+--- Shorewall/Tunnels.pm	(revision 0)
++++ Shorewall/Tunnels.pm	(working copy)
+@@ -270,7 +270,7 @@
+     #
+     my $fn = open_file 'tunnels';
+ 
+-    first_entry "$doing $fn...";
++    first_entry "$doing $fn..." if $fn;
+ 
+     while ( read_a_line ) {
+ 
+Index: Shorewall/Accounting.pm
+===================================================================
+--- Shorewall/Accounting.pm	(revision 0)
++++ Shorewall/Accounting.pm	(working copy)
+@@ -176,7 +176,7 @@
+ 
+     my $fn = open_file 'accounting';
+ 
+-    first_entry "$doing $fn...";
++    first_entry "$doing $fn..." if $fn;
+ 
+     while ( read_a_line ) {
+ 
+Index: Shorewall/Rules.pm
+===================================================================
+--- Shorewall/Rules.pm	(revision 0)
++++ Shorewall/Rules.pm	(working copy)
+@@ -221,7 +221,7 @@
+ 
+     my $fn = open_file 'rfc1918';
+ 
+-    first_entry "$doing $fn...";
++    first_entry "$doing $fn..." if $fn;
+ 
+     while ( read_a_line ) {
+ 
+@@ -341,7 +341,7 @@
+ 
+     my $fn = open_file 'routestopped';
+ 
+-    first_entry "$doing $fn for critical hosts...";
++    first_entry "$doing $fn for critical hosts..." if $fn;
+ 
+     while ( read_a_line ) {
+ 
+@@ -382,7 +382,7 @@
+ 
+     my $fn = open_file 'routestopped';
+ 
+-    first_entry "$doing $fn...";
++    first_entry "$doing $fn..." if $fn;
+ 
+     while ( read_a_line ) {
+ 
+@@ -702,7 +702,7 @@
+ 
+ 	my $fn = open_file 'maclist';
+ 
+-	first_entry "$doing $fn...";
++	first_entry "$doing $fn..." if $fn;
+ 
+ 	while ( read_a_line ) {
+ 
+@@ -1345,7 +1345,7 @@
+ 
+     my $fn = open_file 'rules';
+ 
+-    first_entry "$doing $fn...";
++    first_entry "$doing $fn..." if $fn;
+ 
+     while ( read_a_line ) {
+ 
+Index: Shorewall/Nat.pm
+===================================================================
+--- Shorewall/Nat.pm	(revision 0)
++++ Shorewall/Nat.pm	(working copy)
+@@ -297,7 +297,7 @@
+ {
+     my $fn = open_file 'masq';
+ 
+-    first_entry( sub { progress_message2 "$doing $fn..."; require_capability 'NAT_ENABLED' , 'a non-empty masq file' , 's'; } );
++    first_entry( sub { progress_message2 "$doing $fn..."; require_capability 'NAT_ENABLED' , 'a non-empty masq file' , 's'; } ) if $fn;
+     
+     while ( read_a_line ) {
+ 
+@@ -402,7 +402,7 @@
+ 
+     my $fn = open_file 'nat';
+ 
+-    first_entry( sub { progress_message2 "$doing $fn..."; require_capability 'NAT_ENABLED' , 'a non-empty nat file' , 's'; } );
++    first_entry( sub { progress_message2 "$doing $fn..."; require_capability 'NAT_ENABLED' , 'a non-empty nat file' , 's'; } ) if $fn;
+     
+     while ( read_a_line ) {
+ 
+@@ -426,7 +426,7 @@
+ 
+     my $fn = open_file 'netmap';
+ 
+-    first_entry( sub { progress_message2 "$doing $fn..."; require_capability 'NAT_ENABLED' , 'a non-empty netmap file' , 's'; } );
++    first_entry( sub { progress_message2 "$doing $fn..."; require_capability 'NAT_ENABLED' , 'a non-empty netmap file' , 's'; } ) if $fn;
+ 
+     while ( read_a_line ) {
+ 

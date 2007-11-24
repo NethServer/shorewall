@@ -2,22 +2,26 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:	4.0.5
+Version:	4.0.6
 Release:	1%{?dist}
 Summary:	An iptables front end for firewall configuration
-
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.shorewall.net/
+
 Source0: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-common-%{version}.tar.bz2
 Source1: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-perl-%{version}.tar.bz2
 Source2: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-shell-%{version}.tar.bz2
 Source3: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-lite-%{version}.tar.bz2
 Patch0: 	shorewall-4.0.4-init.patch
 Patch1: 	shorewall-lite-4.0.4-init.patch
+Patch2:		patch-perl-4.0.6-1.diff
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl
 BuildArch:	noarch
+
+
 Requires:	shorewall-common = %{version}-%{release}
 Requires:	shorewall-perl = %{version}-%{release}
 Requires:	shorewall-shell = %{version}-%{release}
@@ -86,6 +90,9 @@ popd
 pushd shorewall-lite-%{version}
 %patch1 -p1
 popd
+
+pushd shorewall-perl-%{version}
+%patch2 -p0
 
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
@@ -250,6 +257,9 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sat Nov 24 2007 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.6-1
+- Update to 4.0.6 plus patch-perl-4.0.6-1.diff upstream errata
+
 * Sat Oct 27 2007 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.5-1
 - Update to 4.0.5 which removes the need for the buildports.pl functionality
 
