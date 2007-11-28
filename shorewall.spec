@@ -3,7 +3,7 @@
 
 Name:           shorewall
 Version:	4.0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -47,6 +47,7 @@ shorewall-shell compilers for the Shoreline Firewall (shorewall).
 %package perl
 Summary:	Perl-based compiler for Shoreline Firewall 
 Group: 	 	Applications/System
+Requires:	shorewall-common = %{version}-%{release}
 Requires:	perl
 
 %description perl
@@ -56,6 +57,7 @@ and execution than the legacy shorewall-shell compiler.
 %package shell
 Summary:	Shell-based compiler for Shoreline Firewall 
 Group: 	 	Applications/System
+Requires:	shorewall-common = %{version}-%{release}
 
 %description shell
 Shorewall-shell is a part of Shorewall that allows running Shorewall
@@ -257,6 +259,10 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Wed Nov 28 2007 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.6-2
+- Add Requires for shorewall-common to shorewall-shell and shorewall-perl (Orion
+  Poplawski)
+
 * Sat Nov 24 2007 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.6-1
 - Update to 4.0.6 plus patch-perl-4.0.6-1.diff upstream errata
 
