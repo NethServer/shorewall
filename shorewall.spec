@@ -1,26 +1,35 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
+# Note on upstream sources: the upstream maintainer publishes tarballs for each
+# version in the "base" directory, and subsequent errata are corrected with
+# patches which can be found in the "errata" directory. These patches are to be
+# applied to the tarballs from the "base" directory. Confusingly, upstream also
+# publishes patched tarballs shorewall-foo-X.Y.Z-N.tar.bz2 where N denotes a
+# patchlevel. However, these should not be used for distro packaging.
+
 Name:           shorewall
 Version:	4.0.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.shorewall.net/
 
-Source0: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-common-%{version}.tar.bz2
-Source1: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-perl-%{version}.tar.bz2
-Source2: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-shell-%{version}.tar.bz2
-Source3: 	http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/shorewall-lite-%{version}.tar.bz2
+%define _baseurl http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/base/
+Source0: 	%{_baseurl}%{name}-common-%{version}.tar.bz2
+Source1: 	%{_baseurl}%{name}-perl-%{version}.tar.bz2
+Source2: 	%{_baseurl}%{name}-shell-%{version}.tar.bz2
+Source3: 	%{_baseurl}%{name}-lite-%{version}.tar.bz2
 Patch0: 	shorewall-4.0.4-init.patch
 Patch1: 	shorewall-lite-4.0.4-init.patch
 Patch2:		patch-perl-4.0.6-1.diff
+Patch3:		patch-perl-4.0.6-2.diff
+Patch4:		patch-perl-4.0.6-3.diff
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl
 BuildArch:	noarch
-
 
 Requires:	shorewall-common = %{version}-%{release}
 Requires:	shorewall-perl = %{version}-%{release}
@@ -95,6 +104,9 @@ popd
 
 pushd shorewall-perl-%{version}
 %patch2 -p0
+%patch3 -p0
+%patch4 -p3
+popd
 
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
@@ -259,6 +271,10 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sat Dec  8 2007 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.6-3
+- Added patch-perl-4.0.6-2.diff and patch-perl-4.0.6-3.diff
+- Fixed URLs for tarballs to match where upstream has moved them to
+
 * Wed Nov 28 2007 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.6-2
 - Add Requires for shorewall-common to shorewall-shell and shorewall-perl (Orion
   Poplawski)
