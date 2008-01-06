@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:	4.0.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -24,8 +24,7 @@ Source2: 	%{_baseurl}%{name}-shell-%{version}.tar.bz2
 Source3: 	%{_baseurl}%{name}-lite-%{version}.tar.bz2
 Patch0: 	shorewall-4.0.4-init.patch
 Patch1: 	shorewall-lite-4.0.4-init.patch
-Patch2:		patch-perl-4.0.7.1
-Patch3:		patch-perl-4.0.7.2-cherrypick
+Patch2:		patch-perl-4.0.7.2-cherrypick
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl
@@ -104,7 +103,6 @@ popd
 
 pushd shorewall-perl-%{version}
 %patch2 -p1
-%patch3 -p1
 popd
 
 # Remove hash-bang from files which are not directly executed as shell
@@ -270,6 +268,10 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sun Jan  6 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.7-2
+- Remove 4.0.7.1 patch as it seems that's already been applied to the tarball
+  contents
+
 * Sun Jan  6 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.7-2
 - Fix error in patching commands in spec file (change -p0 to -p1 for new patches)
 
