@@ -2,15 +2,16 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 # Note on upstream sources: the upstream maintainer publishes tarballs for each
-# version in the "base" directory, and subsequent errata are corrected with
-# patches which can be found in the "errata" directory. These patches are to be
-# applied to the tarballs from the "base" directory. Confusingly, upstream also
-# publishes patched tarballs shorewall-foo-X.Y.Z-N.tar.bz2 where N denotes a
+# version in the "base" subdirectory, and subsequent errata are corrected with
+# patches found in the top directory (NOT in the errata directory - these are
+# patches against installed packages). These patches are to be applied to the
+# tarballs from the "base" directory. Confusingly, upstream also publishes
+# patched tarballs shorewall-foo-X.Y.Z-N.tar.bz2 where N denotes a
 # patchlevel. However, these should not be used for distro packaging.
 
 Name:           shorewall
-Version:	4.0.6
-Release:	3%{?dist}
+Version:	4.0.7
+Release:	1%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -23,9 +24,8 @@ Source2: 	%{_baseurl}%{name}-shell-%{version}.tar.bz2
 Source3: 	%{_baseurl}%{name}-lite-%{version}.tar.bz2
 Patch0: 	shorewall-4.0.4-init.patch
 Patch1: 	shorewall-lite-4.0.4-init.patch
-Patch2:		patch-perl-4.0.6-1.diff
-Patch3:		patch-perl-4.0.6-2.diff
-Patch4:		patch-perl-4.0.6-3.diff
+Patch2:		patch-perl-4.0.7.1
+Patch3:		patch-perl-4.0.7.2-cherrypick
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl
@@ -105,7 +105,6 @@ popd
 pushd shorewall-perl-%{version}
 %patch2 -p0
 %patch3 -p0
-%patch4 -p3
 popd
 
 # Remove hash-bang from files which are not directly executed as shell
@@ -271,6 +270,13 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sun Jan  6 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.7-1
+- Update to version 4.0.7
+- Added 4.0.7.1 patch and all parts of the 4.0.7.2 patch that are relevant
+  (i.e. not the parts working around the iproute2-2.23 bug, as we don't ship the
+  broken iproute2)
+- Clarified notes about tarball and patch locations
+
 * Sat Dec  8 2007 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.6-3
 - Added patch-perl-4.0.6-2.diff and patch-perl-4.0.6-3.diff
 - Fixed URLs for tarballs to match where upstream has moved them to
