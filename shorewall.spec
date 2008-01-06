@@ -103,8 +103,8 @@ pushd shorewall-lite-%{version}
 popd
 
 pushd shorewall-perl-%{version}
-%patch2 -p0
-%patch3 -p0
+%patch2 -p1
+%patch3 -p1
 popd
 
 # Remove hash-bang from files which are not directly executed as shell
@@ -270,6 +270,9 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sun Jan  6 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.7-2
+- Fix error in patching commands in spec file (change -p0 to -p1 for new patches)
+
 * Sun Jan  6 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.7-1
 - Update to version 4.0.7
 - Added 4.0.7.1 patch and all parts of the 4.0.7.2 patch that are relevant
