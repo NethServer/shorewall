@@ -1,0 +1,12 @@
+diff -Naur -X /usr/local/bin/exclude.txt shorewall-perl-4.0.8/Shorewall/Rules.pm shorewall-perl-4.0.8.1/Shorewall/Rules.pm
+--- shorewall-perl-4.0.8/Shorewall/Rules.pm	2008-01-22 15:55:50.000000000 -0800
++++ Shorewall/Rules.pm	2008-02-03 10:43:54.000000000 -0800
+@@ -1512,7 +1514,7 @@
+ 		my $rule = match_source_dev( $interface ) . match_source_net( $net ) . "-j RETURN";
+ 		add_rule $frwd_ref , $rule;
+ 		add_rule $in_ref   , $rule;
+-		add_rule $out_ref  , $rule;
++		add_rule $out_ref  , match_dest_dev( $interface ) . match_dest_net( $net ) . "-j RETURN";
+ 	    }
+ 	}
+ 
