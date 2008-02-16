@@ -1,0 +1,12 @@
+Index: Shorewall/Chains.pm
+===================================================================
+--- Shorewall/Chains.pm	(revision 8145)
++++ Shorewall/Chains.pm	(working copy)
+@@ -1181,6 +1181,7 @@
+ 	$rule .= "--uid-owner $1 " if defined $1 && $1 ne '';
+ 	$rule .= "--gid-owner $2 " if defined $2 && $2 ne '';
+     } elsif ( $user =~ /^!/ ) {
++	$user =~ s/!//;
+ 	$rule .= "! --uid-owner $user ";
+     } else {
+ 	$rule .= "--uid-owner $user ";

@@ -1,0 +1,26 @@
+--- branches/4.0/Shorewall-perl/Shorewall/Tc.pm	2008/02/14 17:40:38	8194
++++ branches/4.0/Shorewall-perl/Shorewall/Tc.pm	2008/02/15 17:45:08	8195
+@@ -68,22 +68,9 @@
+ 		    fw       => 0
+ 		    } ,
+ 	    CF => { chain    => 'tcfor' ,
+-		    fw       => 0 ,
+-		    connmark => 1 ,
+-		    } ,
+-	    T  => { chain    => 'tcpost' ,
+-		    connmark => 0 ,
+-		    fw       => 0
+-		    } ,
+-	    CT => { chain    => 'tcpost' ,
+-		    target => 'CONNMARK --set-mark' ,
+ 		    connmark => 1 ,
+-		    fw       => 0
++		    fw       => 0 ,
+ 		    } ,
+-	    C  => { target => 'CONNMARK --set-mark' ,
+-		    connmark => 1 ,
+-		    fw       => 0
+-		    }
+ 	    );
+ 
+ use constant { NOMARK    => 0 ,
