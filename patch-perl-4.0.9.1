@@ -1,0 +1,56 @@
+diff -Naur -X /usr/local/bin/exclude.txt shorewall-perl-4.0.9/install.sh shorewall-perl-4.0.9.1/install.sh
+--- shorewall-perl-4.0.9/install.sh	2008-02-15 10:47:42.000000000 -0800
++++ shorewall-perl-4.0.9.1/install.sh	2008-02-25 12:37:14.000000000 -0800
+@@ -22,7 +22,7 @@
+ #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ #
+ 
+-VERSION=4.0.9
++VERSION=4.0.9.1
+ 
+ usage() # $1 = exit status
+ {
+diff -Naur -X /usr/local/bin/exclude.txt shorewall-perl-4.0.9/Shorewall/Config.pm shorewall-perl-4.0.9.1/Shorewall/Config.pm
+--- shorewall-perl-4.0.9/Shorewall/Config.pm	2008-02-22 12:28:06.000000000 -0800
++++ shorewall-perl-4.0.9.1/Shorewall/Config.pm	2008-02-25 12:37:14.000000000 -0800
+@@ -244,7 +244,7 @@
+ 		    ORIGINAL_POLICY_MATCH => '',
+ 		    LOGPARMS => '',
+ 		    TC_SCRIPT => '',
+-		    VERSION => "4.0.9",
++		    VERSION => "4.0.9.1",
+ 		    CAPVERSION => 40006 ,
+ 		  );
+     #
+diff -Naur -X /usr/local/bin/exclude.txt shorewall-perl-4.0.9/Shorewall/Zones.pm shorewall-perl-4.0.9.1/Shorewall/Zones.pm
+--- shorewall-perl-4.0.9/Shorewall/Zones.pm	2008-02-22 09:00:28.000000000 -0800
++++ shorewall-perl-4.0.9.1/Shorewall/Zones.pm	2008-02-25 12:36:16.000000000 -0800
+@@ -623,7 +623,7 @@
+ 	if ( defined $port ) {
+ 	    fatal_error qq("Virtual" interfaces are not supported -- see http://www.shorewall.net/Shorewall_and_Aliased_Interfaces.html) if $port =~ /^\d+$/;
+ 	    require_capability( 'PHYSDEV_MATCH', 'Bridge Ports', '');
+-	    fatal_error "Your iptables is not recent enough to support bridge ports" unless $config{KLUDGEFREE};
++	    fatal_error "Your iptables is not recent enough to support bridge ports" unless $capabilities{KLUDGEFREE};
+ 	    fatal_error "Duplicate Interface ($port)" if $interfaces{$port};
+ 	    fatal_error "$interface is not a defined bridge" unless $interfaces{$interface} && $interfaces{$interface}{options}{bridge};
+ 	    fatal_error "Bridge Ports may only be associated with 'bport' zones" if $zone && $zoneref->{type} ne 'bport4';
+diff -Naur -X /usr/local/bin/exclude.txt shorewall-perl-4.0.9/shorewall-perl.spec shorewall-perl-4.0.9.1/shorewall-perl.spec
+--- shorewall-perl-4.0.9/shorewall-perl.spec	2008-02-15 10:47:42.000000000 -0800
++++ shorewall-perl-4.0.9.1/shorewall-perl.spec	2008-02-25 12:37:14.000000000 -0800
+@@ -1,6 +1,6 @@
+ %define name shorewall-perl
+ %define version 4.0.9
+-%define release 0base
++%define release 1
+ 
+ Summary: Shoreline Firewall Perl-based compiler.
+ Name: %{name}
+@@ -64,6 +64,8 @@
+ %doc COPYING releasenotes.txt
+ 
+ %changelog
++* Mon Feb 25 2008 Tom Eastep tom@shorewall.net
++- Updated to 4.0.9-1
+ * Fri Feb 15 2008 Tom Eastep tom@shorewall.net
+ - Updated to 4.0.9-0base
+ * Sun Jan 06 2008 Tom Eastep tom@shorewall.net
