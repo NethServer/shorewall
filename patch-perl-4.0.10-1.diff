@@ -1,0 +1,29 @@
+Index: Shorewall/Rules.pm
+===================================================================
+--- Shorewall/Rules.pm	(revision 8422)
++++ Shorewall/Rules.pm	(working copy)
+@@ -444,7 +444,7 @@
+ 	my $desti   = match_dest_dev $interface;
+ 
+ 	emit "\$IPTABLES -A INPUT $sourcei $source -j ACCEPT";
+-	emit "\$IPTABLES -A OUTPUT $desti $dest -j ACCEPT"    if $config{ADMINISABSENTMINDED};
++	emit "\$IPTABLES -A OUTPUT $desti $dest -j ACCEPT" unless $config{ADMINISABSENTMINDED};
+ 
+ 	my $matched = 0;
+ 
+@@ -550,11 +550,12 @@
+ 	}
+     }
+ 
+-    add_rule $rejectref , '-p tcp -j REJECT --reject-with tcp-reset';
++    add_rule $rejectref , '-p 2 -j DROP';
++    add_rule $rejectref , '-p 6 -j REJECT --reject-with tcp-reset';
+ 
+     if ( $capabilities{ENHANCED_REJECT} ) {
+-	add_rule $rejectref , '-p udp -j REJECT';
+-	add_rule $rejectref, '-p icmp -j REJECT --reject-with icmp-host-unreachable';
++	add_rule $rejectref , '-p 17 -j REJECT';
++	add_rule $rejectref, '-p 1 -j REJECT --reject-with icmp-host-unreachable';
+ 	add_rule $rejectref, '-j REJECT --reject-with icmp-host-prohibited';
+     } else {
+ 	add_rule $rejectref , '-j REJECT';
