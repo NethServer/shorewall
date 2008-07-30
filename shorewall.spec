@@ -10,8 +10,8 @@
 # patchlevel. However, these should not be used for distro packaging.
 
 Name:           shorewall
-Version:	4.0.12
-Release:	2%{?dist}
+Version:	4.0.13
+Release:	1%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -24,9 +24,8 @@ Source2: 	%{_baseurl}%{name}-shell-%{version}.tar.bz2
 Source3: 	%{_baseurl}%{name}-lite-%{version}.tar.bz2
 Patch0: 	shorewall-4.0.4-init.patch
 Patch1: 	shorewall-lite-4.0.4-init.patch
-Patch2:		patch-perl-4.0.12.1
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:	perl
 BuildArch:	noarch
 
@@ -99,10 +98,6 @@ popd
 
 pushd shorewall-lite-%{version}
 %patch1 -p1
-popd
-
-pushd shorewall-perl-%{version}
-%patch2 -p1
 popd
 
 # Remove hash-bang from files which are not directly executed as shell
@@ -268,6 +263,11 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Tue Jul 29 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.13-1
+- Update to version 4.0.13
+- Remove patch-perl-4.0.12.1
+- Update BuildRoot to mktemp variant
+
 * Sat Jul  5 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.12-2
 - Apply patch-perl-4.0.12.1 from upstream
 
