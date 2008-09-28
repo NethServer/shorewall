@@ -10,7 +10,7 @@
 # patchlevel. However, these should not be used for distro packaging.
 
 Name:           shorewall
-Version:	4.0.13
+Version:	4.0.14
 Release:	1%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
@@ -263,6 +263,9 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sun Sep 28 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.14-1
+- Update to version 4.0.14
+
 * Tue Jul 29 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.13-1
 - Update to version 4.0.13
 - Remove patch-perl-4.0.12.1
