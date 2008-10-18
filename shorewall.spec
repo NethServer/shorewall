@@ -10,7 +10,7 @@
 # patchlevel. However, these should not be used for distro packaging.
 
 Name:           shorewall
-Version:	4.0.14
+Version:	4.2.0
 Release:	1%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
@@ -22,8 +22,9 @@ Source0: 	%{_baseurl}%{name}-common-%{version}.tar.bz2
 Source1: 	%{_baseurl}%{name}-perl-%{version}.tar.bz2
 Source2: 	%{_baseurl}%{name}-shell-%{version}.tar.bz2
 Source3: 	%{_baseurl}%{name}-lite-%{version}.tar.bz2
-Patch0: 	shorewall-4.0.4-init.patch
-Patch1: 	shorewall-lite-4.0.4-init.patch
+
+# Init files for Fedora
+Source10:	init.sh
 
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:	perl
@@ -92,13 +93,10 @@ Lite does not need to have a Shorewall rule compiler installed.
 %setup -q -T -D -a 2
 %setup -q -T -D -a 3
 
-pushd shorewall-common-%{version}
-%patch0 -p1
-popd
-
-pushd shorewall-lite-%{version}
-%patch1 -p1
-popd
+# Overwrite default init files with Fedora specific ones
+cp %{SOURCE10} shorewall-common-%{version}
+cp %{SOURCE10} shorewall-lite-%{version}
+sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{version}/init.sh
 
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
@@ -217,6 +215,7 @@ fi
 %{_mandir}/man5/shorewall-masq.5.gz
 %{_mandir}/man5/shorewall-hosts.5.gz
 %{_mandir}/man5/shorewall-tcdevices.5.gz
+%{_mandir}/man5/shorewall-tcfilters.5.gz
 %{_mandir}/man5/shorewall-netmap.5.gz
 %{_mandir}/man5/shorewall-interfaces.5.gz
 %{_mandir}/man5/shorewall-maclist.5.gz
@@ -263,6 +262,11 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sun Oct 12 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.0-1
+- Update to version 4.2.0
+- New sysv init files which are no longer maintained as patches, but as a 
+  Fedora specific file
+
 * Sun Sep 28 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.0.14-1
 - Update to version 4.0.14
 
