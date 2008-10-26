@@ -10,14 +10,14 @@
 # patchlevel. However, these should not be used for distro packaging.
 
 Name:           shorewall
-Version:	4.2.0
+Version:	4.2.1
 Release:	1%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
 URL:		http://www.shorewall.net/
 
-%define _baseurl http://www.shorewall.net/pub/shorewall/4.0/shorewall-%{version}/base/
+%define _baseurl http://www.shorewall.net/pub/shorewall/4.2/shorewall-%{version}/base/
 Source0: 	%{_baseurl}%{name}-common-%{version}.tar.bz2
 Source1: 	%{_baseurl}%{name}-perl-%{version}.tar.bz2
 Source2: 	%{_baseurl}%{name}-shell-%{version}.tar.bz2
@@ -262,6 +262,10 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Sun Oct 12 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.1-1
+- Update to version 4.2.1
+- Correct source URLs
+
 * Sun Oct 12 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.0-1
 - Update to version 4.2.0
 - New sysv init files which are no longer maintained as patches, but as a 
