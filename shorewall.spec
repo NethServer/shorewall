@@ -262,7 +262,7 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
-* Sun Oct 12 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.1-1
+* Sun Oct 26 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.1-1
 - Update to version 4.2.1
 - Correct source URLs
 
