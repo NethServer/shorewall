@@ -1,0 +1,65 @@
+diff -Naur -X /home/teastep/shorewall/trunk/tools/build/exclude.txt shorewall-perl-4.2.1/install.sh shorewall-perl-4.2.1.1/install.sh
+--- shorewall-perl-4.2.1/install.sh	2008-10-08 09:55:31.000000000 -0700
++++ shorewall-perl-4.2.1.1/install.sh	2008-10-30 12:24:05.000000000 -0700
+@@ -22,7 +22,7 @@
+ #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ #
+ 
+-VERSION=4.2.1
++VERSION=4.2.1.1
+ 
+ usage() # $1 = exit status
+ {
+diff -Naur -X /home/teastep/shorewall/trunk/tools/build/exclude.txt shorewall-perl-4.2.1/Shorewall/Chains.pm shorewall-perl-4.2.1.1/Shorewall/Chains.pm
+--- shorewall-perl-4.2.1/Shorewall/Chains.pm	2008-10-21 19:14:45.000000000 -0700
++++ shorewall-perl-4.2.1.1/Shorewall/Chains.pm	2008-10-30 12:24:05.000000000 -0700
+@@ -460,7 +460,7 @@
+ 	#
+ 	my ($first, $ports, $rest) = ( $1, $2, $3 );
+ 
+-	if ( ( $ports =~ tr/:,/:,/ ) > 15 ) {
++	if ( ( $ports =~ tr/:,/:,/ ) > 14 ) {
+ 	    #
+ 	    # More than 15 ports specified
+ 	    #
+diff -Naur -X /home/teastep/shorewall/trunk/tools/build/exclude.txt shorewall-perl-4.2.1/Shorewall/Config.pm shorewall-perl-4.2.1.1/Shorewall/Config.pm
+--- shorewall-perl-4.2.1/Shorewall/Config.pm	2008-10-21 19:14:45.000000000 -0700
++++ shorewall-perl-4.2.1.1/Shorewall/Config.pm	2008-10-30 12:24:05.000000000 -0700
+@@ -270,7 +270,7 @@
+ 		    ORIGINAL_POLICY_MATCH => '',
+ 		    LOGPARMS => '',
+ 		    TC_SCRIPT => '',
+-		    VERSION => "4.2.1",
++		    VERSION => "4.2.1.1",
+ 		    CAPVERSION => 40200 ,
+ 		  );
+     #
+@@ -1557,7 +1557,7 @@
+ 
+     $capabilities{CONNTRACK_MATCH} = qt1( "$iptables -A $sillyname -m conntrack --ctorigdst 192.168.1.1 -j ACCEPT" );
+ 
+-    if ( $capabilities{CONNTRACL_MATCH} ) {
++    if ( $capabilities{CONNTRACK_MATCH} ) {
+ 	$capabilities{NEW_CONNTRACK_MATCH} = qt1( "$iptables -A $sillyname -m conntrack -p tcp --ctorigdstport 22 -j ACCEPT" );
+     }
+     
+diff -Naur -X /home/teastep/shorewall/trunk/tools/build/exclude.txt shorewall-perl-4.2.1/shorewall-perl.spec shorewall-perl-4.2.1.1/shorewall-perl.spec
+--- shorewall-perl-4.2.1/shorewall-perl.spec	2008-10-08 10:03:41.000000000 -0700
++++ shorewall-perl-4.2.1.1/shorewall-perl.spec	2008-10-30 12:24:05.000000000 -0700
+@@ -1,6 +1,6 @@
+ %define name shorewall-perl
+ %define version 4.2.1
+-%define release 0base
++%define release 1
+ 
+ Summary: Shoreline Firewall Perl-based compiler.
+ Name: %{name}
+@@ -64,6 +64,8 @@
+ %doc COPYING releasenotes.txt
+ 
+ %changelog
++* Thu Oct 30 2008 Tom Eastep tom@shorewall.net
++- Updated to 4.2.1-1
+ * Wed Oct 08 2008 Tom Eastep tom@shorewall.net
+ - Updated to 4.2.1-0base
+ * Fri Oct 03 2008 Tom Eastep tom@shorewall.net

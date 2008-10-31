@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:	4.2.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -25,6 +25,8 @@ Source3: 	%{_baseurl}%{name}-lite-%{version}.tar.bz2
 
 # Init files for Fedora
 Source10:	init.sh
+
+Patch0:		patch-perl-4.2.1.1
 
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:	perl
@@ -92,6 +94,10 @@ Lite does not need to have a Shorewall rule compiler installed.
 %setup -q -T -D -a 1
 %setup -q -T -D -a 2
 %setup -q -T -D -a 3
+
+pushd shorewall-perl-%{version}
+%patch0 -p1
+popd
 
 # Overwrite default init files with Fedora specific ones
 cp %{SOURCE10} shorewall-common-%{version}
@@ -262,6 +268,9 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Fri Oct 31 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.1-2
+- Added upstream patch patch-perl-4.2.1.1
+
 * Sun Oct 26 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.1-1
 - Update to version 4.2.1
 - Correct source URLs
