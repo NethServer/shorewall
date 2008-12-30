@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:	4.2.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -25,6 +25,8 @@ Source3: 	%{_baseurl}%{name}-lite-%{version}.tar.bz2
 
 # Init files for Fedora
 Source10:	init.sh
+
+Patch0:		patch-perl-4.2.3.1
 
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:	perl
@@ -101,6 +103,10 @@ sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{version}/
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
+
+pushd shorewall-perl-%{version}
+%patch0 -p1
+popd
 
 %build
 
@@ -262,6 +268,9 @@ fi
 %{_mandir}/man8/shorewall-lite.8.gz
 
 %changelog
+* Tue Dec 30 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.3-2
+- Add upstream patch patch-perl-4.2.3.1
+
 * Thu Dec 18 2008 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.3-1
 - Update to version 4.2.3
 
