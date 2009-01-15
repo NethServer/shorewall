@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:	%{major_ver}
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -402,6 +402,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Jan 15 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.4-3
+- Update shorewall-perl to 4.2.4.6
+
 * Thu Jan 15 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.4-2
 - Fix up dependencies between sub-packages
 - No longer attempt to own all files in /var/lib/shorewall* but rather clean
