@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:	%{major_ver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An iptables front end for firewall configuration
 Group:		Applications/System
 License:	GPLv2+
@@ -73,7 +73,7 @@ Shoreline Firewall (shorewall).
 Summary:	Perl-based compiler for Shoreline Firewall 
 Group: 	 	Applications/System
 Version:	%{perl_ver}
-Requires:	shorewall-common = %{version}-%{release}
+Requires:	shorewall-common = %{common_ver}-%{release}
 Requires:	perl
 
 %description perl
@@ -84,7 +84,7 @@ and execution than the legacy shorewall-shell compiler.
 Summary:	Shell-based compiler for Shoreline Firewall 
 Group: 	 	Applications/System
 Version:	%{shell_ver}
-Requires:	shorewall-common = %{version}-%{release}
+Requires:	shorewall-common = %{common_ver}-%{release}
 
 %description shell
 Shorewall-shell is a part of Shorewall that allows running Shorewall
@@ -161,10 +161,6 @@ pushd shorewall-common-%{common_ver}
 ./install.sh
 popd
 
-# Create %ghost files
-install -d $RPM_BUILD_ROOT/%{_localstatedir}/lib/shorewall
-touch $RPM_BUILD_ROOT/%{_localstatedir}/lib/shorewall/{chains,nat,proxyarp,restarted,zones,restore-base,restore-tail,state,.modules,.modulesdir}
-
 #### Build shorewall-perl
 pushd shorewall-perl-%{perl_ver}
 ./install.sh -n
@@ -202,6 +198,7 @@ fi
 if [ $1 = 0 ]; then
    /sbin/service shorewall stop >/dev/null 2>&1
    /sbin/chkconfig --del shorewall
+   rm -f /var/lib/shorewall/*
 fi
 
 %post -n shorewall6
@@ -213,6 +210,7 @@ fi
 if [ $1 = 0 ]; then
    /sbin/service shorewall6 stop >/dev/null 2>&1
    /sbin/chkconfig --del shorewall6
+   rm -f /var/lib/shorewall6/*
 fi
 
 %post lite
@@ -224,6 +222,7 @@ fi
 if [ $1 = 0 ]; then
    /sbin/service shorewall stop >/dev/null 2>&1
    /sbin/chkconfig --del shorewall-lite
+   rm -f /var/lib/shorewall-lite/*
 fi
 
 %post -n shorewall6-lite
@@ -235,6 +234,7 @@ fi
 if [ $1 = 0 ]; then
    /sbin/service shorewall6-lite stop >/dev/null 2>&1
    /sbin/chkconfig --del shorewall6-lite
+   rm -f /var/lib/shorewall6-lite/*
 fi
 
 %files
@@ -261,10 +261,7 @@ fi
 %{_datadir}/shorewall/configfiles
 %{_datadir}/shorewall/functions
 %{_datadir}/shorewall/lib.*
-
 %dir %{_localstatedir}/lib/shorewall
-%ghost %{_localstatedir}/lib/shorewall/*
-%ghost %{_localstatedir}/lib/shorewall/.*
 
 # Man files - can't use /man5/* here as shorewall-lite also has man5 pages
 %{_mandir}/man5/shorewall-tunnels.5.gz
@@ -372,7 +369,6 @@ fi
 %{_mandir}/man5/shorewall6-zones.5.gz
 %{_mandir}/man5/shorewall6.conf.5.gz
 %{_mandir}/man8/shorewall6.8.gz
-
 %attr(0755,root,root) %{_datadir}/shorewall6/wait4ifup
 %{_datadir}/shorewall6/action.*
 %{_datadir}/shorewall6/actions.std
@@ -383,6 +379,7 @@ fi
 %{_datadir}/shorewall6/macro.Ping
 %{_datadir}/shorewall6/modules
 %{_datadir}/shorewall6/version
+%dir %{_localstatedir}/lib/shorewall
 
 %files -n shorewall6-lite
 %defattr(0644,root,root,0755)
@@ -392,11 +389,10 @@ fi
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 %attr(0755,root,root) %{_initrddir}/shorewall6-lite
 %{_sysconfdir}/shorewall6-lite/Makefile
-
+%dir %{_localstatedir}/lib/shorewall
 %{_mandir}/man5/shorewall6-lite-vardir.5.gz
 %{_mandir}/man5/shorewall6-lite.conf.5.gz
 %{_mandir}/man8/shorewall6-lite.8.gz
-
 %{_datadir}/shorewall6-lite/configpath
 %{_datadir}/shorewall6-lite/functions
 %{_datadir}/shorewall6-lite/lib.*
@@ -406,6 +402,11 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Jan 15 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.4-2
+- Fix up dependencies between sub-packages
+- No longer attempt to own all files in /var/lib/shorewall* but rather clean
+  them up on package removal
+
 * Sun Jan 11 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.4-1
 - Update to version 4.2.4 which adds IPV6 support and two new sub-packages
   (shorewall6 and shorewall6-lite) 
