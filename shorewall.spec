@@ -1,40 +1,40 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%define major_ver 4.2.5
+%define major_ver 4.2.6
 %define common_ver %{major_ver}
-%define perl_ver %{major_ver}.1
+%define perl_ver %{major_ver}
 %define lite_ver %{major_ver}
 %define shell_ver %{major_ver}
 %define shorewall6_ver %{major_ver}
 %define lite6_ver %{major_ver}
 
 Name:           shorewall
-Version:	%{major_ver}
-Release:	3%{?dist}
-Summary:	An iptables front end for firewall configuration
-Group:		Applications/System
-License:	GPLv2+
-URL:		http://www.shorewall.net/
+Version:        %{major_ver}
+Release:        1%{?dist}
+Summary:        An iptables front end for firewall configuration
+Group:          Applications/System
+License:        GPLv2+
+URL:            http://www.shorewall.net/
 
 %define _baseurl http://www.shorewall.net/pub/shorewall/4.2/shorewall-%{version}/base
-Source0: 	%{_baseurl}/%{name}-common-%{common_ver}.tar.bz2
-Source1: 	%{_baseurl}/%{name}-perl-%{perl_ver}.tar.bz2
-Source2: 	%{_baseurl}/%{name}-shell-%{shell_ver}.tar.bz2
-Source3: 	%{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
-Source4: 	%{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
-Source5: 	%{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
+Source0:        %{_baseurl}/%{name}-common-%{common_ver}.tar.bz2
+Source1:        %{_baseurl}/%{name}-perl-%{perl_ver}.tar.bz2
+Source2:        %{_baseurl}/%{name}-shell-%{shell_ver}.tar.bz2
+Source3:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
+Source4:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
+Source5:        %{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
 
 # Init file for Fedora
-Source10:	init.sh
+Source10:       init.sh
 
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-BuildRequires:	perl
-BuildArch:	noarch
+BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+BuildRequires:  perl
+BuildArch:      noarch
 
-Requires:	shorewall-common = %{common_ver}-%{release}
-Requires:	shorewall-perl = %{perl_ver}-%{release}
-Requires:	shorewall-shell = %{shell_ver}-%{release}
+Requires:       shorewall-common = %{common_ver}-%{release}
+Requires:       shorewall-perl = %{perl_ver}-%{release}
+Requires:       shorewall-shell = %{shell_ver}-%{release}
 
 %description
 The Shoreline Firewall, more commonly known as "Shorewall", is a
@@ -43,10 +43,10 @@ firewall system, a multi-function gateway/ router/server or on a
 standalone GNU/Linux system.
 
 %package common
-Summary:	Common files for the shorewall firewall compilers
-Group: 		Applications/System
-Version:	%{common_ver}
-Requires: 	iptables iproute
+Summary:        Common files for the shorewall firewall compilers
+Group:          Applications/System
+Version:        %{common_ver}
+Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun):/sbin/chkconfig
 Requires(preun):/sbin/service
@@ -56,11 +56,11 @@ This package contains files required by both the shorewall-perl and
 shorewall-shell compilers for the Shoreline Firewall (shorewall).
 
 %package -n shorewall6
-Summary:	Files for the IPV6 Shorewall Firewall
-Group:		Applications/System
-Version:	%{shorewall6_ver}
-Requires:	shorewall-perl = %{perl_ver}-%{release}
-Requires: 	iptables-ipv6 iproute
+Summary:        Files for the IPV6 Shorewall Firewall
+Group:          Applications/System
+Version:        %{shorewall6_ver}
+Requires:       shorewall-perl = %{perl_ver}-%{release}
+Requires:       iptables-ipv6 iproute
 Requires(post): /sbin/chkconfig
 Requires(preun):/sbin/chkconfig
 Requires(preun):/sbin/service
@@ -70,21 +70,21 @@ This package contains the files required for IPV6 functionality of the
 Shoreline Firewall (shorewall).
 
 %package perl
-Summary:	Perl-based compiler for Shoreline Firewall 
-Group: 	 	Applications/System
-Version:	%{perl_ver}
-Requires:	shorewall-common = %{common_ver}-%{release}
-Requires:	perl
+Summary:        Perl-based compiler for Shoreline Firewall 
+Group:          Applications/System
+Version:        %{perl_ver}
+Requires:       shorewall-common = %{common_ver}-%{release}
+Requires:       perl
 
 %description perl
 shorewall-perl is a part of Shorewall that allows faster compilation
 and execution than the legacy shorewall-shell compiler.
 
 %package shell
-Summary:	Shell-based compiler for Shoreline Firewall 
-Group: 	 	Applications/System
-Version:	%{shell_ver}
-Requires:	shorewall-common = %{common_ver}-%{release}
+Summary:        Shell-based compiler for Shoreline Firewall 
+Group:          Applications/System
+Version:        %{shell_ver}
+Requires:       shorewall-common = %{common_ver}-%{release}
 
 %description shell
 Shorewall-shell is a part of Shorewall that allows running Shorewall
@@ -92,10 +92,10 @@ with legacy configurations, but shorewall-perl is the preferred
 compiler, please use it for new installations.
 
 %package lite
-Group: 	 	Applications/System
-Summary:	Shorewall firewall for compiled rulesets
-Version:	%{lite_ver}
-Requires: 	iptables iproute
+Group:          Applications/System
+Summary:        Shorewall firewall for compiled rulesets
+Version:        %{lite_ver}
+Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
 Requires(preun): /sbin/service
@@ -108,10 +108,10 @@ machine with a Shorewall rule compiler. A machine running Shorewall
 Lite does not need to have a Shorewall rule compiler installed.
 
 %package -n shorewall6-lite
-Group: 	 	Applications/System
-Summary:	Shorewall firewall for compiled IPV6 rulesets
-Version:	%{lite6_ver}
-Requires: 	iptables iproute
+Group:          Applications/System
+Summary:        Shorewall firewall for compiled IPV6 rulesets
+Version:        %{lite6_ver}
+Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
 Requires(preun): /sbin/service
@@ -402,6 +402,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Feb 26 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.6-1
+- Update to version 4.2.6
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.2.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
