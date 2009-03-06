@@ -3,7 +3,7 @@
 
 %define major_ver 4.2.6
 %define common_ver %{major_ver}
-%define perl_ver %{major_ver}
+%define perl_ver %{major_ver}.2
 %define lite_ver %{major_ver}
 %define shell_ver %{major_ver}
 %define shorewall6_ver %{major_ver}
@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -402,6 +402,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Fri Mar  6 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.6-2
+- Update shorewall-perl to version 4.6.2.2
+
 * Thu Feb 26 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.6-1
 - Update to version 4.2.6
 
