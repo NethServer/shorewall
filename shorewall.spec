@@ -1,9 +1,9 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%define major_ver 4.2.6
+%define major_ver 4.2.7
 %define common_ver %{major_ver}
-%define perl_ver %{major_ver}.2
+%define perl_ver %{major_ver}
 %define lite_ver %{major_ver}
 %define shell_ver %{major_ver}
 %define shorewall6_ver %{major_ver}
@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -294,6 +294,7 @@ fi
 %{_mandir}/man5/shorewall-netmap.5.gz
 %{_mandir}/man5/shorewall-interfaces.5.gz
 %{_mandir}/man5/shorewall-maclist.5.gz
+%{_mandir}/man5/shorewall-notrack.5.gz
 %{_mandir}/man8/shorewall.8.gz
 
 %files perl
@@ -368,7 +369,9 @@ fi
 %{_mandir}/man5/shorewall6-vardir.5.gz
 %{_mandir}/man5/shorewall6-zones.5.gz
 %{_mandir}/man5/shorewall6.conf.5.gz
+%{_mandir}/man5/shorewall6-notrack.5.gz
 %{_mandir}/man8/shorewall6.8.gz
+
 %attr(0755,root,root) %{_datadir}/shorewall6/wait4ifup
 %{_datadir}/shorewall6/action.*
 %{_datadir}/shorewall6/actions.std
@@ -402,6 +405,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Tue Mar 24 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.7-1
+- Update to version 4.2.7
+
 * Fri Mar  6 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.6-2
 - Update shorewall-perl to version 4.6.2.2
 
