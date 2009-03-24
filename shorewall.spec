@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -34,7 +34,6 @@ BuildArch:      noarch
 
 Requires:       shorewall-common = %{common_ver}-%{release}
 Requires:       shorewall-perl = %{perl_ver}-%{release}
-Requires:       shorewall-shell = %{shell_ver}-%{release}
 
 %description
 The Shoreline Firewall, more commonly known as "Shorewall", is a
@@ -147,6 +146,11 @@ sed -i -e 's|prog="shorewall"|prog="shorewall6-lite"|' shorewall6-lite-%{lite6_v
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
+
+# Make the perl compiler the default
+pushd shorewall-common-%{common_ver}
+sed -e 's|SHOREWALL_COMPILER=|SHOREWALL_COMPILER=perl|'
+popd
 
 %build
 
@@ -405,6 +409,10 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Tue Mar 24 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.7-2
+- Make the perl compiler the default. Drop shorewall-shell requirement from
+  shorewall package
+
 * Tue Mar 24 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.7-1
 - Update to version 4.2.7
 
