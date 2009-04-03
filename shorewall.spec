@@ -3,7 +3,7 @@
 
 %define major_ver 4.2.7
 %define common_ver %{major_ver}
-%define perl_ver %{major_ver}
+%define perl_ver %{major_ver}.1
 %define lite_ver %{major_ver}
 %define shell_ver %{major_ver}
 %define shorewall6_ver %{major_ver}
@@ -11,7 +11,7 @@
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -148,9 +148,7 @@ sed -i -e 's|prog="shorewall"|prog="shorewall6-lite"|' shorewall6-lite-%{lite6_v
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 
 # Make the perl compiler the default
-pushd shorewall-common-%{common_ver}
-sed -e 's|SHOREWALL_COMPILER=|SHOREWALL_COMPILER=perl|'
-popd
+sed -i -e 's|SHOREWALL_COMPILER=|SHOREWALL_COMPILER=perl|' shorewall-common-%{common_ver}/shorewall.conf
 
 %build
 
@@ -409,6 +407,12 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Fri Apr  3 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.7-4
+- Update shorewall-perl to version 4.2.7.1 (BZ 493984)
+
+* Thu Mar 26 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.7-3
+- Really make the perl compiler default
+
 * Tue Mar 24 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.7-2
 - Make the perl compiler the default. Drop shorewall-shell requirement from
   shorewall package
