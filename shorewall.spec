@@ -1,23 +1,23 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%define major_ver 4.2.7
-%define common_ver %{major_ver}
-%define perl_ver %{major_ver}.3
-%define lite_ver %{major_ver}
-%define shell_ver %{major_ver}
-%define shorewall6_ver %{major_ver}
-%define lite6_ver %{major_ver}
+%global major_ver 4.2.8
+%global common_ver %{major_ver}
+%global perl_ver %{major_ver}.2
+%global lite_ver %{major_ver}
+%global shell_ver %{major_ver}
+%global shorewall6_ver %{major_ver}
+%global lite6_ver %{major_ver}
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://www.shorewall.net/
 
-%define _baseurl http://www.shorewall.net/pub/shorewall/4.2/shorewall-%{version}/base
+%global _baseurl http://www.shorewall.net/pub/shorewall/4.2/shorewall-%{version}/
 Source0:        %{_baseurl}/%{name}-common-%{common_ver}.tar.bz2
 Source1:        %{_baseurl}/%{name}-perl-%{perl_ver}.tar.bz2
 Source2:        %{_baseurl}/%{name}-shell-%{shell_ver}.tar.bz2
@@ -407,6 +407,11 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Fri May  8 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.8-1
+- Update to version 4.2.8
+- Update shorewall-perl to 4.2.8.2
+- Use global instead of define in macros to comply with packaging guidelines
+
 * Mon Apr 13 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.7-5
 - Update shorewall-perl to version 4.2.7.3
 
