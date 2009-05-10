@@ -15,7 +15,7 @@ License:        GPLv2+
 URL:            http://www.shorewall.net/
 
 %global _baseurl http://www.shorewall.net/pub/shorewall/development/4.3/shorewall-%{version}/
-Source0:        %{_baseurl}/%{name}-common-%{major_ver}.tar.bz2
+Source0:        %{_baseurl}/%{name}-%{major_ver}.tar.bz2
 Source1:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
 Source2:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
 Source3:        %{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
@@ -46,7 +46,7 @@ standalone GNU/Linux system.
 Summary:        Files for the IPV6 Shorewall Firewall
 Group:          Applications/System
 Version:        %{shorewall6_ver}
-Requires:       shorewall-perl = %{perl_ver}-%{release}
+Requires:       shorewall = %{major_ver}-%{release}
 Requires:       iptables-ipv6 iproute
 Requires(post): /sbin/chkconfig
 Requires(preun):/sbin/chkconfig
@@ -96,7 +96,7 @@ Shorewall rule compiler installed.
 %setup -q -T -D -a 3
 
 # Overwrite default init files with Fedora specific ones
-cp %{SOURCE10} shorewall-common-%{common_ver}
+cp %{SOURCE10} shorewall-%{major_ver}
 
 cp %{SOURCE10} shorewall-lite-%{lite_ver}
 sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{lite_ver}/init.sh
@@ -110,9 +110,6 @@ sed -i -e 's|prog="shorewall"|prog="shorewall6-lite"|' shorewall6-lite-%{lite6_v
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
-
-# Make the perl compiler the default
-sed -i -e 's|SHOREWALL_COMPILER=|SHOREWALL_COMPILER=perl|' shorewall-common-%{common_ver}/shorewall.conf
 
 %build
 
@@ -129,17 +126,17 @@ popd
 
 #### Build shorewall-lite
 pushd shorewall-lite-%{lite_ver}
-./install.sh -n
+./install.sh
 popd
 
 #### Build shorewall6
 pushd shorewall6-%{shorewall6_ver}
-./install.sh -n
+./install.sh
 popd
 
 #### Build shorewall6-lite
 pushd shorewall6-lite-%{lite6_ver}
-./install.sh -n
+./install.sh
 popd
 
 %clean
@@ -195,15 +192,15 @@ fi
 
 %files
 %defattr(0644,root,root,0755)
-%doc shorewall-common-%{common_ver}/{COPYING,changelog.txt,releasenotes.txt,Samples}
+%doc shorewall-%{major_ver}/{COPYING,changelog.txt,releasenotes.txt,Samples}
 %attr(0755,root,root) %{_initrddir}/shorewall
 %attr(0755,root,root) /sbin/shorewall
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
 
 %dir %{_datadir}/shorewall
-%attr(0755,root,root) %{_datadir}/shorewall/firewall
 %attr(0755,root,root) %{_datadir}/shorewall/wait4ifup
+%attr(755,root,root) %{_datadir}/shorewall/compiler.pl
 %{_datadir}/shorewall/action.*
 %{_datadir}/shorewall/actions.std
 %{_datadir}/shorewall/configpath
@@ -214,6 +211,8 @@ fi
 %{_datadir}/shorewall/configfiles
 %{_datadir}/shorewall/functions
 %{_datadir}/shorewall/lib.*
+%{_datadir}/shorewall/Shorewall
+%{_datadir}/shorewall/prog.*
 %dir %{_localstatedir}/lib/shorewall
 
 # Man files - can't use /man5/* here as shorewall-lite also has man5 pages
@@ -249,13 +248,6 @@ fi
 %{_mandir}/man5/shorewall-maclist.5.gz
 %{_mandir}/man5/shorewall-notrack.5.gz
 %{_mandir}/man8/shorewall.8.gz
-
-%dir %{_datadir}/shorewall-perl
-%dir %{_datadir}/shorewall-perl/Shorewall
-%attr(755,root,root) %{_datadir}/shorewall-perl/compiler.pl
-%{_datadir}/shorewall-perl/prog.*
-%{_datadir}/shorewall-perl/version
-%{_datadir}/shorewall-perl/Shorewall/*.pm
 
 %files lite
 %defattr(0644,root,root,0755)
