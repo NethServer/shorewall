@@ -1,11 +1,8 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.2.8
-%global common_ver %{major_ver}
-%global perl_ver %{major_ver}.2
+%global major_ver 4.3.10
 %global lite_ver %{major_ver}
-%global shell_ver %{major_ver}
 %global shorewall6_ver %{major_ver}
 %global lite6_ver %{major_ver}
 
@@ -17,13 +14,11 @@ Group:          Applications/System
 License:        GPLv2+
 URL:            http://www.shorewall.net/
 
-%global _baseurl http://www.shorewall.net/pub/shorewall/4.2/shorewall-%{version}/
-Source0:        %{_baseurl}/%{name}-common-%{common_ver}.tar.bz2
-Source1:        %{_baseurl}/%{name}-perl-%{perl_ver}.tar.bz2
-Source2:        %{_baseurl}/%{name}-shell-%{shell_ver}.tar.bz2
-Source3:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
-Source4:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
-Source5:        %{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
+%global _baseurl http://www.shorewall.net/pub/shorewall/development/4.3/shorewall-%{version}/
+Source0:        %{_baseurl}/%{name}-common-%{major_ver}.tar.bz2
+Source1:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
+Source2:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
+Source3:        %{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
 
 # Init file for Fedora
 Source10:       init.sh
@@ -32,27 +27,20 @@ BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:  perl
 BuildArch:      noarch
 
-Requires:       shorewall-common = %{common_ver}-%{release}
-Requires:       shorewall-perl = %{perl_ver}-%{release}
+Requires:       iptables iproute
+Requires(post): /sbin/chkconfig
+Requires(preun):/sbin/chkconfig
+Requires(preun):/sbin/service
+
+Obsoletes: shorewall-common < 4.3.0
+Obsoletes: shorewall-perl < 4.3.0
+Obsoletes: shorewall-shell < 4.3.0
 
 %description
 The Shoreline Firewall, more commonly known as "Shorewall", is a
 Netfilter (iptables) based firewall that can be used on a dedicated
 firewall system, a multi-function gateway/ router/server or on a
 standalone GNU/Linux system.
-
-%package common
-Summary:        Common files for the shorewall firewall compilers
-Group:          Applications/System
-Version:        %{common_ver}
-Requires:       iptables iproute
-Requires(post): /sbin/chkconfig
-Requires(preun):/sbin/chkconfig
-Requires(preun):/sbin/service
-
-%description common
-This package contains files required by both the shorewall-perl and
-shorewall-shell compilers for the Shoreline Firewall (shorewall).
 
 %package -n shorewall6
 Summary:        Files for the IPV6 Shorewall Firewall
@@ -67,28 +55,6 @@ Requires(preun):/sbin/service
 %description -n shorewall6
 This package contains the files required for IPV6 functionality of the
 Shoreline Firewall (shorewall).
-
-%package perl
-Summary:        Perl-based compiler for Shoreline Firewall 
-Group:          Applications/System
-Version:        %{perl_ver}
-Requires:       shorewall-common = %{common_ver}-%{release}
-Requires:       perl
-
-%description perl
-shorewall-perl is a part of Shorewall that allows faster compilation
-and execution than the legacy shorewall-shell compiler.
-
-%package shell
-Summary:        Shell-based compiler for Shoreline Firewall 
-Group:          Applications/System
-Version:        %{shell_ver}
-Requires:       shorewall-common = %{common_ver}-%{release}
-
-%description shell
-Shorewall-shell is a part of Shorewall that allows running Shorewall
-with legacy configurations, but shorewall-perl is the preferred
-compiler, please use it for new installations.
 
 %package lite
 Group:          Applications/System
@@ -128,8 +94,6 @@ Shorewall rule compiler installed.
 %setup -q -T -D -a 1
 %setup -q -T -D -a 2
 %setup -q -T -D -a 3
-%setup -q -T -D -a 4
-%setup -q -T -D -a 5
 
 # Overwrite default init files with Fedora specific ones
 cp %{SOURCE10} shorewall-common-%{common_ver}
@@ -158,19 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 export PREFIX=$RPM_BUILD_ROOT
 export DEST=%{_initrddir}
 
-#### Build shorewall-common
-pushd shorewall-common-%{common_ver}
+#### Build shorewall
+pushd shorewall-%{major_ver}
 ./install.sh
-popd
-
-#### Build shorewall-perl
-pushd shorewall-perl-%{perl_ver}
-./install.sh -n
-popd
-
-#### Build shorewall-shell
-pushd shorewall-shell-%{shell_ver}
-./install.sh -n
 popd
 
 #### Build shorewall-lite
@@ -191,12 +145,12 @@ popd
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post common
+%post
 if [ $1 = 1 ]; then
    /sbin/chkconfig --add shorewall
 fi
 
-%preun common
+%preun
 if [ $1 = 0 ]; then
    /sbin/service shorewall stop >/dev/null 2>&1
    /sbin/chkconfig --del shorewall
@@ -240,9 +194,6 @@ if [ $1 = 0 ]; then
 fi
 
 %files
-%defattr(-,root,root,-)
-
-%files common
 %defattr(0644,root,root,0755)
 %doc shorewall-common-%{common_ver}/{COPYING,changelog.txt,releasenotes.txt,Samples}
 %attr(0755,root,root) %{_initrddir}/shorewall
@@ -299,24 +250,12 @@ fi
 %{_mandir}/man5/shorewall-notrack.5.gz
 %{_mandir}/man8/shorewall.8.gz
 
-%files perl
-%defattr(0644,root,root,0755)
-%doc shorewall-perl-%{perl_ver}/{COPYING,releasenotes.txt}
 %dir %{_datadir}/shorewall-perl
 %dir %{_datadir}/shorewall-perl/Shorewall
 %attr(755,root,root) %{_datadir}/shorewall-perl/compiler.pl
 %{_datadir}/shorewall-perl/prog.*
 %{_datadir}/shorewall-perl/version
 %{_datadir}/shorewall-perl/Shorewall/*.pm
-
-%files shell
-%defattr(0644,root,root,0755)
-%doc shorewall-shell-%{shell_ver}/COPYING
-%attr(0755,root,root) %dir %{_datadir}/shorewall-shell
-%attr(0755,root,root) %{_datadir}/shorewall-shell/compiler
-%{_datadir}/shorewall-shell/lib.*
-%{_datadir}/shorewall-shell/prog.*
-%{_datadir}/shorewall-shell/version
 
 %files lite
 %defattr(0644,root,root,0755)
@@ -407,6 +346,10 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Fri May  8 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.10-1
+- Update to development branch, rearrange sub-packages accordingly
+- Remove shorewall-shell, shorewall-perl, shorewall-common subpackages
+
 * Fri May  8 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.2.8-1
 - Update to version 4.2.8
 - Update shorewall-perl to 4.2.8.2
