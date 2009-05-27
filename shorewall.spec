@@ -8,7 +8,7 @@
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -315,7 +315,7 @@ fi
 %{_datadir}/shorewall6/macro.Ping
 %{_datadir}/shorewall6/modules
 %{_datadir}/shorewall6/version
-%dir %{_localstatedir}/lib/shorewall
+%dir %{_localstatedir}/lib/shorewall6
 
 %files -n shorewall6-lite
 %defattr(0644,root,root,0755)
@@ -325,7 +325,7 @@ fi
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 %attr(0755,root,root) %{_initrddir}/shorewall6-lite
 %{_sysconfdir}/shorewall6-lite/Makefile
-%dir %{_localstatedir}/lib/shorewall
+%dir %{_localstatedir}/lib/shorewall6-lite
 %{_mandir}/man5/shorewall6-lite-vardir.5.gz
 %{_mandir}/man5/shorewall6-lite.conf.5.gz
 %{_mandir}/man8/shorewall6-lite.8.gz
@@ -338,6 +338,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Wed May 27 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.10-2
+- Fix up /var/lib directories (BZ 502929)
+
 * Fri May  8 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.10-1
 - Update to development branch, rearrange sub-packages accordingly
 - Remove shorewall-shell, shorewall-perl, shorewall-common subpackages
