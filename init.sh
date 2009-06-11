@@ -2,7 +2,7 @@
 #
 # Shorewall init script
 #
-# chkconfig: - 25 90
+# chkconfig: - 28 90
 # description: Packet filtering firewall
 
 ### BEGIN INIT INFO

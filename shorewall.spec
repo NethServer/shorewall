@@ -1,14 +1,14 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.3.10
+%global major_ver 4.3.12
 %global lite_ver %{major_ver}
 %global shorewall6_ver %{major_ver}
 %global lite6_ver %{major_ver}
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -338,6 +338,11 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Jun 12 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-1
+- Update to version 4.3.12
+- Change init files to start as number 28 (previously 25) to ensure starting
+  after NetworkManager (BZ 505444)
+
 * Wed May 27 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.10-2
 - Fix up /var/lib directories (BZ 502929)
 
