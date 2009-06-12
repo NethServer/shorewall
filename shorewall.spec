@@ -8,7 +8,7 @@
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -310,7 +310,7 @@ fi
 %{_datadir}/shorewall6/configpath
 %{_datadir}/shorewall6/functions
 %{_datadir}/shorewall6/lib.*
-%{_datadir}/shorewall6/macro.Ping
+%{_datadir}/shorewall6/macro.*
 %{_datadir}/shorewall6/modules
 %{_datadir}/shorewall6/version
 %dir %{_localstatedir}/lib/shorewall6
@@ -336,6 +336,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Fri Jun 13 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-3
+- Fix filelist for shorewall6 to include macro.Trcrt
+
 * Fri Jun 13 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-2
 - Remove rfc1918 entries from filelists as no longer included
 
