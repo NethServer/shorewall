@@ -8,7 +8,7 @@
 
 Name:           shorewall
 Version:        %{major_ver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -205,7 +205,6 @@ fi
 %{_datadir}/shorewall/actions.std
 %{_datadir}/shorewall/configpath
 %{_datadir}/shorewall/macro.*
-%{_datadir}/shorewall/rfc1918
 %{_datadir}/shorewall/version
 %{_datadir}/shorewall/modules
 %{_datadir}/shorewall/configfiles
@@ -231,7 +230,6 @@ fi
 %{_mandir}/man5/shorewall.conf.5.gz
 %{_mandir}/man5/shorewall-blacklist.5.gz
 %{_mandir}/man5/shorewall-tcclasses.5.gz
-%{_mandir}/man5/shorewall-rfc1918.5.gz
 %{_mandir}/man5/shorewall-routestopped.5.gz
 %{_mandir}/man5/shorewall-rules.5.gz
 %{_mandir}/man5/shorewall-actions.5.gz
@@ -338,6 +336,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Fri Jun 13 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-2
+- Remove rfc1918 entries from filelists as no longer included
+
 * Thu Jun 12 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-1
 - Update to version 4.3.12
 - Change init files to start as number 28 (previously 25) to ensure starting
