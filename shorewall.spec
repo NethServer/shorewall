@@ -1,20 +1,20 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.3.12
+%global major_ver 4.4.0-Beta3
 %global lite_ver %{major_ver}
 %global shorewall6_ver %{major_ver}
 %global lite6_ver %{major_ver}
 
 Name:           shorewall
-Version:        %{major_ver}
-Release:        3%{?dist}
+Version:        4.4.0
+Release:        0.1.Beta3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://www.shorewall.net/
 
-%global _baseurl http://www.shorewall.net/pub/shorewall/development/4.3/shorewall-%{version}/
+%global _baseurl http://www.shorewall.net/pub/shorewall/development/4.4/shorewall-%{major_ver}/
 Source0:        %{_baseurl}/%{name}-%{major_ver}.tar.bz2
 Source1:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
 Source2:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
@@ -45,8 +45,8 @@ standalone GNU/Linux system.
 %package -n shorewall6
 Summary:        Files for the IPV6 Shorewall Firewall
 Group:          Applications/System
-Version:        %{shorewall6_ver}
-Requires:       shorewall = %{major_ver}-%{release}
+Version:        %{version}
+Requires:       shorewall = %{version}-%{release}
 Requires:       iptables-ipv6 iproute
 Requires(post): /sbin/chkconfig
 Requires(preun):/sbin/chkconfig
@@ -59,7 +59,7 @@ Shoreline Firewall (shorewall).
 %package lite
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled rulesets
-Version:        %{lite_ver}
+Version:        %{version}
 Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
@@ -75,7 +75,7 @@ Lite does not need to have a Shorewall rule compiler installed.
 %package -n shorewall6-lite
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled IPV6 rulesets
-Version:        %{lite6_ver}
+Version:        %{version}
 Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
@@ -90,10 +90,7 @@ compiler. A machine running Shorewall Lite does not need to have a
 Shorewall rule compiler installed.
 
 %prep
-%setup -q -c -n shorewall-%{major_ver}
-%setup -q -T -D -a 1
-%setup -q -T -D -a 2
-%setup -q -T -D -a 3
+%setup -q -c -n %{name}-%{major_ver} -T -a0 -a1 -a2 -a3
 
 # Overwrite default init files with Fedora specific ones
 cp %{SOURCE10} shorewall-%{major_ver}
@@ -336,6 +333,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Tue Jul  7 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.0-0.1.Beta3
+- Update to 4.4.0-Beta3
+
 * Fri Jun 13 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-3
 - Fix filelist for shorewall6 to include macro.Trcrt
 
