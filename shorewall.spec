@@ -8,7 +8,7 @@
 
 Name:           shorewall
 Version:        4.4.0
-Release:        0.1.Beta3%{?dist}
+Release:        0.2.Beta3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -333,6 +333,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.4.0-0.2.Beta3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Tue Jul  7 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.0-0.1.Beta3
 - Update to 4.4.0-Beta3
 
