@@ -1,20 +1,20 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.4.0-Beta3
+%global major_ver 4.4.0
 %global lite_ver %{major_ver}
 %global shorewall6_ver %{major_ver}
 %global lite6_ver %{major_ver}
 
 Name:           shorewall
 Version:        4.4.0
-Release:        0.2.Beta3%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://www.shorewall.net/
 
-%global _baseurl http://www.shorewall.net/pub/shorewall/development/4.4/shorewall-%{major_ver}/
+%global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{major_ver}/
 Source0:        %{_baseurl}/%{name}-%{major_ver}.tar.bz2
 Source1:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
 Source2:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
@@ -333,6 +333,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Tue Aug 18 2009 Orion Poplawski <orion@cora.nwra.com> - 4.4.0-1
+- Update to 4.4.0 final
+
 * Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.4.0-0.2.Beta3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
