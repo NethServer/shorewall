@@ -334,7 +334,7 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
-* Tue Jul  7 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.0-2
+* Tue Aug 18 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.0-2
 - Spec file cleanups with respect to package versioning
 
 * Tue Aug 18 2009 Orion Poplawski <orion@cora.nwra.com> - 4.4.0-1
