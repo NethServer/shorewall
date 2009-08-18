@@ -2,20 +2,21 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 %global major_ver 4.4.0
+%global shorewall_ver %{major_ver}
 %global lite_ver %{major_ver}
 %global shorewall6_ver %{major_ver}
 %global lite6_ver %{major_ver}
 
 Name:           shorewall
-Version:        4.4.0
-Release:        1%{?dist}
+Version:        %{shorewall_ver}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://www.shorewall.net/
 
 %global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{major_ver}/
-Source0:        %{_baseurl}/%{name}-%{major_ver}.tar.bz2
+Source0:        %{_baseurl}/%{name}-%{shorewall_ver}.tar.bz2
 Source1:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
 Source2:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
 Source3:        %{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
@@ -45,8 +46,8 @@ standalone GNU/Linux system.
 %package -n shorewall6
 Summary:        Files for the IPV6 Shorewall Firewall
 Group:          Applications/System
-Version:        %{version}
-Requires:       shorewall = %{version}-%{release}
+Version:        %{shorewall6_ver}
+Requires:       shorewall = %{shorewall_ver}-%{release}
 Requires:       iptables-ipv6 iproute
 Requires(post): /sbin/chkconfig
 Requires(preun):/sbin/chkconfig
@@ -59,7 +60,7 @@ Shoreline Firewall (shorewall).
 %package lite
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled rulesets
-Version:        %{version}
+Version:        %{lite_ver}
 Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
@@ -75,7 +76,7 @@ Lite does not need to have a Shorewall rule compiler installed.
 %package -n shorewall6-lite
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled IPV6 rulesets
-Version:        %{version}
+Version:        %{lite6_ver}
 Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
@@ -93,7 +94,7 @@ Shorewall rule compiler installed.
 %setup -q -c -n %{name}-%{major_ver} -T -a0 -a1 -a2 -a3
 
 # Overwrite default init files with Fedora specific ones
-cp %{SOURCE10} shorewall-%{major_ver}
+cp %{SOURCE10} shorewall-%{shorewall_ver}
 
 cp %{SOURCE10} shorewall-lite-%{lite_ver}
 sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{lite_ver}/init.sh
@@ -117,7 +118,7 @@ export PREFIX=$RPM_BUILD_ROOT
 export DEST=%{_initrddir}
 
 #### Build shorewall
-pushd shorewall-%{major_ver}
+pushd shorewall-%{shorewall_ver}
 ./install.sh
 popd
 
@@ -189,7 +190,7 @@ fi
 
 %files
 %defattr(0644,root,root,0755)
-%doc shorewall-%{major_ver}/{COPYING,changelog.txt,releasenotes.txt,Samples}
+%doc shorewall-%{shorewall_ver}/{COPYING,changelog.txt,releasenotes.txt,Samples}
 %attr(0755,root,root) %{_initrddir}/shorewall
 %attr(0755,root,root) /sbin/shorewall
 %dir %{_sysconfdir}/shorewall
@@ -333,6 +334,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Tue Jul  7 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.0-2
+- Spec file cleanups with respect to package versioning
+
 * Tue Aug 18 2009 Orion Poplawski <orion@cora.nwra.com> - 4.4.0-1
 - Update to 4.4.0 final
 
