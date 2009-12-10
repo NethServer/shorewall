@@ -9,7 +9,7 @@
 
 Name:           shorewall
 Version:        %{shorewall_ver}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -323,7 +323,7 @@ fi
 %attr(0755,root,root) /sbin/shorewall6-lite
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
-%config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6
+%config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6-lite
 %attr(0755,root,root) %{_initrddir}/shorewall6-lite
 %{_sysconfdir}/shorewall6-lite/Makefile
 %dir %{_localstatedir}/lib/shorewall6-lite
@@ -339,6 +339,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Dec 10 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.4.2-3
+- Fix typo in logrotate script name for shorewall6-lite
+
 * Thu Dec 10 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.4.2-2
 - Add logrotate files to packages
 
