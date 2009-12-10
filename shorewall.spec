@@ -1,11 +1,11 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.4.3
-%global shorewall_ver %{major_ver}
+%global major_ver 4.4.4
+%global shorewall_ver %{major_ver}.2
 %global lite_ver %{major_ver}
-%global shorewall6_ver %{major_ver}
-%global lite6_ver %{major_ver}
+%global shorewall6_ver %{major_ver}.2
+%global lite6_ver %{major_ver}.2
 
 Name:           shorewall
 Version:        %{shorewall_ver}
@@ -334,6 +334,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Dec 10 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.4.2-1
+- Update to 4.4.4.2
+
 * Thu Nov  6 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.3-1
 - Update to 4.4.3
 
