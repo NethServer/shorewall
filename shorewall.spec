@@ -9,7 +9,7 @@
 
 Name:           shorewall
 Version:        %{shorewall_ver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -195,6 +195,7 @@ fi
 %attr(0755,root,root) /sbin/shorewall
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
+%config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
 
 %dir %{_datadir}/shorewall
 %attr(0755,root,root) %{_datadir}/shorewall/wait4ifup
@@ -251,9 +252,11 @@ fi
 %attr(0755,root,root) /sbin/shorewall-lite
 %dir %{_sysconfdir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
+%config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
 %{_sysconfdir}/shorewall-lite/Makefile
 %attr(0755,root,root) %{_initrddir}/shorewall-lite
 %dir %{_localstatedir}/lib/shorewall-lite
+
 %dir %{_datadir}/shorewall-lite
 %{_datadir}/shorewall-lite/version
 %{_datadir}/shorewall-lite/configpath
@@ -273,6 +276,7 @@ fi
 %attr(0755,root,root) /sbin/shorewall6
 %dir %{_sysconfdir}/shorewall6
 %config(noreplace) %{_sysconfdir}/shorewall6/*
+%config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6
 
 # Man files - can't use wildcard as shorewall6-lite also installs some man files
 %{_mandir}/man5/shorewall6-accounting.5.gz
@@ -319,6 +323,7 @@ fi
 %attr(0755,root,root) /sbin/shorewall6-lite
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
+%config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6
 %attr(0755,root,root) %{_initrddir}/shorewall6-lite
 %{_sysconfdir}/shorewall6-lite/Makefile
 %dir %{_localstatedir}/lib/shorewall6-lite
@@ -334,6 +339,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Dec 10 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.4.2-2
+- Add logrotate files to packages
+
 * Thu Dec 10 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.4.2-1
 - Update to 4.4.4.2
 
