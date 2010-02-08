@@ -1,15 +1,15 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.4.4
-%global shorewall_ver %{major_ver}.2
+%global major_ver 4.4.6
+%global shorewall_ver %{major_ver}
 %global lite_ver %{major_ver}
-%global shorewall6_ver %{major_ver}.2
-%global lite6_ver %{major_ver}.2
+%global shorewall6_ver %{major_ver}
+%global lite6_ver %{major_ver}
 
 Name:           shorewall
 Version:        %{shorewall_ver}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -339,6 +339,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Mon Feb  8 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.6-1
+- Update to version 4.4.6
+
 * Thu Dec 10 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.4.2-3
 - Fix typo in logrotate script name for shorewall6-lite
 
