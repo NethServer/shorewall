@@ -9,7 +9,7 @@
 
 Name:           shorewall
 Version:        %{shorewall_ver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -241,6 +241,9 @@ fi
 %{_mandir}/man5/shorewall-tcdevices.5.gz
 %{_mandir}/man5/shorewall-tcfilters.5.gz
 %{_mandir}/man5/shorewall-netmap.5.gz
+%{_mandir}/man5/shorewall-tcinterfaces.5.gz
+%{_mandir}/man5/shorewall-tcpri.5.gz
+%{_mandir}/man5/shorewall-netmap.5.gz
 %{_mandir}/man5/shorewall-interfaces.5.gz
 %{_mandir}/man5/shorewall-maclist.5.gz
 %{_mandir}/man5/shorewall-notrack.5.gz
@@ -297,6 +300,8 @@ fi
 %{_mandir}/man5/shorewall6-tcclasses.5.gz
 %{_mandir}/man5/shorewall6-tcdevices.5.gz
 %{_mandir}/man5/shorewall6-tcrules.5.gz
+%{_mandir}/man5/shorewall6-tcinterfaces.5.gz
+%{_mandir}/man5/shorewall6-tcpri.5.gz
 %{_mandir}/man5/shorewall6-tos.5.gz
 %{_mandir}/man5/shorewall6-tunnels.5.gz
 %{_mandir}/man5/shorewall6-vardir.5.gz
@@ -339,6 +344,9 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Tue Feb  9 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.6-2
+- Fix missing man pages in file lists
+
 * Mon Feb  8 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.6-1
 - Update to version 4.4.6
 
