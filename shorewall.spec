@@ -1,7 +1,7 @@
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.4.6
+%global major_ver 4.4.8
 %global shorewall_ver %{major_ver}
 %global lite_ver %{major_ver}
 %global shorewall6_ver %{major_ver}
@@ -9,7 +9,7 @@
 
 Name:           shorewall
 Version:        %{shorewall_ver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -24,7 +24,6 @@ Source3:        %{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
 # Init file for Fedora
 Source10:       init.sh
 
-BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:  perl
 BuildArch:      noarch
 
@@ -112,8 +111,6 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 %build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 export PREFIX=$RPM_BUILD_ROOT
 export DEST=%{_initrddir}
 
@@ -211,6 +208,7 @@ fi
 %{_datadir}/shorewall/lib.*
 %{_datadir}/shorewall/Shorewall
 %{_datadir}/shorewall/prog.*
+%{_datadir}/shorewall/helpers
 %dir %{_localstatedir}/lib/shorewall
 
 # Man files - can't use /man5/* here as shorewall-lite also has man5 pages
@@ -243,7 +241,6 @@ fi
 %{_mandir}/man5/shorewall-netmap.5.gz
 %{_mandir}/man5/shorewall-tcinterfaces.5.gz
 %{_mandir}/man5/shorewall-tcpri.5.gz
-%{_mandir}/man5/shorewall-netmap.5.gz
 %{_mandir}/man5/shorewall-interfaces.5.gz
 %{_mandir}/man5/shorewall-maclist.5.gz
 %{_mandir}/man5/shorewall-notrack.5.gz
@@ -320,6 +317,7 @@ fi
 %{_datadir}/shorewall6/macro.*
 %{_datadir}/shorewall6/modules
 %{_datadir}/shorewall6/version
+%{_datadir}/shorewall6/helpers
 %dir %{_localstatedir}/lib/shorewall6
 
 %files -n shorewall6-lite
@@ -344,6 +342,12 @@ fi
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %changelog
+* Thu Apr  1 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.8-1
+- Update to version 4.4.8
+- Remove %%buildroot setting
+- Remove cleaning of buildroot during %%install
+- Fix %%files
+
 * Tue Feb  9 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.6-2
 - Fix missing man pages in file lists
 
