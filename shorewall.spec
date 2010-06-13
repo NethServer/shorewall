@@ -10,7 +10,7 @@
 
 Name:           shorewall
 Version:        %{shorewall_ver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -368,6 +368,7 @@ fi
 
 %files init
 %defattr(0644,root,root,0755)
+%doc shorewall-init-%{init_ver}/{COPYING,changelog.txt,releasenotes.txt}
 %attr(0755,root,root) %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %attr(0755,root,root) %{_initrddir}/shorewall-init
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
@@ -377,6 +378,9 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Sun Jun 13 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.10-2
+- Add doc files to shorewall-lite subpackage
+
 * Sun Jun 13 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.10-1
 - Update to version 4.4.10
 - Add new shorewall-init subpackage
