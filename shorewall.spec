@@ -1,27 +1,21 @@
+%global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{version}/
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
-%global major_ver 4.4.10
-%global shorewall_ver %{major_ver}
-%global lite_ver %{major_ver}
-%global shorewall6_ver %{major_ver}
-%global lite6_ver %{major_ver}
-%global init_ver %{major_ver}
-
 Name:           shorewall
-Version:        %{shorewall_ver}
-Release:        2%{?dist}
+Version:        4.4.10
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://www.shorewall.net/
+Provides:	shorewall(firewall) = %{version}-%{release}
 
-%global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{major_ver}/
-Source0:        %{_baseurl}/%{name}-%{shorewall_ver}.tar.bz2
-Source1:        %{_baseurl}/%{name}-lite-%{lite_ver}.tar.bz2
-Source2:        %{_baseurl}/%{name}6-%{shorewall6_ver}.tar.bz2
-Source3:        %{_baseurl}/%{name}6-lite-%{lite6_ver}.tar.bz2
-Source4:        %{_baseurl}/%{name}-init-%{lite_ver}.tar.bz2
+Source0:        %{_baseurl}/%{name}-%{version}.tar.bz2
+Source1:        %{_baseurl}/%{name}-lite-%{version}.tar.bz2
+Source2:        %{_baseurl}/%{name}6-%{version}.tar.bz2
+Source3:        %{_baseurl}/%{name}6-lite-%{version}.tar.bz2
+Source4:        %{_baseurl}/%{name}-init-%{version}.tar.bz2
 
 # Init file for all sub-packages except shorewall-init
 Source10:       shorewall-foo-init.sh
@@ -50,8 +44,7 @@ standalone GNU/Linux system.
 %package -n shorewall6
 Summary:        Files for the IPV6 Shorewall Firewall
 Group:          Applications/System
-Version:        %{shorewall6_ver}
-Requires:       shorewall = %{shorewall_ver}-%{release}
+Requires:       shorewall = %{version}-%{release}
 Requires:       iptables-ipv6 iproute
 Requires(post): /sbin/chkconfig
 Requires(preun):/sbin/chkconfig
@@ -64,7 +57,7 @@ Shoreline Firewall (shorewall).
 %package lite
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled rulesets
-Version:        %{lite_ver}
+Provides:	shorewall(firewall) = %{version}-%{release}
 Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
@@ -80,7 +73,7 @@ Lite does not need to have a Shorewall rule compiler installed.
 %package -n shorewall6-lite
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled IPV6 rulesets
-Version:        %{lite6_ver}
+Provides:	shorewall(firewall) = %{version}-%{release}
 Requires:       iptables iproute
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
@@ -97,7 +90,7 @@ Shorewall rule compiler installed.
 %package init
 Group:          Applications/System
 Summary:    	Initialization functionality and NetworkManager integration for Shorewall
-Version:        %{init_ver}
+Requires:	shorewall(firewall) = %{version}-%{release}
 Requires:       NetworkManager
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
@@ -115,18 +108,18 @@ for 'event-driven' startup and shutdown.
 %setup -q -c -n %{name}-%{major_ver} -T -a0 -a1 -a2 -a3 -a4
 
 # Overwrite default init files with Fedora specific ones
-cp %{SOURCE10} shorewall-%{shorewall_ver}/init.sh
+cp %{SOURCE10} shorewall-%{version}/init.sh
 
-cp %{SOURCE10} shorewall-lite-%{lite_ver}/init.sh
-sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{lite_ver}/init.sh
+cp %{SOURCE10} shorewall-lite-%{version}/init.sh
+sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{version}/init.sh
 
-cp %{SOURCE10} shorewall6-%{shorewall6_ver}/init.sh
-sed -i -e 's|prog="shorewall"|prog="shorewall6"|' shorewall6-%{shorewall6_ver}/init.sh
+cp %{SOURCE10} shorewall6-%{version}/init.sh
+sed -i -e 's|prog="shorewall"|prog="shorewall6"|' shorewall6-%{version}/init.sh
 
-cp %{SOURCE10} shorewall6-lite-%{lite6_ver}/init.sh
-sed -i -e 's|prog="shorewall"|prog="shorewall6-lite"|' shorewall6-lite-%{lite6_ver}/init.sh
+cp %{SOURCE10} shorewall6-lite-%{version}/init.sh
+sed -i -e 's|prog="shorewall"|prog="shorewall6-lite"|' shorewall6-lite-%{version}/init.sh
 
-cp %{SOURCE11} shorewall-init-%{lite6_ver}/init.sh
+cp %{SOURCE11} shorewall-init-%{version}/init.sh
 
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
@@ -138,9 +131,9 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 export PREFIX=$RPM_BUILD_ROOT
 export DEST=%{_initrddir}
 
-targets="shorewall-%{shorewall_ver} shorewall-lite-%{lite_ver} \
-shorewall6-%{shorewall6_ver} shorewall6-lite-%{lite6_ver} \
-shorewall-init-%{init_ver}"
+targets="shorewall-%{version} shorewall-lite-%{version} \
+shorewall6-%{version} shorewall6-lite-%{version} \
+shorewall-init-%{version}"
 
 for i in $targets; do
     pushd $i
@@ -212,7 +205,7 @@ fi
 
 %files
 %defattr(0644,root,root,0755)
-%doc shorewall-%{shorewall_ver}/{COPYING,changelog.txt,releasenotes.txt,Samples}
+%doc shorewall-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples}
 %attr(0755,root,root) %{_initrddir}/shorewall
 %attr(0755,root,root) /sbin/shorewall
 %dir %{_sysconfdir}/shorewall
@@ -273,7 +266,7 @@ fi
 
 %files lite
 %defattr(0644,root,root,0755)
-%doc shorewall-lite-%{lite_ver}/{COPYING,changelog.txt,releasenotes.txt}
+%doc shorewall-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 %attr(0755,root,root) /sbin/shorewall-lite
 %dir %{_sysconfdir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
@@ -296,7 +289,7 @@ fi
 
 %files -n shorewall6
 %defattr(0644,root,root,0755)
-%doc shorewall6-%{shorewall6_ver}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
+%doc shorewall6-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
 %attr(0755,root,root) %{_initrddir}/shorewall6
 %attr(0755,root,root) /sbin/shorewall6
 %dir %{_sysconfdir}/shorewall6
@@ -347,7 +340,7 @@ fi
 
 %files -n shorewall6-lite
 %defattr(0644,root,root,0755)
-%doc shorewall6-lite-%{lite6_ver}/{COPYING,changelog.txt,releasenotes.txt}
+%doc shorewall6-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 %attr(0755,root,root) /sbin/shorewall6-lite
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
@@ -368,7 +361,7 @@ fi
 
 %files init
 %defattr(0644,root,root,0755)
-%doc shorewall-init-%{init_ver}/{COPYING,changelog.txt,releasenotes.txt}
+%doc shorewall-init-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 %attr(0755,root,root) %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %attr(0755,root,root) %{_initrddir}/shorewall-init
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
@@ -378,6 +371,13 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Wed Jun 16 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.10-3
+- Remove separate macros for each tarball version - upstream now releases all
+  tarballs with the same version number
+- Add virtual Provides for shorewall(firewall) to shorewall, shorewall-lite
+  and shorewall6-lite, and a Requires shorewall(firewall) to shorewall-init. 
+  Note that shorewall6 Requires shorewall, so virtual provides not needed there
+
 * Sun Jun 13 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.10-2
 - Add doc files to shorewall-lite subpackage
 
