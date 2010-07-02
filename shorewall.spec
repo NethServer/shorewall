@@ -4,7 +4,7 @@
 
 Name:           shorewall
 Version:        4.4.10
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -105,7 +105,7 @@ integrates with NetworkManager and distribution ifup/ifdown systems to allow
 for 'event-driven' startup and shutdown.
 
 %prep
-%setup -q -c -n %{name}-%{major_ver} -T -a0 -a1 -a2 -a3 -a4
+%setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4
 
 # Overwrite default init files with Fedora specific ones
 cp %{SOURCE10} shorewall-%{version}/init.sh
@@ -371,6 +371,9 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Fri Jul  2 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.10-4
+- Fix spec file typo
+
 * Wed Jun 16 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.10-3
 - Remove separate macros for each tarball version - upstream now releases all
   tarballs with the same version number
