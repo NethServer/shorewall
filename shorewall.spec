@@ -3,8 +3,8 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        4.4.10
-Release:        4%{?dist}
+Version:        4.4.11.1
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -371,6 +371,9 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Sat Aug  7 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.11.1-1
+- Update to version 4.4.11.1
+
 * Fri Jul  2 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.10-4
 - Fix spec file typo
 
