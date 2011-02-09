@@ -4,7 +4,7 @@
 
 Name:           shorewall
 Version:        4.4.11.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -371,6 +371,9 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.4.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Sat Aug  7 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.11.1-1
 - Update to version 4.4.11.1
 
