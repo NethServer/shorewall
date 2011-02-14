@@ -3,8 +3,8 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        4.4.11.1
-Release:        2%{?dist}
+Version:        4.4.17
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -227,6 +227,7 @@ fi
 %{_datadir}/shorewall/Shorewall
 %{_datadir}/shorewall/prog.*
 %{_datadir}/shorewall/helpers
+%{_datadir}/shorewall/getparams
 %dir %{_localstatedir}/lib/shorewall
 
 # Man files - can't use /man5/* here as shorewall-lite also has man5 pages
@@ -262,6 +263,9 @@ fi
 %{_mandir}/man5/shorewall-interfaces.5.gz
 %{_mandir}/man5/shorewall-maclist.5.gz
 %{_mandir}/man5/shorewall-notrack.5.gz
+%{_mandir}/man5/shorewall-ipsets.5.gz
+%{_mandir}/man5/shorewall-routes.5.gz
+%{_mandir}/man5/shorewall-secmarks.5.gz
 %{_mandir}/man8/shorewall.8.gz
 
 %files lite
@@ -323,6 +327,11 @@ fi
 %{_mandir}/man5/shorewall6-zones.5.gz
 %{_mandir}/man5/shorewall6.conf.5.gz
 %{_mandir}/man5/shorewall6-notrack.5.gz
+%{_mandir}/man5/shorewall6-proxyndp.5.gz
+%{_mandir}/man5/shorewall6-routes.5.gz
+%{_mandir}/man5/shorewall6-secmarks.5.gz
+%{_mandir}/man5/shorewall6-tcfilters.5.gz
+
 %{_mandir}/man8/shorewall6.8.gz
 
 %attr(0755,root,root) %{_datadir}/shorewall6/wait4ifup
@@ -371,6 +380,9 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Mon Feb 14 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.17-1
+- Update to 4.4.17
+
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.4.11.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
