@@ -4,7 +4,7 @@
 
 Name:           shorewall
 Version:        4.4.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -214,7 +214,8 @@ fi
 
 %dir %{_datadir}/shorewall
 %attr(0755,root,root) %{_datadir}/shorewall/wait4ifup
-%attr(755,root,root) %{_datadir}/shorewall/compiler.pl
+%attr(0755,root,root) %{_datadir}/shorewall/compiler.pl
+%attr(0755,root,root) %{_datadir}/shorewall/getparams
 %{_datadir}/shorewall/action.*
 %{_datadir}/shorewall/actions.std
 %{_datadir}/shorewall/configpath
@@ -227,7 +228,6 @@ fi
 %{_datadir}/shorewall/Shorewall
 %{_datadir}/shorewall/prog.*
 %{_datadir}/shorewall/helpers
-%{_datadir}/shorewall/getparams
 %dir %{_localstatedir}/lib/shorewall
 
 # Man files - can't use /man5/* here as shorewall-lite also has man5 pages
@@ -380,6 +380,9 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Sat Mar  5 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.17-2
+- Add executable permission to getparams
+
 * Mon Feb 14 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.17-1
 - Update to 4.4.17
 
