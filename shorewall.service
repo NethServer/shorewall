@@ -1,5 +1,5 @@
 [Unit]
-Description=Packet filtering firewall
+Description=Shorewall IPv4 firewall
 After=syslog.target
 After=network.target
 
