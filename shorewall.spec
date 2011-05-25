@@ -1,10 +1,11 @@
-%global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{version}/
+%global mainver 4.4.19
+%global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{mainver}/
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        4.4.17
-Release:        2%{?dist}
+Version:        %{mainver}.4
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -221,7 +222,7 @@ fi
 %{_datadir}/shorewall/configpath
 %{_datadir}/shorewall/macro.*
 %{_datadir}/shorewall/version
-%{_datadir}/shorewall/modules
+%{_datadir}/shorewall/modules*
 %{_datadir}/shorewall/configfiles
 %{_datadir}/shorewall/functions
 %{_datadir}/shorewall/lib.*
@@ -283,8 +284,9 @@ fi
 %{_datadir}/shorewall-lite/version
 %{_datadir}/shorewall-lite/configpath
 %{_datadir}/shorewall-lite/functions
+%{_datadir}/shorewall-lite/helpers
 %{_datadir}/shorewall-lite/lib.*
-%{_datadir}/shorewall-lite/modules
+%{_datadir}/shorewall-lite/modules*
 %attr(0755,root,root) %{_datadir}/shorewall-lite/shorecap
 %attr(0755,root,root) %{_datadir}/shorewall-lite/wait4ifup
 %{_mandir}/man5/shorewall-lite.conf.5.gz
@@ -342,7 +344,7 @@ fi
 %{_datadir}/shorewall6/functions
 %{_datadir}/shorewall6/lib.*
 %{_datadir}/shorewall6/macro.*
-%{_datadir}/shorewall6/modules
+%{_datadir}/shorewall6/modules*
 %{_datadir}/shorewall6/version
 %{_datadir}/shorewall6/helpers
 %dir %{_localstatedir}/lib/shorewall6
@@ -362,8 +364,9 @@ fi
 %{_mandir}/man8/shorewall6-lite.8.gz
 %{_datadir}/shorewall6-lite/configpath
 %{_datadir}/shorewall6-lite/functions
+%{_datadir}/shorewall6-lite/helpers
 %{_datadir}/shorewall6-lite/lib.*
-%{_datadir}/shorewall6-lite/modules
+%{_datadir}/shorewall6-lite/modules*
 %{_datadir}/shorewall6-lite/version
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/shorecap
 %attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
@@ -380,6 +383,9 @@ fi
 %{_datadir}/shorewall-init/version
 
 %changelog
+* Wed May 25 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.19.4-1
+- Update to 4.4.19.4
+
 * Sat Mar  5 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.17-2
 - Add executable permission to getparams
 
