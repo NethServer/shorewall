@@ -219,7 +219,6 @@ fi
 %config(noreplace) %{_sysconfdir}/shorewall/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
 
-<<<<<<< HEAD
 %{_libexecdir}/shorewall
 %{_datadir}/shorewall
 
