@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -136,7 +136,7 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 export PREFIX=$RPM_BUILD_ROOT
 export DEST=%{_initrddir}
 export LIBEXEC=%{_libexecdir}
-export PERLIB=%{perl_vendorlib}
+export PERLLIB=%{perl_privlib}
 
 targets="shorewall-%{version} shorewall-lite-%{version} \
 shorewall6-%{version} shorewall6-lite-%{version} \
@@ -223,6 +223,7 @@ fi
 
 %{_libexecdir}/shorewall
 %{_datadir}/shorewall
+%{perl_privlib}/Shorewall
 
 %{_mandir}/man5/shorewall*
 %exclude %{_mandir}/man5/shorewall6*
@@ -311,6 +312,9 @@ fi
 %{_libexecdir}/shorewall-init
 
 %changelog
+* Thu Jul 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-3
+- Properly use PERLLIB environment variable for installation of the perl libraries
+
 * Thu Jul 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-2
 - Fix Source URL versioning in spec file
 
