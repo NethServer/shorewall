@@ -3,8 +3,8 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        4.4.17
-Release:        2%{?dist}
+Version:        4.4.21.1
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -112,12 +112,15 @@ cp %{SOURCE10} shorewall-%{version}/init.sh
 
 cp %{SOURCE10} shorewall-lite-%{version}/init.sh
 sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{version}/init.sh
+sed -i -e 's|Provides: shorewall|Provides: shorewall-lite|' shorewall-lite-%{version}/init.sh
 
 cp %{SOURCE10} shorewall6-%{version}/init.sh
 sed -i -e 's|prog="shorewall"|prog="shorewall6"|' shorewall6-%{version}/init.sh
+sed -i -e 's|Provides: shorewall|Provides: shorewall6|' shorewall6-%{version}/init.sh
 
 cp %{SOURCE10} shorewall6-lite-%{version}/init.sh
 sed -i -e 's|prog="shorewall"|prog="shorewall6-lite"|' shorewall6-lite-%{version}/init.sh
+sed -i -e 's|Provides: shorewall|Provides: shorewall6-lite|' shorewall6-lite-%{version}/init.sh
 
 cp %{SOURCE11} shorewall-init-%{version}/init.sh
 
@@ -130,6 +133,8 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 %install
 export PREFIX=$RPM_BUILD_ROOT
 export DEST=%{_initrddir}
+export LIBEXEC=%{_libexecdir}
+export PERLIB=%{perl_vendorlib}
 
 targets="shorewall-%{version} shorewall-lite-%{version} \
 shorewall6-%{version} shorewall6-lite-%{version} \
@@ -206,180 +211,109 @@ fi
 %files
 %defattr(0644,root,root,0755)
 %doc shorewall-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples}
+
 %attr(0755,root,root) %{_initrddir}/shorewall
 %attr(0755,root,root) /sbin/shorewall
+
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
 
-%dir %{_datadir}/shorewall
-%attr(0755,root,root) %{_datadir}/shorewall/wait4ifup
-%attr(0755,root,root) %{_datadir}/shorewall/compiler.pl
-%attr(0755,root,root) %{_datadir}/shorewall/getparams
-%{_datadir}/shorewall/action.*
-%{_datadir}/shorewall/actions.std
-%{_datadir}/shorewall/configpath
-%{_datadir}/shorewall/macro.*
-%{_datadir}/shorewall/version
-%{_datadir}/shorewall/modules
-%{_datadir}/shorewall/configfiles
-%{_datadir}/shorewall/functions
-%{_datadir}/shorewall/lib.*
-%{_datadir}/shorewall/Shorewall
-%{_datadir}/shorewall/prog.*
-%{_datadir}/shorewall/helpers
-%dir %{_localstatedir}/lib/shorewall
+%{_libexecdir}/shorewall
+%{_datadir}/shorewall
 
-# Man files - can't use /man5/* here as shorewall-lite also has man5 pages
-%{_mandir}/man5/shorewall-tunnels.5.gz
-%{_mandir}/man5/shorewall-nat.5.gz
-%{_mandir}/man5/shorewall-proxyarp.5.gz
-%{_mandir}/man5/shorewall-vardir.5.gz
-%{_mandir}/man5/shorewall-accounting.5.gz
-%{_mandir}/man5/shorewall-policy.5.gz
-%{_mandir}/man5/shorewall-route_rules.5.gz
-%{_mandir}/man5/shorewall-providers.5.gz
-%{_mandir}/man5/shorewall-modules.5.gz
-%{_mandir}/man5/shorewall-tcrules.5.gz
-%{_mandir}/man5/shorewall-params.5.gz
-%{_mandir}/man5/shorewall-zones.5.gz
-%{_mandir}/man5/shorewall.conf.5.gz
-%{_mandir}/man5/shorewall-blacklist.5.gz
-%{_mandir}/man5/shorewall-tcclasses.5.gz
-%{_mandir}/man5/shorewall-routestopped.5.gz
-%{_mandir}/man5/shorewall-rules.5.gz
-%{_mandir}/man5/shorewall-actions.5.gz
-%{_mandir}/man5/shorewall-tos.5.gz
-%{_mandir}/man5/shorewall-ecn.5.gz
-%{_mandir}/man5/shorewall-nesting.5.gz
-%{_mandir}/man5/shorewall-exclusion.5.gz
-%{_mandir}/man5/shorewall-masq.5.gz
-%{_mandir}/man5/shorewall-hosts.5.gz
-%{_mandir}/man5/shorewall-tcdevices.5.gz
-%{_mandir}/man5/shorewall-tcfilters.5.gz
-%{_mandir}/man5/shorewall-netmap.5.gz
-%{_mandir}/man5/shorewall-tcinterfaces.5.gz
-%{_mandir}/man5/shorewall-tcpri.5.gz
-%{_mandir}/man5/shorewall-interfaces.5.gz
-%{_mandir}/man5/shorewall-maclist.5.gz
-%{_mandir}/man5/shorewall-notrack.5.gz
-%{_mandir}/man5/shorewall-ipsets.5.gz
-%{_mandir}/man5/shorewall-routes.5.gz
-%{_mandir}/man5/shorewall-secmarks.5.gz
-%{_mandir}/man8/shorewall.8.gz
+%{_mandir}/man5/shorewall*
+%exclude %{_mandir}/man5/shorewall6*
+%exclude %{_mandir}/man5/shorewall-lite*
+
+%{_mandir}/man8/shorewall*
+%exclude %{_mandir}/man8/shorewall6*
+%exclude %{_mandir}/man8/shorewall-lite*
+
+%dir %{_localstatedir}/lib/shorewall
 
 %files lite
 %defattr(0644,root,root,0755)
 %doc shorewall-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
+
+%attr(0755,root,root) %{_initrddir}/shorewall-lite
 %attr(0755,root,root) /sbin/shorewall-lite
+
 %dir %{_sysconfdir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
 %{_sysconfdir}/shorewall-lite/Makefile
-%attr(0755,root,root) %{_initrddir}/shorewall-lite
-%dir %{_localstatedir}/lib/shorewall-lite
 
-%dir %{_datadir}/shorewall-lite
-%{_datadir}/shorewall-lite/version
-%{_datadir}/shorewall-lite/configpath
-%{_datadir}/shorewall-lite/functions
-%{_datadir}/shorewall-lite/lib.*
-%{_datadir}/shorewall-lite/modules
-%attr(0755,root,root) %{_datadir}/shorewall-lite/shorecap
-%attr(0755,root,root) %{_datadir}/shorewall-lite/wait4ifup
-%{_mandir}/man5/shorewall-lite.conf.5.gz
-%{_mandir}/man5/shorewall-lite-vardir.5.gz
-%{_mandir}/man8/shorewall-lite.8.gz
+
+%{_datadir}/shorewall-lite
+%{_libexecdir}/shorewall-lite
+
+%{_mandir}/man5/shorewall-lite*
+%{_mandir}/man8/shorewall-lite*
+
+%dir %{_localstatedir}/lib/shorewall-lite
 
 %files -n shorewall6
 %defattr(0644,root,root,0755)
 %doc shorewall6-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
+
 %attr(0755,root,root) %{_initrddir}/shorewall6
 %attr(0755,root,root) /sbin/shorewall6
+
 %dir %{_sysconfdir}/shorewall6
 %config(noreplace) %{_sysconfdir}/shorewall6/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6
 
-# Man files - can't use wildcard as shorewall6-lite also installs some man files
-%{_mandir}/man5/shorewall6-accounting.5.gz
-%{_mandir}/man5/shorewall6-actions.5.gz
-%{_mandir}/man5/shorewall6-blacklist.5.gz
-%{_mandir}/man5/shorewall6-exclusion.5.gz
-%{_mandir}/man5/shorewall6-hosts.5.gz
-%{_mandir}/man5/shorewall6-interfaces.5.gz
-%{_mandir}/man5/shorewall6-maclist.5.gz
-%{_mandir}/man5/shorewall6-modules.5.gz
-%{_mandir}/man5/shorewall6-nesting.5.gz
-%{_mandir}/man5/shorewall6-params.5.gz
-%{_mandir}/man5/shorewall6-policy.5.gz
-%{_mandir}/man5/shorewall6-providers.5.gz
-%{_mandir}/man5/shorewall6-route_rules.5.gz
-%{_mandir}/man5/shorewall6-routestopped.5.gz
-%{_mandir}/man5/shorewall6-rules.5.gz
-%{_mandir}/man5/shorewall6-tcclasses.5.gz
-%{_mandir}/man5/shorewall6-tcdevices.5.gz
-%{_mandir}/man5/shorewall6-tcrules.5.gz
-%{_mandir}/man5/shorewall6-tcinterfaces.5.gz
-%{_mandir}/man5/shorewall6-tcpri.5.gz
-%{_mandir}/man5/shorewall6-tos.5.gz
-%{_mandir}/man5/shorewall6-tunnels.5.gz
-%{_mandir}/man5/shorewall6-vardir.5.gz
-%{_mandir}/man5/shorewall6-zones.5.gz
-%{_mandir}/man5/shorewall6.conf.5.gz
-%{_mandir}/man5/shorewall6-notrack.5.gz
-%{_mandir}/man5/shorewall6-proxyndp.5.gz
-%{_mandir}/man5/shorewall6-routes.5.gz
-%{_mandir}/man5/shorewall6-secmarks.5.gz
-%{_mandir}/man5/shorewall6-tcfilters.5.gz
+%{_mandir}/man5/shorewall6*
+%exclude %{_mandir}/man5/shorewall6-lite*
 
-%{_mandir}/man8/shorewall6.8.gz
+%{_mandir}/man8/shorewall6*
+%exclude %{_mandir}/man8/shorewall6-lite*
 
-%attr(0755,root,root) %{_datadir}/shorewall6/wait4ifup
-%{_datadir}/shorewall6/action.*
-%{_datadir}/shorewall6/actions.std
-%{_datadir}/shorewall6/configfiles
-%{_datadir}/shorewall6/configpath
-%{_datadir}/shorewall6/functions
-%{_datadir}/shorewall6/lib.*
-%{_datadir}/shorewall6/macro.*
-%{_datadir}/shorewall6/modules
-%{_datadir}/shorewall6/version
-%{_datadir}/shorewall6/helpers
+%{_libexecdir}/shorewall6
+%{_datadir}/shorewall6
+
 %dir %{_localstatedir}/lib/shorewall6
 
 %files -n shorewall6-lite
 %defattr(0644,root,root,0755)
 %doc shorewall6-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
+
+%attr(0755,root,root) %{_initrddir}/shorewall6-lite
 %attr(0755,root,root) /sbin/shorewall6-lite
+
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6-lite
-%attr(0755,root,root) %{_initrddir}/shorewall6-lite
 %{_sysconfdir}/shorewall6-lite/Makefile
+
+%{_mandir}/man5/shorewall6-lite*
+%{_mandir}/man8/shorewall6-lite*
+
+%{_datadir}/shorewall6-lite
+%{_libexecdir}/shorewall6-lite
+
 %dir %{_localstatedir}/lib/shorewall6-lite
-%{_mandir}/man5/shorewall6-lite-vardir.5.gz
-%{_mandir}/man5/shorewall6-lite.conf.5.gz
-%{_mandir}/man8/shorewall6-lite.8.gz
-%{_datadir}/shorewall6-lite/configpath
-%{_datadir}/shorewall6-lite/functions
-%{_datadir}/shorewall6-lite/lib.*
-%{_datadir}/shorewall6-lite/modules
-%{_datadir}/shorewall6-lite/version
-%attr(0755,root,root) %{_datadir}/shorewall6-lite/shorecap
-%attr(0755,root,root) %{_datadir}/shorewall6-lite/wait4ifup
 
 %files init
 %defattr(0644,root,root,0755)
 %doc shorewall-init-%{version}/{COPYING,changelog.txt,releasenotes.txt}
-%attr(0755,root,root) %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
+
 %attr(0755,root,root) %{_initrddir}/shorewall-init
+
+%attr(0755,root,root) %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
+
 %{_mandir}/man8/shorewall-init.8.*
-%dir %{_datadir}/shorewall-init
-%attr(0755,root,root) %{_datadir}/shorewall-init/ifupdown
-%{_datadir}/shorewall-init/version
+
+%{_datadir}/shorewall-init
+%{_libexecdir}/shorewall-init
 
 %changelog
+* Thu Jul 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-1
+- Update to 4.4.21.1
+- Fix BZ 720713 (incorrect init file LSB headers)
+
 * Sat Mar  5 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.17-2
 - Add executable permission to getparams
 
