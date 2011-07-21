@@ -1,4 +1,4 @@
-%global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{version}/
+%global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{mainver}/
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
@@ -219,6 +219,7 @@ fi
 %config(noreplace) %{_sysconfdir}/shorewall/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
 
+<<<<<<< HEAD
 %{_libexecdir}/shorewall
 %{_datadir}/shorewall
 
@@ -243,7 +244,6 @@ fi
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
 %{_sysconfdir}/shorewall-lite/Makefile
-
 
 %{_datadir}/shorewall-lite
 %{_libexecdir}/shorewall-lite
@@ -313,6 +313,9 @@ fi
 * Thu Jul 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-1
 - Update to 4.4.21.1
 - Fix BZ 720713 (incorrect init file LSB headers)
+
+* Wed May 25 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.19.4-1
+- Update to 4.4.19.4
 
 * Sat Mar  5 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.17-2
 - Add executable permission to getparams
