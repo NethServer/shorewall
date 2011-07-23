@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -146,6 +146,9 @@ for i in $targets; do
     ./install.sh
     popd
 done
+
+# Make files under libexec executable
+chmod 755 $RPM_BUILD_ROOT%{_libexecdir}/shorewall/*
 
 # Install systemd service files
 install -d $RPM_BUILD_ROOT%{_unitdir}
@@ -401,6 +404,9 @@ fi
 %{_libexecdir}/shorewall-init
 
 %changelog
+* Sat Jul 23 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-5
+- Make libexec files executable
+
 * Sat Jul 23 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-4
 - Switch to systemd initialization
 
