@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -19,23 +19,24 @@ Source2:        %{_baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{_baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{_baseurl}/%{name}-init-%{version}.tar.bz2
 
-# Init file for all sub-packages except shorewall-init
-Source10:       shorewall-foo-init.sh
-
-# Init file for shorewall-init
-Source11:   	shorewall-init.sh
+# systemd service files
+Source10:       shorewall.service
+Source11:       shorewall-lite.service
+Source12:       shorewall6.service
+Source13:       shorewall6-lite.service
+Source14:       shorewall-init.service
 
 BuildRequires:  perl
+BuildRequires: 	systemd-units
+
 BuildArch:      noarch
 
-Requires:       iptables iproute
-Requires(post): /sbin/chkconfig
-Requires(preun):/sbin/chkconfig
-Requires(preun):/sbin/service
-
-Obsoletes: shorewall-common < 4.3.0
-Obsoletes: shorewall-perl < 4.3.0
-Obsoletes: shorewall-shell < 4.3.0
+Requires:         iptables iproute
+Requires(post):   /sbin/chkconfig
+Requires(post):	  systemd-units
+Requires(post):   systemd-sysv
+Requires(preun):  systemd-units
+Requires(postun): systemd-units
 
 %description
 The Shoreline Firewall, more commonly known as "Shorewall", is a
@@ -46,11 +47,15 @@ standalone GNU/Linux system.
 %package -n shorewall6
 Summary:        Files for the IPV6 Shorewall Firewall
 Group:          Applications/System
-Requires:       shorewall = %{version}-%{release}
-Requires:       iptables-ipv6 iproute
-Requires(post): /sbin/chkconfig
-Requires(preun):/sbin/chkconfig
-Requires(preun):/sbin/service
+Provides:	shorewall(firewall) = %{version}-%{release}
+
+Requires:         shorewall = %{version}-%{release}
+Requires:         iptables-ipv6 iproute
+Requires(post):   /sbin/chkconfig
+Requires(post):	  systemd-units
+Requires(post):   systemd-sysv
+Requires(preun):  systemd-units
+Requires(postun): systemd-units
 
 %description -n shorewall6
 This package contains the files required for IPV6 functionality of the
@@ -60,10 +65,13 @@ Shoreline Firewall (shorewall).
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled rulesets
 Provides:	shorewall(firewall) = %{version}-%{release}
-Requires:       iptables iproute
-Requires(post): /sbin/chkconfig
-Requires(preun): /sbin/chkconfig
-Requires(preun): /sbin/service
+
+Requires:         iptables-ipv6 iproute
+Requires(post):   /sbin/chkconfig
+Requires(post):	  systemd-units
+Requires(post):   systemd-sysv
+Requires(preun):  systemd-units
+Requires(postun): systemd-units
 
 %description lite
 Shorewall Lite is a companion product to Shorewall that allows network
@@ -76,10 +84,13 @@ Lite does not need to have a Shorewall rule compiler installed.
 Group:          Applications/System
 Summary:        Shorewall firewall for compiled IPV6 rulesets
 Provides:	shorewall(firewall) = %{version}-%{release}
-Requires:       iptables iproute
-Requires(post): /sbin/chkconfig
-Requires(preun): /sbin/chkconfig
-Requires(preun): /sbin/service
+
+Requires:         iptables-ipv6 iproute
+Requires(post):   /sbin/chkconfig
+Requires(post):	  systemd-units
+Requires(post):   systemd-sysv
+Requires(preun):  systemd-units
+Requires(postun): systemd-units
 
 %description -n shorewall6-lite
 Shorewall6 Lite is a companion product to Shorewall6 (the IPV6
@@ -92,11 +103,16 @@ Shorewall rule compiler installed.
 %package init
 Group:          Applications/System
 Summary:    	Initialization functionality and NetworkManager integration for Shorewall
-Requires:	shorewall(firewall) = %{version}-%{release}
-Requires:       NetworkManager
-Requires(post): /sbin/chkconfig
-Requires(preun): /sbin/chkconfig
-Requires(preun): /sbin/service
+
+Requires:	  shorewall(firewall) = %{version}-%{release}
+Requires:         NetworkManager
+Requires:         shorewall = %{version}-%{release}
+Requires:         iptables-ipv6 iproute
+Requires(post):   /sbin/chkconfig
+Requires(post):	  systemd-units
+Requires(post):   systemd-sysv
+Requires(preun):  systemd-units
+Requires(postun): systemd-units
 
 %description init 
 This package adds additional initialization functionality to Shorewall in two
@@ -108,23 +124,6 @@ for 'event-driven' startup and shutdown.
 
 %prep
 %setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4
-
-# Overwrite default init files with Fedora specific ones
-cp %{SOURCE10} shorewall-%{version}/init.sh
-
-cp %{SOURCE10} shorewall-lite-%{version}/init.sh
-sed -i -e 's|prog="shorewall"|prog="shorewall-lite"|' shorewall-lite-%{version}/init.sh
-sed -i -e 's|Provides: shorewall|Provides: shorewall-lite|' shorewall-lite-%{version}/init.sh
-
-cp %{SOURCE10} shorewall6-%{version}/init.sh
-sed -i -e 's|prog="shorewall"|prog="shorewall6"|' shorewall6-%{version}/init.sh
-sed -i -e 's|Provides: shorewall|Provides: shorewall6|' shorewall6-%{version}/init.sh
-
-cp %{SOURCE10} shorewall6-lite-%{version}/init.sh
-sed -i -e 's|prog="shorewall"|prog="shorewall6-lite"|' shorewall6-lite-%{version}/init.sh
-sed -i -e 's|Provides: shorewall|Provides: shorewall6-lite|' shorewall6-lite-%{version}/init.sh
-
-cp %{SOURCE11} shorewall-init-%{version}/init.sh
 
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
@@ -148,73 +147,157 @@ for i in $targets; do
     popd
 done
 
+# Install systemd service files
+install -d $RPM_BUILD_ROOT%{_unitdir}
+install -m 644 %SOURCE10 %SOURCE11 %SOURCE12 %SOURCE13 %SOURCE14 $RPM_BUILD_ROOT%{_unitdir}
+
+# Remove sysv init files
+rm -rf $RPM_BUILD_ROOT%{_initrddir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-if [ $1 = 1 ]; then
-   /sbin/chkconfig --add shorewall
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
 %preun
-if [ $1 = 0 ]; then
-   /sbin/service shorewall stop >/dev/null 2>&1
-   /sbin/chkconfig --del shorewall
-   rm -f /var/lib/shorewall/*
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable shorewall.service > /dev/null 2>&1 || :
+    /bin/systemctl stop shorewall.service > /dev/null 2>&1 || :
+    rm -f %{_localstatedir}/lib/shorewall/*
 fi
 
+%postun
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart shorewall.service >/dev/null 2>&1 || :
+fi
+
+%triggerun -- shorewall < 4.4.21.1-4
+/usr/bin/systemd-sysv-convert --save shorewall >/dev/null 2>&1 ||:
+#/bin/systemctl --no-reload enable shorewall.service >/dev/null 2>&1 ||:
+/sbin/chkconfig --del shorewall >/dev/null 2>&1 || :
+/bin/systemctl try-restart shorewall.service >/dev/null 2>&1 || :
+
+
+%post -n shorewall-lite
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
+
+%preun -n shorewall-lite
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable shorewall-lite.service > /dev/null 2>&1 || :
+    /bin/systemctl stop shorewall-lite.service > /dev/null 2>&1 || :
+    rm -f %{_localstatedir}/lib/shorewall-lite/*
+fi
+
+%postun -n shorewall-lite
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart shorewall-lite.service >/dev/null 2>&1 || :
+fi
+
+%triggerun -- shorewall-lite < 4.4.21.1-4
+/usr/bin/systemd-sysv-convert --save shorewall-lite >/dev/null 2>&1 ||:
+#/bin/systemctl --no-reload enable shorewall-lite.service >/dev/null 2>&1 ||:
+/sbin/chkconfig --del shorewall-lite >/dev/null 2>&1 || :
+/bin/systemctl try-restart shorewall-lite.service >/dev/null 2>&1 || :
+
 %post -n shorewall6
-if [ $1 = 1 ]; then
-   /sbin/chkconfig --add shorewall6
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
 %preun -n shorewall6
-if [ $1 = 0 ]; then
-   /sbin/service shorewall6 stop >/dev/null 2>&1
-   /sbin/chkconfig --del shorewall6
-   rm -f /var/lib/shorewall6/*
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable shorewall6.service > /dev/null 2>&1 || :
+    /bin/systemctl stop shorewall6.service > /dev/null 2>&1 || :
+    rm -f %{_localstatedir}/lib/shorewall6/*
 fi
 
-%post lite
-if [ $1 = 1 ]; then
-   /sbin/chkconfig --add shorewall-lite
+%postun -n shorewall6
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart shorewall6.service >/dev/null 2>&1 || :
 fi
 
-%preun lite
-if [ $1 = 0 ]; then
-   /sbin/service shorewall stop >/dev/null 2>&1
-   /sbin/chkconfig --del shorewall-lite
-   rm -f /var/lib/shorewall-lite/*
-fi
+%triggerun -- shorewall6 < 4.4.21.1-4
+/usr/bin/systemd-sysv-convert --save shorewall6 >/dev/null 2>&1 ||:
+#/bin/systemctl --no-reload enable shorewall6.service >/dev/null 2>&1 ||:
+/sbin/chkconfig --del shorewall6 >/dev/null 2>&1 || :
+/bin/systemctl try-restart shorewall6.service >/dev/null 2>&1 || :
 
 %post -n shorewall6-lite
-if [ $1 = 1 ]; then
-   /sbin/chkconfig --add shorewall6-lite
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
 %preun -n shorewall6-lite
-if [ $1 = 0 ]; then
-   /sbin/service shorewall6-lite stop >/dev/null 2>&1
-   /sbin/chkconfig --del shorewall6-lite
-   rm -f /var/lib/shorewall6-lite/*
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable shorewall6-lite.service > /dev/null 2>&1 || :
+    /bin/systemctl stop shorewall6-lite.service > /dev/null 2>&1 || :
+    rm -f %{_localstatedir}/lib/shorewall6-lite/*
 fi
 
-%post init
-if [ $1 = 1 ]; then
-   /sbin/chkconfig --add shorewall-init
+%postun -n shorewall6-lite
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart shorewall6-lite.service >/dev/null 2>&1 || :
 fi
 
-%preun init
-if [ $1 = 0 ]; then
-   /sbin/service shorewall-init stop >/dev/null 2>&1
-   /sbin/chkconfig --del shorewall-init
+%triggerun -- shorewall6-lite < 4.4.21.1-4
+/usr/bin/systemd-sysv-convert --save shorewall6-lite >/dev/null 2>&1 ||:
+#/bin/systemctl --no-reload enable shorewall6-lite.service >/dev/null 2>&1 ||:
+/sbin/chkconfig --del shorewall6-lite >/dev/null 2>&1 || :
+/bin/systemctl try-restart shorewall6-lite.service >/dev/null 2>&1 || :
+
+%post -n shorewall-init
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
+
+%preun -n shorewall-init
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable shorewall-init.service > /dev/null 2>&1 || :
+    /bin/systemctl stop shorewall-init.service > /dev/null 2>&1 || :
+    rm -f %{_localstatedir}/lib/shorewall-init/*
+fi
+
+%postun -n shorewall-init
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart shorewall-init.service >/dev/null 2>&1 || :
+fi
+
+%triggerun -- shorewall-init < 4.4.21.1-4
+/usr/bin/systemd-sysv-convert --save shorewall-init >/dev/null 2>&1 ||:
+#/bin/systemctl --no-reload enable shorewall-init.service >/dev/null 2>&1 ||:
+/sbin/chkconfig --del shorewall-init >/dev/null 2>&1 || :
+/bin/systemctl try-restart shorewall-init.service >/dev/null 2>&1 || :
+
 
 %files
 %defattr(0644,root,root,0755)
 %doc shorewall-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples}
 
-%attr(0755,root,root) %{_initrddir}/shorewall
 %attr(0755,root,root) /sbin/shorewall
 
 %dir %{_sysconfdir}/shorewall
@@ -233,13 +316,14 @@ fi
 %exclude %{_mandir}/man8/shorewall6*
 %exclude %{_mandir}/man8/shorewall-lite*
 
+%{_unitdir}/shorewall.service
+
 %dir %{_localstatedir}/lib/shorewall
 
 %files lite
 %defattr(0644,root,root,0755)
 %doc shorewall-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 
-%attr(0755,root,root) %{_initrddir}/shorewall-lite
 %attr(0755,root,root) /sbin/shorewall-lite
 
 %dir %{_sysconfdir}/shorewall-lite
@@ -253,13 +337,14 @@ fi
 %{_mandir}/man5/shorewall-lite*
 %{_mandir}/man8/shorewall-lite*
 
+%{_unitdir}/shorewall-lite.service
+
 %dir %{_localstatedir}/lib/shorewall-lite
 
 %files -n shorewall6
 %defattr(0644,root,root,0755)
 %doc shorewall6-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
 
-%attr(0755,root,root) %{_initrddir}/shorewall6
 %attr(0755,root,root) /sbin/shorewall6
 
 %dir %{_sysconfdir}/shorewall6
@@ -275,13 +360,14 @@ fi
 %{_libexecdir}/shorewall6
 %{_datadir}/shorewall6
 
+%{_unitdir}/shorewall6.service
+
 %dir %{_localstatedir}/lib/shorewall6
 
 %files -n shorewall6-lite
 %defattr(0644,root,root,0755)
 %doc shorewall6-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 
-%attr(0755,root,root) %{_initrddir}/shorewall6-lite
 %attr(0755,root,root) /sbin/shorewall6-lite
 
 %dir %{_sysconfdir}/shorewall6-lite
@@ -295,13 +381,13 @@ fi
 %{_datadir}/shorewall6-lite
 %{_libexecdir}/shorewall6-lite
 
+%{_unitdir}/shorewall6-lite.service
+
 %dir %{_localstatedir}/lib/shorewall6-lite
 
 %files init
 %defattr(0644,root,root,0755)
 %doc shorewall-init-%{version}/{COPYING,changelog.txt,releasenotes.txt}
-
-%attr(0755,root,root) %{_initrddir}/shorewall-init
 
 %attr(0755,root,root) %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
@@ -309,9 +395,15 @@ fi
 %{_mandir}/man8/shorewall-init.8.*
 
 %{_datadir}/shorewall-init
+
+%{_unitdir}/shorewall-init.service
+
 %{_libexecdir}/shorewall-init
 
 %changelog
+* Sat Jul 23 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-4
+- Switch to systemd initialization
+
 * Thu Jul 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-3
 - Properly use PERLLIB environment variable for installation of the perl libraries
 
