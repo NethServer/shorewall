@@ -1,12 +1,12 @@
-%global mainver 4.4.21
+%global mainver 4.4.22
 %global _baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
-Release:        5%{?dist}
+Version:        %{mainver}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -404,6 +404,9 @@ fi
 %{_libexecdir}/shorewall-init
 
 %changelog
+* Tue Aug  2 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.22-1
+- Update to 4.4.22
+
 * Sat Jul 23 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.21-5
 - Make libexec files executable
 
