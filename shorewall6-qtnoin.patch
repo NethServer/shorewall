@@ -1,0 +1,27 @@
+diff --git a/Shorewall6/lib.common b/Shorewall6/lib.common
+index 0b4022c..4aee7ff 100644
+--- a/Shorewall6/lib.common
++++ b/Shorewall6/lib.common
+@@ -186,12 +186,21 @@ qt()
+     "$@" >/dev/null 2>&1
+ }
+ 
++#
++# Suppress all output and input - mainly for preventing leaked file descriptors
++# to avoid SELinux denials
++#
++qtnoin()
++{
++    "$@" </dev/null >/dev/null 2>&1
++}
++
+ qt1()
+ {
+     local status
+ 
+     while [ 1 ]; do
+-	"$@" >/dev/null 2>&1
++	"$@" </dev/null >/dev/null 2>&1
+ 	status=$?
+ 	[ $status -ne 4 ] && return $status
+     done

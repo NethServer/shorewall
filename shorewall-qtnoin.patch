@@ -1,0 +1,99 @@
+diff --git a/Shorewall/Perl/Shorewall/Config.pm b/Shorewall/Perl/Shorewall/Config.pm
+index 9f2a6a5..9551aeb 100644
+--- a/Shorewall/Perl/Shorewall/Config.pm
++++ b/Shorewall/Perl/Shorewall/Config.pm
+@@ -2315,7 +2315,7 @@ sub qt( $ ) {
+ 	print "SYS----> @_\n";
+ 	system( "@_ 2>&1" );
+     } else {
+-	system( "@_ > /dev/null 2>&1" ) == 0;
++	system( "@_ > /dev/null 2>&1 < /dev/null" ) == 0;
+     }
+ }
+ 
+diff --git a/Shorewall/Perl/Shorewall/Misc.pm b/Shorewall/Perl/Shorewall/Misc.pm
+index 07f50a0..6d9bb76 100644
+--- a/Shorewall/Perl/Shorewall/Misc.pm
++++ b/Shorewall/Perl/Shorewall/Misc.pm
+@@ -1989,8 +1989,8 @@ EOF
+ 	emit <<'EOF';
+     if [ -f ${VARDIR}/proxyarp ]; then
+ 	while read address interface external haveroute; do
+-	    qt $IP -4 neigh del proxy $address dev $external
+-	    [ -z "${haveroute}${g_noroutes}" ] && qt $IP -4 route del $address/32 dev $interface
++	    qtnoin $IP -4 neigh del proxy $address dev $external
++	    [ -z "${haveroute}${g_noroutes}" ] && qtnoin $IP -4 route del $address/32 dev $interface
+ 	    f=/proc/sys/net/ipv4/conf/$interface/proxy_arp
+ 	    [ -f $f ] && echo 0 > $f
+ 	done < ${VARDIR}/proxyarp
+@@ -2003,8 +2003,8 @@ EOF
+ 	emit <<'EOF';
+     if [ -f ${VARDIR}/proxyndp ]; then
+ 	while read address interface external haveroute; do
+-	    qt $IP -6 neigh del proxy $address dev $external
+-	    [ -z "${haveroute}${g_noroutes}" ] && qt $IP -6 route del $address/128 dev $interface
++	    qtnoin $IP -6 neigh del proxy $address dev $external
++	    [ -z "${haveroute}${g_noroutes}" ] && qtnoin $IP -6 route del $address/128 dev $interface
+ 	    f=/proc/sys/net/ipv4/conf/$interface/proxy_ndp
+ 	    [ -f $f ] && echo 0 > $f
+ 	done < ${VARDIR}/proxyndp
+diff --git a/Shorewall/Perl/prog.header b/Shorewall/Perl/prog.header
+index ac6b643..e0ed9be 100644
+--- a/Shorewall/Perl/prog.header
++++ b/Shorewall/Perl/prog.header
+@@ -272,7 +272,7 @@ get_interface_bcasts() # $1 = interface
+ #
+ del_ip_addr() # $1 = address, $2 = interface
+ {
+-    [ $(find_first_interface_address_if_any $2) = $1 ] || qt $IP addr del $1 dev $2
++    [ $(find_first_interface_address_if_any $2) = $1 ] || qtnoin $IP addr del $1 dev $2
+ }
+ 
+ # Add IP Aliases
+@@ -624,8 +624,8 @@ conditionally_flush_conntrack() {
+ delete_proxyarp() {
+     if [ -f ${VARDIR}/proxyarp ]; then
+ 	while read address interface external haveroute; do
+-	    qt $IP -4 neigh del proxy $address dev $external
+-	    [ -z "${haveroute}${g_noroutes}" ] && qt $IP -4 route del $address/32 dev $interface
++	    qtnoin $IP -4 neigh del proxy $address dev $external
++	    [ -z "${haveroute}${g_noroutes}" ] && qtnoin $IP -4 route del $address/32 dev $interface
+ 	    f=/proc/sys/net/ipv4/conf/$interface/proxy_arp
+ 	    [ -f $f ] && echo 0 > $f
+ 	done < ${VARDIR}/proxyarp
+diff --git a/Shorewall/lib.common b/Shorewall/lib.common
+index 9f62c4b..50f034e 100644
+--- a/Shorewall/lib.common
++++ b/Shorewall/lib.common
+@@ -164,12 +164,21 @@ qt()
+     "$@" >/dev/null 2>&1
+ }
+ 
++#
++# Suppress all output and input - mainly for preventing leaked file descriptors
++# to avoid SELinux denials
++#
++qtnoin()
++{
++    "$@" </dev/null >/dev/null 2>&1
++}
++
+ qt1()
+ {
+     local status
+ 
+     while [ 1 ]; do
+-	"$@" >/dev/null 2>&1
++	"$@" </dev/null >/dev/null 2>&1
+ 	status=$?
+ 	[ $status -ne 4 ] && return $status
+     done
+@@ -179,7 +188,7 @@ qt1()
+ # Determine if Shorewall is "running"
+ #
+ shorewall_is_started() {
+-    qt $IPTABLES -L shorewall -n
++    qt1 $IPTABLES -L shorewall -n
+ }
+ 
+ #
