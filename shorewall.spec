@@ -5,7 +5,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}
+Version:        %{mainver}.2
 Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -25,12 +25,6 @@ Source11:       shorewall-lite.service
 Source12:       shorewall6.service
 Source13:       shorewall6-lite.service
 Source14:       shorewall-init.service
-
-# Upstream patch to fix handling zones that start with "all"
-Patch0:         shorewall-ALL.patch
-# Close stdin in shell loops to prevent SELinux denial messages (bug 727648)
-Patch1:         shorewall-qtnoin.patch
-Patch2:         shorewall6-qtnoin.patch
 
 BuildRequires:  perl
 BuildRequires: 	systemd-units
@@ -130,13 +124,6 @@ for 'event-driven' startup and shutdown.
 
 %prep
 %setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4
-pushd %{name}-%{version}
-%patch0 -p2
-%patch1 -p2
-popd
-pushd %{name}6-%{version}
-%patch2 -p2
-popd
 
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
@@ -414,6 +401,10 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Thu Aug 11 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.22.2-1
+- Update to 4.4.22.2
+- Drop patches applied upstream
+
 * Wed Aug  3 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.22-2
 - Add upstream ALL patch to fix handling zones that begin with 'all'
 - Add patch to close stdin to prevent some SELinux denial messages (bug 727648)
