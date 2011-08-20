@@ -5,8 +5,8 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.2
-Release:        2%{?dist}
+Version:        %{mainver}.3
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -401,6 +401,9 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Sat Aug 20 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.22.3-1
+- Update to 4.4.22.3
+
 * Thu Aug 11 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.22.2-1
 - Update to 4.4.22.2
 - Drop patches applied upstream
