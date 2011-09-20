@@ -1,4 +1,4 @@
-%global mainver 4.4.22
+%global mainver 4.4.23
 %global baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.3
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -137,12 +137,10 @@ export DEST=%{_initrddir}
 export LIBEXEC=%{_libexecdir}
 export PERLLIB=%{perl_privlib}
 
-targets="shorewall-%{version} shorewall-lite-%{version} \
-shorewall6-%{version} shorewall6-lite-%{version} \
-shorewall-init-%{version}"
+targets="shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
 
 for i in $targets; do
-    pushd $i
+    pushd ${i}-%{version}
     ./install.sh
     popd
 done
@@ -380,6 +378,10 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Tue Sep 20 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-1
+- Update to 4.4.23.3
+- Spec file cleanups
+
 * Sat Aug 20 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.22.3-2
 - Rename _baseurl macro to baseurl
 - Change the defattr to (-,root,root,-) and fix up file permissions
