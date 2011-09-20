@@ -19,13 +19,6 @@ Source2:        %{baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 
-# systemd service files
-Source10:       shorewall.service
-Source11:       shorewall-lite.service
-Source12:       shorewall6.service
-Source13:       shorewall6-lite.service
-Source14:       shorewall-init.service
-
 BuildRequires:  perl
 BuildRequires: 	systemd-units
 
@@ -145,10 +138,6 @@ for i in $targets; do
     popd
 done
 
-# Install systemd service files
-install -d $RPM_BUILD_ROOT%{_unitdir}
-install -m 644 %SOURCE10 %SOURCE11 %SOURCE12 %SOURCE13 %SOURCE14 $RPM_BUILD_ROOT%{_unitdir}
-
 # Remove sysv init files
 rm -rf $RPM_BUILD_ROOT%{_initrddir}
 
@@ -160,6 +149,7 @@ chmod 755 $RPM_BUILD_ROOT/sbin/shorewall6-lite
 chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 chmod 755 $RPM_BUILD_ROOT%{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
+chmod 644 $RPM_BUILD_ROOT%{_unitdir}/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -378,6 +368,9 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Tue Sep 20 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-2
+- systemd service files are now upstreamed, so use them from the tarballs
+
 * Tue Sep 20 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-1
 - Update to 4.4.23.3
 - Spec file cleanups
