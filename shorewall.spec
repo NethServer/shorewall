@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -132,8 +132,6 @@ export PERLLIB=%{perl_privlib}
 
 targets="shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
 
-# Ensuring this directory exists will trigger the install.sh scripts to
-# install the service files
 install -d $RPM_BUILD_ROOT%{_unitdir}
 
 for i in $targets; do
@@ -372,6 +370,9 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Wed Sep 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-5
+- Remove erroneous spec file comment
+
 * Wed Sep 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-4
 - Fix up service file installation, try 2
 
