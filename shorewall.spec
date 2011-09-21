@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -132,9 +132,14 @@ export PERLLIB=%{perl_privlib}
 
 targets="shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
 
+# Ensuring this directory exists will trigger the install.sh scripts to
+# install the service files
+install -d $RPM_BUILD_ROOT%{_unitdir}
+
 for i in $targets; do
     pushd ${i}-%{version}
     ./install.sh
+#    install -m 644 ${i}.service $RPM_BUILD_ROOT%{_unitdir}
     popd
 done
 
@@ -368,6 +373,9 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Wed Sep 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-3
+- Fix up service file installation
+
 * Tue Sep 20 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-2
 - systemd service files are now upstreamed, so use them from the tarballs
 
