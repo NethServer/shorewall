@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -139,7 +139,7 @@ install -d $RPM_BUILD_ROOT%{_unitdir}
 for i in $targets; do
     pushd ${i}-%{version}
     ./install.sh
-#    install -m 644 ${i}.service $RPM_BUILD_ROOT%{_unitdir}
+    install -m 644 ${i}.service $RPM_BUILD_ROOT%{_unitdir}
     popd
 done
 
@@ -154,7 +154,6 @@ chmod 755 $RPM_BUILD_ROOT/sbin/shorewall6-lite
 chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 chmod 755 $RPM_BUILD_ROOT%{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
-chmod 644 $RPM_BUILD_ROOT%{_unitdir}/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -373,6 +372,9 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Wed Sep 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-4
+- Fix up service file installation, try 2
+
 * Wed Sep 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-3
 - Fix up service file installation
 
