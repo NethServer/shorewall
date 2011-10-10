@@ -1,0 +1,11 @@
+diff -up shorewall6-lite-4.4.23.3/shorewall6-lite.service.orig shorewall6-lite-4.4.23.3/shorewall6-lite.service
+--- shorewall6-lite-4.4.23.3/shorewall6-lite.service.orig	2011-10-10 23:06:43.923654871 +0100
++++ shorewall6-lite-4.4.23.3/shorewall6-lite.service	2011-10-10 23:06:56.736247939 +0100
+@@ -14,7 +14,6 @@ RemainAfterExit=yes
+ EnvironmentFile=-/etc/sysconfig/shorewall6-lite
+ StandardOutput=syslog
+ ExecStart=/sbin/shorewall6-lite $OPTIONS start
+-ExecReload=/sbin/shorewall6-lite $OPTIONS restart
+ ExecStop=/sbin/shorewall6-lite $OPTIONS stop
+ 
+ [Install]

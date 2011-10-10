@@ -1,0 +1,11 @@
+diff -up shorewall-init-4.4.23.3/shorewall-init.service.orig shorewall-init-4.4.23.3/shorewall-init.service
+--- shorewall-init-4.4.23.3/shorewall-init.service.orig	2011-10-10 23:07:21.242469577 +0100
++++ shorewall-init-4.4.23.3/shorewall-init.service	2011-10-10 23:07:35.019031981 +0100
+@@ -14,7 +14,6 @@ RemainAfterExit=yes
+ EnvironmentFile=-/etc/sysconfig/shorewall-init
+ StandardOutput=syslog
+ ExecStart=/sbin/shorewall-init $OPTIONS start
+-ExecReload=/sbin/shorewall-init $OPTIONS restart
+ ExecStop=/sbin/shorewall-init $OPTIONS stop
+ 
+ [Install]

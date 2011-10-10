@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -18,6 +18,12 @@ Source1:        %{baseurl}/%{name}-lite-%{version}.tar.bz2
 Source2:        %{baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
+
+Patch0:		shorewall-4.4.23.3-service.patch
+Patch1:		shorewall-lite-4.4.23.3-service.patch
+Patch2:		shorewall6-4.4.23.3-service.patch
+Patch3:		shorewall6-lite-4.4.23.3-service.patch
+Patch4:		shorewall-init-4.4.23.3-service.patch
 
 BuildRequires:  perl
 BuildRequires: 	systemd-units
@@ -121,6 +127,12 @@ for 'event-driven' startup and shutdown.
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
+
+%patch0 -p0
+%patch1 -p0
+%patch2 -p0
+%patch3 -p0
+%patch4 -p0
 
 %build
 
@@ -370,6 +382,10 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Mon Oct 10 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-6
+- Remove ExecReload from all service files 
+- Add After=network.target to shorewall.service
+
 * Wed Sep 21 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-5
 - Remove erroneous spec file comment
 

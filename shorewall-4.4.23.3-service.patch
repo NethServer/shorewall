@@ -1,0 +1,19 @@
+diff -up shorewall-4.4.23.3/shorewall.service.orig shorewall-4.4.23.3/shorewall.service
+--- shorewall-4.4.23.3/shorewall.service.orig	2011-10-10 22:45:27.887663791 +0100
++++ shorewall-4.4.23.3/shorewall.service	2011-10-10 22:49:44.790920511 +0100
+@@ -6,6 +6,7 @@
+ [Unit]
+ Description=Shorewall IPv4 firewall
+ After=syslog.target
++After=network.target
+ 
+ [Service]
+ Type=oneshot
+@@ -13,7 +14,6 @@ RemainAfterExit=yes
+ EnvironmentFile=-/etc/sysconfig/shorewall
+ StandardOutput=syslog
+ ExecStart=/sbin/shorewall $OPTIONS start
+-ExecReload=/sbin/shorewall $OPTIONS restart
+ ExecStop=/sbin/shorewall $OPTIONS stop
+ 
+ [Install]
