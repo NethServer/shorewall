@@ -1,12 +1,12 @@
-%global mainver 4.4.23
+%global mainver 4.4.25
 %global baseurl http://www.shorewall.net/pub/shorewall/4.4/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.3
-Release:        6%{?dist}
+Version:        %{mainver}.2
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -18,12 +18,6 @@ Source1:        %{baseurl}/%{name}-lite-%{version}.tar.bz2
 Source2:        %{baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
-
-Patch0:		shorewall-4.4.23.3-service.patch
-Patch1:		shorewall-lite-4.4.23.3-service.patch
-Patch2:		shorewall6-4.4.23.3-service.patch
-Patch3:		shorewall6-lite-4.4.23.3-service.patch
-Patch4:		shorewall-init-4.4.23.3-service.patch
 
 BuildRequires:  perl
 BuildRequires: 	systemd-units
@@ -127,12 +121,6 @@ for 'event-driven' startup and shutdown.
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
-
-%patch0 -p0
-%patch1 -p0
-%patch2 -p0
-%patch3 -p0
-%patch4 -p0
 
 %build
 
@@ -382,6 +370,10 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Mon Nov 7 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.25.2-1
+- Update to 4.4.25.2
+- Drop service patches applied upstream
+
 * Mon Oct 10 2011 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.23.3-6
 - Remove ExecReload from all service files 
 - Add After=network.target to shorewall.service
