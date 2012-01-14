@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -370,6 +370,9 @@ fi
 %attr(0755,root,root) %{_libexecdir}/shorewall-init
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.4.25.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Mon Nov 7 2011 Orion Poplawski <orion@cora.nwra.com> - 4.4.25.2-1
 - Update to 4.4.25.2
 - Drop service patches applied upstream
