@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        0.1.RC2%{?dist}
+Release:        0.2.RC2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -139,6 +139,7 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 %install
 export PREFIX=$RPM_BUILD_ROOT
 export DEST=%{_initrddir}
+export LIBEXEC=%{_libexecdir}
 export PERLLIB=%{perl_privlib}
 
 targets="shorewall shorewall-core shorewall-lite shorewall6 shorewall6-lite shorewall-init"
@@ -312,10 +313,8 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
 %{_datadir}/shorewall/action.*
 %{_datadir}/shorewall/actions.std
-%{_datadir}/shorewall/compiler.pl
 %{_datadir}/shorewall/configfiles/
 %{_datadir}/shorewall/configpath
-%{_datadir}/shorewall/getparams
 %{_datadir}/shorewall/helpers
 %{_datadir}/shorewall/lib.cli-std
 %{_datadir}/shorewall/lib.core
@@ -323,6 +322,8 @@ fi
 %{_datadir}/shorewall/modules*
 %{_datadir}/shorewall/prog.*
 %{_datadir}/shorewall/version
+%{_libexecdir}/shorewall/compiler.pl
+%{_libexecdir}/shorewall/getparams
 %{perl_privlib}/Shorewall
 %{_mandir}/man5/shorewall*
 %exclude %{_mandir}/man5/shorewall6*
@@ -342,6 +343,7 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
 %{_sysconfdir}/shorewall-lite/Makefile
 %{_datadir}/shorewall-lite
+%{_libexecdir}/shorewall-lite
 %{_mandir}/man5/shorewall-lite*
 %{_mandir}/man8/shorewall-lite*
 %{_unitdir}/shorewall-lite.service
@@ -371,6 +373,7 @@ fi
 %{_mandir}/man5/shorewall6-lite*
 %{_mandir}/man8/shorewall6-lite*
 %{_datadir}/shorewall6-lite
+%{_libexecdir}/shorewall6-lite
 %{_unitdir}/shorewall6-lite.service
 %dir %{_localstatedir}/lib/shorewall6-lite
 
@@ -382,8 +385,8 @@ fi
 %{_datadir}/shorewall/lib.base
 %{_datadir}/shorewall/lib.cli
 %{_datadir}/shorewall/lib.common
-%{_datadir}/shorewall/wait4ifup
-
+%dir %{_libexecdir}/shorewall
+%{_libexecdir}/shorewall/wait4ifup
 
 %files init
 %doc shorewall-init-%{version}-RC2/{COPYING,changelog.txt,releasenotes.txt}
@@ -391,9 +394,13 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
 %{_mandir}/man8/shorewall-init.8.*
 %{_datadir}/shorewall-init
+%{_libexecdir}/shorewall-init
 %{_unitdir}/shorewall-init.service
 
 %changelog
+* Thu Feb 9 2012 Orion Poplawski <orion@cora.nwra.com> - 4.5.0-0.2.RC2
+- Re-add using %%{_libexecdir}, needed for SELinux
+
 * Mon Feb 6 2012 Orion Poplawski <orion@cora.nwra.com> - 4.5.0-0.1.RC2
 - Update to 4.5.0 RC2
 - Add -core sub-package
