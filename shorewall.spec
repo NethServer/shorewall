@@ -1,4 +1,4 @@
-%global mainver 4.5.0
+%global mainver 4.5.1
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-4.5.0/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
 
@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
+Version:        %{mainver}
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -398,6 +398,9 @@ fi
 %{_unitdir}/shorewall-init.service
 
 %changelog
+* Sun Mar 18 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.1-1
+- Update to 4.5.1
+
 * Wed Feb 22 2012 Orion Poplawski <orion@cora.nwra.com> - 4.5.0.1-1
 - Update to 4.5.0.1
 
