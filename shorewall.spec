@@ -20,8 +20,10 @@ Source2:        %{baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
+Patch0:         shorewall-install.patch
 
 BuildRequires:  perl
+BuildRequires:  perl(Digest::SHA1)
 BuildRequires:  systemd-units
 
 BuildArch:      noarch
@@ -129,6 +131,12 @@ for 'event-driven' startup and shutdown.
 
 %prep
 %setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4 -a5
+targets="shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
+for i in $targets; do
+    pushd ${i}-%{version}
+%patch0 -p0 -b .install
+    popd
+done
 
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
@@ -142,13 +150,13 @@ export DEST=%{_initrddir}
 export LIBEXEC=%{_libexecdir}
 export PERLLIB=%{perl_privlib}
 
-targets="shorewall shorewall-core shorewall-lite shorewall6 shorewall6-lite shorewall-init"
+targets="shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
 
 install -d $RPM_BUILD_ROOT%{_unitdir}
 
 for i in $targets; do
     pushd ${i}-%{version}
-    ./install.sh
+    DESTDIR=$RPM_BUILD_ROOT ./install.sh shorewallrc.redhat
     [ $i != shorewall-core ] && install -m 644 ${i}.service $RPM_BUILD_ROOT%{_unitdir}
     popd
 done
@@ -308,6 +316,7 @@ fi
 %files
 %doc shorewall-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples}
 /sbin/shorewall
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
@@ -338,6 +347,7 @@ fi
 %files lite
 %doc shorewall-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 /sbin/shorewall-lite
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall-lite
 %dir %{_sysconfdir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
@@ -352,6 +362,7 @@ fi
 %files -n shorewall6
 %doc shorewall6-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
 /sbin/shorewall6
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall6
 %dir %{_sysconfdir}/shorewall6
 %config(noreplace) %{_sysconfdir}/shorewall6/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6
@@ -366,6 +377,7 @@ fi
 %files -n shorewall6-lite
 %doc shorewall6-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 /sbin/shorewall6-lite
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall6-lite
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6-lite
@@ -385,11 +397,13 @@ fi
 %{_datadir}/shorewall/lib.base
 %{_datadir}/shorewall/lib.cli
 %{_datadir}/shorewall/lib.common
+%{_datadir}/shorewall/shorewallrc
 %dir %{_libexecdir}/shorewall
 %{_libexecdir}/shorewall/wait4ifup
 
 %files init
 %doc shorewall-init-%{version}/{COPYING,changelog.txt,releasenotes.txt}
+/sbin/shorewall-init
 %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
 %{_mandir}/man8/shorewall-init.8.*
@@ -400,6 +414,10 @@ fi
 %changelog
 * Wed Apr 11 2012 Orion Poplawski <orion@cora.nwra.com> - 4.5.2-1
 - Update to 4.5.2
+- Add patch to fixup install locations
+- Add BR perl(Digest::SHA1)
+- Change install ordering to install shorewall-core first
+- Set DESTDIR for install script
 
 * Sun Mar 18 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.1-1
 - Update to 4.5.1
