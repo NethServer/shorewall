@@ -156,7 +156,8 @@ install -d $RPM_BUILD_ROOT%{_unitdir}
 
 for i in $targets; do
     pushd ${i}-%{version}
-    DESTDIR=$RPM_BUILD_ROOT ./install.sh shorewallrc.redhat
+    ./configure vendor=redhat SYSTEMD=%{_unitdir} SBINDIR=%{_sbindir}
+    DESTDIR=$RPM_BUILD_ROOT ./install.sh
     [ $i != shorewall-core ] && install -m 644 ${i}.service $RPM_BUILD_ROOT%{_unitdir}
     popd
 done
@@ -167,8 +168,8 @@ rm -rf $RPM_BUILD_ROOT%{_initrddir}
 # Fix up file permissions
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/shorewall-lite/{helpers,modules}
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/shorewall6-lite/{helpers,modules}
-chmod 755 $RPM_BUILD_ROOT/sbin/shorewall-lite
-chmod 755 $RPM_BUILD_ROOT/sbin/shorewall6-lite
+chmod 755 $RPM_BUILD_ROOT%{_sbindir}/shorewall-lite
+chmod 755 $RPM_BUILD_ROOT%{_sbindir}/shorewall6-lite
 chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 chmod 644 $RPM_BUILD_ROOT%{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 chmod 755 $RPM_BUILD_ROOT%{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
@@ -315,7 +316,7 @@ fi
 
 %files
 %doc shorewall-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples}
-/sbin/shorewall
+%{_sbindir}/shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
@@ -346,7 +347,7 @@ fi
 
 %files lite
 %doc shorewall-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
-/sbin/shorewall-lite
+%{_sbindir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-lite
 %dir %{_sysconfdir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
@@ -361,7 +362,7 @@ fi
 
 %files -n shorewall6
 %doc shorewall6-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
-/sbin/shorewall6
+%{_sbindir}/shorewall6
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall6
 %dir %{_sysconfdir}/shorewall6
 %config(noreplace) %{_sysconfdir}/shorewall6/*
@@ -376,7 +377,7 @@ fi
 
 %files -n shorewall6-lite
 %doc shorewall6-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
-/sbin/shorewall6-lite
+%{_sbindir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall6-lite
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
@@ -403,7 +404,7 @@ fi
 
 %files init
 %doc shorewall-init-%{version}/{COPYING,changelog.txt,releasenotes.txt}
-/sbin/shorewall-init
+%{_sbindir}/shorewall-init
 %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
 %{_mandir}/man8/shorewall-init.8.*
@@ -418,6 +419,7 @@ fi
 - Add BR perl(Digest::SHA1)
 - Change install ordering to install shorewall-core first
 - Set DESTDIR for install script
+- Set SBINDIR and SYSTEMD to handle UsrMove
 
 * Sun Mar 18 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.1-1
 - Update to 4.5.1
