@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}
+Version:        %{mainver}.4
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -20,10 +20,9 @@ Source2:        %{baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
-Patch0:         shorewall-install.patch
 
 BuildRequires:  perl
-BuildRequires:  perl(Digest::SHA1)
+BuildRequires:  perl(Digest::SHA)
 BuildRequires:  systemd-units
 
 BuildArch:      noarch
@@ -131,13 +130,6 @@ for 'event-driven' startup and shutdown.
 
 %prep
 %setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4 -a5
-targets="shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
-for i in $targets; do
-    pushd ${i}-%{version}
-%patch0 -p0 -b .install
-    popd
-done
-
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
@@ -145,14 +137,7 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 %build
 
 %install
-export PREFIX=$RPM_BUILD_ROOT
-export DEST=%{_initrddir}
-export LIBEXEC=%{_libexecdir}
-export PERLLIB=%{perl_privlib}
-
 targets="shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
-
-install -d $RPM_BUILD_ROOT%{_unitdir}
 
 for i in $targets; do
     pushd ${i}-%{version}
@@ -334,7 +319,7 @@ fi
 %{_datadir}/shorewall/version
 %{_libexecdir}/shorewall/compiler.pl
 %{_libexecdir}/shorewall/getparams
-%{perl_privlib}/Shorewall
+%{perl_vendorlib}/Shorewall
 %{_mandir}/man5/shorewall*
 %exclude %{_mandir}/man5/shorewall6*
 %exclude %{_mandir}/man5/shorewall-lite*
@@ -413,6 +398,13 @@ fi
 %{_unitdir}/shorewall-init.service
 
 %changelog
+* Wed May 2 2012 Orion Poplawski <orion@cora.nwra.com> - 4.5.2.4-1
+- Update to 4.5.2.4
+- Use BR perl(Digest::SHA)
+- Drop install patch fixed upstream
+- Drop setting unneeded install variables
+- Use %%{perl_vendorlib}
+
 * Wed Apr 11 2012 Orion Poplawski <orion@cora.nwra.com> - 4.5.2-1
 - Update to 4.5.2
 - Add patch to fixup install locations
