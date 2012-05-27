@@ -1,4 +1,4 @@
-%global mainver 4.5.3
+%global mainver 4.5.4
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-4.5.0/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
 
@@ -398,6 +398,9 @@ fi
 %{_unitdir}/shorewall-init.service
 
 %changelog
+* Sun May 27 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.4-1
+- Update to 4.5.4
+
 * Fri May 11 2012 Orion Poplawski <orion@cora.nwra.com> - 4.5.3-1
 - Update to 4.5.3
 
