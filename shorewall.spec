@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -113,7 +113,7 @@ Summary:        Initialization functionality and NetworkManager integration for 
 Requires:         shorewall(firewall) = %{version}-%{release}
 Requires:         NetworkManager
 Requires:         shorewall = %{version}-%{release}
-Requires:         iptables-ipv6 iproute
+Requires:         iptables-ipv6 iproute logrotate
 Requires(post):   /sbin/chkconfig
 Requires(post):   systemd-units
 Requires(post):   systemd-sysv
@@ -392,12 +392,17 @@ fi
 %{_sbindir}/shorewall-init
 %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
+%{_sysconfdir}/logrotate.d/shorewall-init
 %{_mandir}/man8/shorewall-init.8.*
 %{_datadir}/shorewall-init
 %{_libexecdir}/shorewall-init
 %{_unitdir}/shorewall-init.service
 
 %changelog
+* Tue Sep  4 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.7.1-2
+- Add logrotate Requires to shorewall-init
+- Ensure /etc/logrotate.d/shorewall-init is owned by shorewall-init package
+
 * Tue Sep  4 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.7.1-1
 - Update to 4.5.7.1
 
