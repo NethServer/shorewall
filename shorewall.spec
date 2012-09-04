@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -163,140 +163,53 @@ chmod 755 $RPM_BUILD_ROOT%{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 rm -rf $RPM_BUILD_ROOT
 
 %post
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post shorewall.service
 
 %preun
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable shorewall.service > /dev/null 2>&1 || :
-    /bin/systemctl stop shorewall.service > /dev/null 2>&1 || :
-    rm -f %{_localstatedir}/lib/shorewall/*
-fi
+%systemd_preun shorewall.service
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart shorewall.service >/dev/null 2>&1 || :
-fi
-
-%triggerun -- shorewall < 4.4.21.1-4
-/usr/bin/systemd-sysv-convert --save shorewall >/dev/null 2>&1 ||:
-#/bin/systemctl --no-reload enable shorewall.service >/dev/null 2>&1 ||:
-/sbin/chkconfig --del shorewall >/dev/null 2>&1 || :
-/bin/systemctl try-restart shorewall.service >/dev/null 2>&1 || :
+%systemd_postun_with_restart shorewall.service 
 
 
 %post -n shorewall-lite
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post shorewall-lite.service
 
 %preun -n shorewall-lite
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable shorewall-lite.service > /dev/null 2>&1 || :
-    /bin/systemctl stop shorewall-lite.service > /dev/null 2>&1 || :
-    rm -f %{_localstatedir}/lib/shorewall-lite/*
-fi
+%systemd_preun shorewall-lite.service
 
 %postun -n shorewall-lite
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart shorewall-lite.service >/dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart shorewall-lite.service 
 
-%triggerun -- shorewall-lite < 4.4.21.1-4
-/usr/bin/systemd-sysv-convert --save shorewall-lite >/dev/null 2>&1 ||:
-#/bin/systemctl --no-reload enable shorewall-lite.service >/dev/null 2>&1 ||:
-/sbin/chkconfig --del shorewall-lite >/dev/null 2>&1 || :
-/bin/systemctl try-restart shorewall-lite.service >/dev/null 2>&1 || :
 
 %post -n shorewall6
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post shorewall6.service
 
 %preun -n shorewall6
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable shorewall6.service > /dev/null 2>&1 || :
-    /bin/systemctl stop shorewall6.service > /dev/null 2>&1 || :
-    rm -f %{_localstatedir}/lib/shorewall6/*
-fi
+%systemd_preun shorewall6.service
 
 %postun -n shorewall6
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart shorewall6.service >/dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart shorewall6.service 
 
-%triggerun -- shorewall6 < 4.4.21.1-4
-/usr/bin/systemd-sysv-convert --save shorewall6 >/dev/null 2>&1 ||:
-#/bin/systemctl --no-reload enable shorewall6.service >/dev/null 2>&1 ||:
-/sbin/chkconfig --del shorewall6 >/dev/null 2>&1 || :
-/bin/systemctl try-restart shorewall6.service >/dev/null 2>&1 || :
 
 %post -n shorewall6-lite
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post shorewall6-lite.service
 
 %preun -n shorewall6-lite
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable shorewall6-lite.service > /dev/null 2>&1 || :
-    /bin/systemctl stop shorewall6-lite.service > /dev/null 2>&1 || :
-    rm -f %{_localstatedir}/lib/shorewall6-lite/*
-fi
+%systemd_preun shorewall6-lite.service
 
 %postun -n shorewall6-lite
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart shorewall6-lite.service >/dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart shorewall6-lite.service 
 
-%triggerun -- shorewall6-lite < 4.4.21.1-4
-/usr/bin/systemd-sysv-convert --save shorewall6-lite >/dev/null 2>&1 ||:
-#/bin/systemctl --no-reload enable shorewall6-lite.service >/dev/null 2>&1 ||:
-/sbin/chkconfig --del shorewall6-lite >/dev/null 2>&1 || :
-/bin/systemctl try-restart shorewall6-lite.service >/dev/null 2>&1 || :
 
 %post -n shorewall-init
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post shorewall-init.service
 
 %preun -n shorewall-init
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable shorewall-init.service > /dev/null 2>&1 || :
-    /bin/systemctl stop shorewall-init.service > /dev/null 2>&1 || :
-    rm -f %{_localstatedir}/lib/shorewall-init/*
-fi
+%systemd_preun shorewall-init.service
 
 %postun -n shorewall-init
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart shorewall-init.service >/dev/null 2>&1 || :
-fi
-
-%triggerun -- shorewall-init < 4.4.21.1-4
-/usr/bin/systemd-sysv-convert --save shorewall-init >/dev/null 2>&1 ||:
-#/bin/systemctl --no-reload enable shorewall-init.service >/dev/null 2>&1 ||:
-/sbin/chkconfig --del shorewall-init >/dev/null 2>&1 || :
-/bin/systemctl try-restart shorewall-init.service >/dev/null 2>&1 || :
+%systemd_postun_with_restart shorewall-init.service 
 
 
 %files
@@ -398,7 +311,12 @@ fi
 %{_libexecdir}/shorewall-init
 %{_unitdir}/shorewall-init.service
 
+
 %changelog
+* Tue Sep  4 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.7.1-3
+- Use new systemd macros instead of scriplets in post/postun/preun
+- Remove triggerun scriptlets for sysv to systemd conversion
+
 * Tue Sep  4 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.7.1-2
 - Add logrotate Requires to shorewall-init
 - Ensure /etc/logrotate.d/shorewall-init is owned by shorewall-init package
