@@ -1,4 +1,4 @@
-%global mainver 4.5.4
+%global mainver 4.5.7.1
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-4.5.0/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
 
@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -398,6 +398,9 @@ fi
 %{_unitdir}/shorewall-init.service
 
 %changelog
+* Tue Sep  4 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.7.1-1
+- Update to 4.5.7.1
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.5.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
