@@ -1,4 +1,4 @@
-%global mainver 4.5.7.1
+%global mainver 4.5.12
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-4.5.0/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
 
@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -313,6 +313,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 25 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.12-1
+- Update to 4.5.12
+
 * Tue Sep  4 2012 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.5.7.1-3
 - Use new systemd macros instead of scriplets in post/postun/preun
 - Remove triggerun scriptlets for sysv to systemd conversion
