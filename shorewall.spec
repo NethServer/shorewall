@@ -1,4 +1,4 @@
-%global mainver 4.5.16
+%global mainver 4.5.17
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-4.5.0/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
 
@@ -313,6 +313,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jun 11 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.17.1-1
+- Update to 4.5.17.1
+
 * Tue May 14 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.16.1-1
 - Update to 4.5.16.1
 
