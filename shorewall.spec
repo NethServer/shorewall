@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -313,6 +313,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 4.5.17.1-2
+- Perl 5.18 rebuild
+
 * Tue Jun 11 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.17.1-1
 - Update to 4.5.17.1
 
