@@ -1,4 +1,4 @@
-%global mainver 4.5.17
+%global mainver 4.5.18
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-4.5.0/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
 
@@ -6,8 +6,8 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
-Release:        2%{?dist}
+Version:        %{mainver}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -313,6 +313,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 23 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.18-1
+- Update to 4.5.18
+
 * Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 4.5.17.1-2
 - Perl 5.18 rebuild
 
