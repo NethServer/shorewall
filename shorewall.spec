@@ -331,7 +331,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Apr 10 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.15-1
 - Update to 4.5.15
 
-* Wed Mar 12 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.14-1
+* Wed Mar 13 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.14-1
 - Update to 4.5.14
 
 * Wed Feb 13 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.13-1
@@ -507,7 +507,7 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Dec 10 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.4.2-1
 - Update to 4.4.4.2
 
-* Thu Nov  6 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.3-1
+* Fri Nov  6 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.3-1
 - Update to 4.4.3
 
 * Thu Sep  3 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.1-1
@@ -525,13 +525,13 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Jul  7 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.4.0-0.1.Beta3
 - Update to 4.4.0-Beta3
 
-* Fri Jun 13 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-3
+* Fri Jun 12 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-3
 - Fix filelist for shorewall6 to include macro.Trcrt
 
-* Fri Jun 13 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-2
+* Fri Jun 12 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-2
 - Remove rfc1918 entries from filelists as no longer included
 
-* Thu Jun 12 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-1
+* Thu Jun 11 2009 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 4.3.12-1
 - Update to version 4.3.12
 - Change init files to start as number 28 (previously 25) to ensure starting
   after NetworkManager (BZ 505444)
@@ -779,10 +779,10 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Oct 23 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.3.RC2
 - Update to upstream 3.0.0-RC2
 
-* Thu Oct 17 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.2.RC1
+* Mon Oct 17 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.2.RC1
 - Update to upstream 3.0.0-RC1
 
-* Thu Oct 14 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.1.Beta1
+* Fri Oct 14 2005 Robert Marcano <robert@marcanoonline.com> - 3.0.0-0.1.Beta1
 - Update to upstream 3.0.0-Beta1, package README.txt as a documentation file
 
 * Sat Oct 08 2005 Robert Marcano <robert@marcanoonline.com> - 2.4.5-1
@@ -795,7 +795,7 @@ rm -rf $RPM_BUILD_ROOT
 - Update to 2.4.4, removing doc subpackage because it is not distributed
   with the source package anymore, it is on a different tarball
 
-* Fri Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
+* Fri Apr  8 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
 - rebuilt
 
 * Tue Nov 11 2003 Miguel Armas <kuko@maarmas.com> - 1.4.8-1.fdr.2
