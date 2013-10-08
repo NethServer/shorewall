@@ -1,5 +1,5 @@
-%global mainver 4.5.18
-#global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-4.5.0/
+%global mainver 4.5.21
+#global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-%{mainver}/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -215,7 +215,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %doc shorewall-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples}
 %{_sbindir}/shorewall
-%config(noreplace) %{_sysconfdir}/sysconfig/shorewall
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
@@ -246,7 +245,6 @@ rm -rf $RPM_BUILD_ROOT
 %files lite
 %doc shorewall-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 %{_sbindir}/shorewall-lite
-%config(noreplace) %{_sysconfdir}/sysconfig/shorewall-lite
 %dir %{_sysconfdir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
@@ -261,7 +259,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n shorewall6
 %doc shorewall6-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
 %{_sbindir}/shorewall6
-%config(noreplace) %{_sysconfdir}/sysconfig/shorewall6
 %dir %{_sysconfdir}/shorewall6
 %config(noreplace) %{_sysconfdir}/shorewall6/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6
@@ -276,7 +273,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n shorewall6-lite
 %doc shorewall6-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
 %{_sbindir}/shorewall6-lite
-%config(noreplace) %{_sysconfdir}/sysconfig/shorewall6-lite
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6-lite
@@ -313,6 +309,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 7 2013 Orion Poplawski <orion@cora.nwra.com> - 4.5.21-1
+- Update to 4.5.21
+
 * Sat Aug 03 2013 Petr Pisar <ppisar@redhat.com> - 4.5.18-2
 - Perl 5.18 rebuild
 
