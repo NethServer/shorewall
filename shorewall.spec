@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.8
+Version:        %{mainver}.9
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -309,6 +309,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Apr 3 2014 Orion Poplawski <orion@cora.nwra.com> - 4.5.21.9-1
+- Update to 4.5.21.9
+
 * Thu Mar 20 2014 Orion Poplawski <orion@cora.nwra.com> - 4.5.21.8-1
 - Update to 4.5.21.8
 
