@@ -1,12 +1,12 @@
-%global mainver 4.5.21
-#global baseurl http://www.shorewall.net/pub/shorewall/development/4.5/shorewall-%{mainver}/
-%global baseurl http://www.shorewall.net/pub/shorewall/4.5/shorewall-%{mainver}/
+%global mainver 4.6.0
+#global baseurl http://www.shorewall.net/pub/shorewall/development/4.6/shorewall-%{mainver}/
+%global baseurl http://www.shorewall.net/pub/shorewall/4.6/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.9
+Version:        %{mainver}
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -309,6 +309,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 19 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0-1
+- Update to 4.6.0
+
 * Thu Apr 3 2014 Orion Poplawski <orion@cora.nwra.com> - 4.5.21.9-1
 - Update to 4.5.21.9
 
