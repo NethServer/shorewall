@@ -1,0 +1,12 @@
+diff -up shorewall-4.6.0/shorewall-init-4.6.0/install.sh.rhel7 shorewall-4.6.0/shorewall-init-4.6.0/install.sh
+--- shorewall-4.6.0/shorewall-init-4.6.0/install.sh.rhel7	2014-05-15 09:22:18.000000000 -0600
++++ shorewall-4.6.0/shorewall-init-4.6.0/install.sh	2014-05-19 14:26:31.925410706 -0600
+@@ -191,7 +191,7 @@ if [ -z "$BUILD" ]; then
+ 		eval $(cat /etc/os-release | grep ^ID=)
+ 
+ 		case $ID in
+-		    fedora)
++		    fedora|rhel)
+ 			BUILD=redhat
+ 			;;
+ 		    debian|ubuntu)

@@ -21,6 +21,8 @@ Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
 
+Patch0:         shorewall-epel7.patch
+
 BuildRequires:  perl
 BuildRequires:  perl(Digest::SHA)
 BuildRequires:  systemd-units
@@ -130,6 +132,7 @@ for 'event-driven' startup and shutdown.
 
 %prep
 %setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4 -a5
+%patch0 -p1 -b .epel7
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
@@ -311,6 +314,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon May 19 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0-1
 - Update to 4.6.0
+- Add patch for epel7 support
 
 * Thu Apr 3 2014 Orion Poplawski <orion@cora.nwra.com> - 4.5.21.9-1
 - Update to 4.5.21.9
