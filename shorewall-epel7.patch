@@ -10,3 +10,68 @@ diff -up shorewall-4.6.0/shorewall-init-4.6.0/install.sh.rhel7 shorewall-4.6.0/s
  			BUILD=redhat
  			;;
  		    debian|ubuntu)
+diff --git a/shorewall-core-4.6.0/configure b/shorewall-core-4.6.0/configure
+index c722022..0467904 100755
+--- a/shorewall-core-4.6.0/configure
++++ b/shorewall-core-4.6.0/configure
+@@ -98,7 +98,7 @@ if [ -z "$vendor" ]; then
+ 	eval $(cat /etc/os-release | grep ^ID=)
+ 
+ 	case $ID in
+-	    fedora)
++	    fedora|rhel)
+ 		vendor=redhat
+ 		;;
+ 	    debian|ubuntu)
+diff --git a/shorewall-core-4.6.0/configure.pl b/shorewall-core-4.6.0/configure.pl
+index f7f466a..c8dbd42 100755
+--- a/shorewall-core-4.6.0/configure.pl
++++ b/shorewall-core-4.6.0/configure.pl
+@@ -64,7 +64,7 @@ unless ( defined $vendor ) {
+ 
+ 	$id =~ s/ID=//;
+ 	
+-	if ( $id eq 'fedora' ) {
++	if ( $id eq 'fedora' || $id eq 'rhel' ) {
+ 	    $vendor = 'redhat';
+ 	} elsif ( $id eq 'opensuse' ) {
+ 	    $vendor = 'suse';
+diff --git a/shorewall-core-4.6.0/install.sh b/shorewall-core-4.6.0/install.sh
+index 471f30c..3b7f673 100755
+--- a/shorewall-core-4.6.0/install.sh
++++ b/shorewall-core-4.6.0/install.sh
+@@ -198,7 +198,7 @@ if [ -z "$BUILD" ]; then
+ 		eval $(cat /etc/os-release | grep ^ID)
+ 
+ 		case $ID in
+-		    fedora)
++		    fedora|rhel)
+ 			BUILD=redhat
+ 			;;
+ 		    debian)
+diff --git a/shorewall-lite-4.6.0/install.sh b/shorewall-lite-4.6.0/install.sh
+index 6ef2308..ebb6106 100755
+--- a/shorewall-lite-4.6.0/install.sh
++++ b/shorewall-lite-4.6.0/install.sh
+@@ -206,7 +206,7 @@ if [ -z "$BUILD" ]; then
+ 		eval $(cat /etc/os-release | grep ^ID)
+ 
+ 		case $ID in
+-		    fedora)
++		    fedora|rhel)
+ 			BUILD=redhat
+ 			;;
+ 		    debian)
+diff --git a/shorewall-4.6.0/install.sh b/shorewall-4.6.0/install.sh
+index dca4667..205fcef 100755
+--- a/shorewall-4.6.0/install.sh
++++ b/shorewall-4.6.0/install.sh
+@@ -216,7 +216,7 @@ if [ -z "$BUILD" ]; then
+ 		eval $(cat /etc/os-release | grep ^ID)
+ 
+ 		case $ID in
+-		    fedora)
++		    fedora|rhel)
+ 			BUILD=redhat
+ 			;;
+ 		    debian)

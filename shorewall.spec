@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -312,6 +312,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed May 21 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0-2
+- Update epel7 patch from upstream
+
 * Mon May 19 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0-1
 - Update to 4.6.0
 - Add patch for epel7 support
