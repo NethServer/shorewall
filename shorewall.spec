@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
+Version:        %{mainver}.2
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -20,8 +20,6 @@ Source2:        %{baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
-
-Patch0:         shorewall-epel7.patch
 
 BuildRequires:  perl
 BuildRequires:  perl(Digest::SHA)
@@ -132,7 +130,6 @@ for 'event-driven' startup and shutdown.
 
 %prep
 %setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4 -a5
-%patch0 -p1 -b .epel7
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
@@ -309,6 +306,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri May 23 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0.2-1
+- Update to 4.6.0.2
+- Drop epel7 patch applied upstream
+
 * Fri May 23 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0.1-1
 - Update to 4.6.0.1
 
