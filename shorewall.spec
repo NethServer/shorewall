@@ -6,8 +6,8 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}
-Release:        2%{?dist}
+Version:        %{mainver}.1
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -144,14 +144,11 @@ targets="shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shor
 
 for i in $targets; do
     pushd ${i}-%{version}
-    ./configure vendor=redhat SYSTEMD=%{_unitdir} SBINDIR=%{_sbindir}
+    ./configure vendor=redhat INITFILE= SYSTEMD=%{_unitdir} SBINDIR=%{_sbindir}
     DESTDIR=$RPM_BUILD_ROOT ./install.sh
     [ $i != shorewall-core ] && install -m 644 ${i}.service $RPM_BUILD_ROOT%{_unitdir}
     popd
 done
-
-# Remove sysv init files
-rm -rf $RPM_BUILD_ROOT%{_initrddir}
 
 # Fix up file permissions
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/shorewall-lite/{helpers,modules}
@@ -312,6 +309,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri May 23 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0.1-1
+- Update to 4.6.0.1
+
 * Wed May 21 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0-2
 - Update epel7 patch from upstream
 
