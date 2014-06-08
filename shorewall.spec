@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -306,6 +306,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.6.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri May 23 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.0.2-1
 - Update to 4.6.0.2
 - Drop epel7 patch applied upstream
