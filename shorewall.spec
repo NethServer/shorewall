@@ -1,4 +1,4 @@
-%global mainver 4.6.4
+%global mainver 4.6.5
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.6/shorewall-%{mainver}/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.6/shorewall-%{mainver}/
 
@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.3
+Version:        %{mainver}.1
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -137,13 +137,10 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 %build
 
 %install
-targets="shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init"
-
-for i in $targets; do
+for i in shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init; do
     pushd ${i}-%{version}
-    ./configure vendor=redhat INITFILE= SYSTEMD=%{_unitdir} SBINDIR=%{_sbindir}
+    ./configure vendor=redhat INITFILE= SERVICEDIR=%{_unitdir} SBINDIR=%{_sbindir}
     DESTDIR=$RPM_BUILD_ROOT ./install.sh
-    [ $i != shorewall-core ] && install -m 644 ${i}.service $RPM_BUILD_ROOT%{_unitdir}
     popd
 done
 
@@ -306,6 +303,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 15 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.5.1-1
+- Update to 4.6.5.1
+
 * Mon Oct 20 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.4.3-1
 - Update to 4.6.4.3
 
