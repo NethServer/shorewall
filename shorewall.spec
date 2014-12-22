@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
+Version:        %{mainver}.3
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -139,7 +139,14 @@ find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
 %install
 for i in shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init; do
     pushd ${i}-%{version}
-    ./configure vendor=redhat INITFILE= SERVICEDIR=%{_unitdir} SBINDIR=%{_sbindir}
+# shorewall-init.service.214 uses network-pre, only available in systemd >= 214
+# others use network-online, which is available earlier
+%if 0%{?fedora} >= 21
+    SERVICEFILE=${i}.service.214
+%else
+    [ ${i} != shorewall-init ] && SERVICEFILE=${i}.service.214 || SERVICEFILE=${i}.service
+%endif
+    ./configure vendor=redhat INITFILE= SERVICEDIR=%{_unitdir} SERVICEFILE=$SERVICEFILE SBINDIR=%{_sbindir}
     DESTDIR=$RPM_BUILD_ROOT ./install.sh
     popd
 done
@@ -303,6 +310,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Dec 21 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.5.3-1
+- Update to 4.6.5.3
+- Use newer systemd service files when needed (bug #1176448)
+
 * Sat Nov 15 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.5.1-1
 - Update to 4.6.5.1
 
