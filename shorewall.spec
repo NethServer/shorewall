@@ -1,4 +1,4 @@
-%global mainver 4.6.5
+%global mainver 4.6.6
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.6/shorewall-%{mainver}/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.6/shorewall-%{mainver}/
 
@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.3
+Version:        %{mainver}.1
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -310,6 +310,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 27 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.1-1
+- Update to 4.6.6.1
+
 * Sun Dec 21 2014 Orion Poplawski <orion@cora.nwra.com> - 4.6.5.3-1
 - Update to 4.6.5.3
 - Use newer systemd service files when needed (bug #1176448)
