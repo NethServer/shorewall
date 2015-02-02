@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -23,17 +23,16 @@ Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
 
 BuildRequires:  perl
 BuildRequires:  perl(Digest::SHA)
-BuildRequires:  systemd-units
+BuildRequires:  systemd
 
 BuildArch:      noarch
 
 Requires:         shorewall-core = %{version}-%{release}
 Requires:         iptables iproute
-Requires(post):   /sbin/chkconfig
-Requires(post):   systemd-units
-Requires(post):   systemd-sysv
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
+Requires(post):   sed
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
 
 %description
 The Shoreline Firewall, more commonly known as "Shorewall", is a
@@ -48,11 +47,10 @@ Provides:       shorewall(firewall) = %{version}-%{release}
 
 Requires:         shorewall-core = %{version}-%{release}
 Requires:         iptables-ipv6 iproute
-Requires(post):   /sbin/chkconfig
-Requires(post):   systemd-units
-Requires(post):   systemd-sysv
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
+Requires(post):   sed
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
 
 %description -n shorewall6
 This package contains the files required for IPV6 functionality of the
@@ -65,11 +63,9 @@ Provides:       shorewall(firewall) = %{version}-%{release}
 
 Requires:         shorewall-core = %{version}-%{release}
 Requires:         iptables-ipv6 iproute
-Requires(post):   /sbin/chkconfig
-Requires(post):   systemd-units
-Requires(post):   systemd-sysv
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
 
 %description lite
 Shorewall Lite is a companion product to Shorewall that allows network
@@ -85,11 +81,9 @@ Provides:       shorewall(firewall) = %{version}-%{release}
 
 Requires:         shorewall-core = %{version}-%{release}
 Requires:         iptables-ipv6 iproute
-Requires(post):   /sbin/chkconfig
-Requires(post):   systemd-units
-Requires(post):   systemd-sysv
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
 
 %description -n shorewall6-lite
 Shorewall6 Lite is a companion product to Shorewall6 (the IPV6
@@ -114,11 +108,9 @@ Requires:         shorewall(firewall) = %{version}-%{release}
 Requires:         NetworkManager
 Requires:         shorewall = %{version}-%{release}
 Requires:         iptables-ipv6 iproute logrotate
-Requires(post):   /sbin/chkconfig
-Requires(post):   systemd-units
-Requires(post):   systemd-sysv
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
 
 %description init 
 This package adds additional initialization functionality to Shorewall in two
@@ -133,6 +125,12 @@ for 'event-driven' startup and shutdown.
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
+# Support .ko.xz kernel modules
+# https://bugzilla.redhat.com/show_bug.cgi?id=1181504
+%if 0%{?fedora} >= 21
+find -name shorewall\*.conf |
+    xargs sed -i -e 's/^MODULE_SUFFIX=ko$/MODULE_SUFFIX="ko.xz ko"/'
+%endif
 
 %build
 
@@ -165,6 +163,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %systemd_post shorewall.service
+%if 0%{?fedora} >= 21
+# Load xz kernel modules
+sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall/shorewall.conf
+%endif
 
 %preun
 %systemd_preun shorewall.service
@@ -185,6 +187,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %post -n shorewall6
 %systemd_post shorewall6.service
+%if 0%{?fedora} >= 21
+# Load xz kernel modules
+sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall/shorewall6.conf
+%endif
 
 %preun -n shorewall6
 %systemd_preun shorewall6.service
@@ -310,6 +316,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 2 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.1-2
+- Support xz compressed kernel modules on F21+ (bug #1181504)
+- Cleanup systemd requires
+
 * Tue Jan 27 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.1-1
 - Update to 4.6.6.1
 
