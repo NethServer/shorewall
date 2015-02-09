@@ -6,7 +6,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
+Version:        %{mainver}.2
 Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -316,6 +316,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall/shorew
 
 
 %changelog
+* Mon Feb 9 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-1
+- Update to 4.6.6.2
+
 * Mon Feb 2 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.1-2
 - Support xz compressed kernel modules on F21+ (bug #1181504)
 - Cleanup systemd requires
