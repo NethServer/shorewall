@@ -189,7 +189,7 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall/shorew
 %systemd_post shorewall6.service
 %if 0%{?fedora} >= 21
 # Load xz kernel modules
-sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall/shorewall6.conf
+sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shorewall6.conf
 %endif
 
 %preun -n shorewall6
@@ -316,6 +316,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall/shorew
 
 
 %changelog
+* Thu Feb 26 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-2
+- Fix shorewall6 %%post script
+
 * Mon Feb 9 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-1
 - Update to 4.6.6.2
 
