@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -316,10 +316,10 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
-* Thu Feb 26 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-2
+* Thu Feb 26 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-3
 - Fix shorewall6 %%post script
 
-* Mon Feb 9 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-1
+* Mon Feb 9 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-2
 - Update to 4.6.6.2
 
 * Mon Feb 2 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.1-2
