@@ -1,4 +1,4 @@
-%global mainver 4.6.6
+%global mainver 4.6.8
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.6/shorewall-%{mainver}/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.6/shorewall-%{mainver}/
 
@@ -6,8 +6,8 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.2
-Release:        3%{?dist}
+Version:        %{mainver}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -316,6 +316,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Wed Apr 8 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.8-1
+- Update to 4.6.8
+
 * Thu Feb 26 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.6.2-3
 - Fix shorewall6 %%post script
 
