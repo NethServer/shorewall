@@ -1,4 +1,4 @@
-%global mainver 4.6.9
+%global mainver 4.6.11
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.6/shorewall-%{mainver}/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.6/shorewall-%{mainver}/
 
@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -316,6 +316,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Tue Jul 7 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.11-1
+- Update to 4.6.11
+
 * Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.6.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
