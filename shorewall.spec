@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -47,6 +47,7 @@ Provides:       shorewall(firewall) = %{version}-%{release}
 
 Requires:         shorewall-core = %{version}-%{release}
 Requires:         iptables-ipv6 iproute
+Requires:         perl(Socket6)
 Requires(post):   sed
 Requires(post):   systemd
 Requires(preun):  systemd
@@ -316,6 +317,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Mon Jul 13 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.11.1-2
+- Make shorewall6 require perl(Socket6) (bug #1228822)
+
 * Mon Jul 13 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.11.1-1
 - Update to 4.6.11.1
 
