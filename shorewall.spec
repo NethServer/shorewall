@@ -1,4 +1,4 @@
-%global mainver 4.6.11
+%global mainver 4.6.12
 #global baseurl http://www.shorewall.net/pub/shorewall/development/4.6/shorewall-%{mainver}/
 %global baseurl http://www.shorewall.net/pub/shorewall/4.6/shorewall-%{mainver}/
 
@@ -7,7 +7,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -317,6 +317,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Mon Aug 23 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.12.1-1
+- Update to 4.6.12.1
+
 * Mon Jul 13 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.11.1-2
 - Make shorewall6 require perl(Socket6) (bug #1228822)
 
