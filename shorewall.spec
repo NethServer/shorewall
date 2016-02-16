@@ -1,13 +1,12 @@
-%global mainver 4.6.13
-#global baseurl http://www.shorewall.net/pub/shorewall/development/4.6/shorewall-%{mainver}/
-%global baseurl http://www.shorewall.net/pub/shorewall/4.6/shorewall-%{mainver}/
+%global mainver 5.0.4
+%global baseurl http://www.shorewall.net/pub/shorewall/5.0/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
-Release:        2%{?dist}
+Version:        %{mainver}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -138,13 +137,12 @@ find -name shorewall\*.conf |
 %install
 for i in shorewall-core shorewall shorewall-lite shorewall6 shorewall6-lite shorewall-init; do
     pushd ${i}-%{version}
-# shorewall-init.service.214 uses network-pre, only available in systemd >= 214
-# others use network-online, which is available earlier
-%if 0%{?fedora} >= 21
-    SERVICEFILE=${i}.service.214
-%else
-    [ ${i} != shorewall-init ] && SERVICEFILE=${i}.service.214 || SERVICEFILE=${i}.service
-%endif
+# Previous versions used shorewall-init.service.214 for systemd units that used
+# network-pre, only available in systemd >= 214 others use network-online,
+# which is available earlier. Starting with 5.x there is only unit services that need
+# network-online. Both RHEL 7 and Fedora >= 21 have systemd 214 we won't backport
+# shorewall to epel6
+    SERVICEFILE=${i}.service
     ./configure vendor=redhat INITFILE= SERVICEDIR=%{_unitdir} SERVICEFILE=$SERVICEFILE SBINDIR=%{_sbindir}
     DESTDIR=$RPM_BUILD_ROOT ./install.sh
     popd
@@ -220,12 +218,18 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %systemd_postun_with_restart shorewall-init.service 
 
 
+# Most /etc/shorewall permissions are 0600. rpmlint complains
+# about these, but it actually makes sense: just as you can't
+# call up iptables as a user, you should not be able to read
+# those files by default
 %files
-%doc shorewall-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples}
+%license shorewall-%{version}/COPYING
+%doc shorewall-%{version}/{changelog.txt,releasenotes.txt,Samples}
 %{_sbindir}/shorewall
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall
 %{_datadir}/shorewall/action.*
 %{_datadir}/shorewall/actions.std
 %{_datadir}/shorewall/configfiles/
@@ -251,11 +255,13 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %dir %{_localstatedir}/lib/shorewall
 
 %files lite
-%doc shorewall-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
+%license shorewall-lite-%{version}/COPYING
+%doc shorewall-lite-%{version}/{changelog.txt,releasenotes.txt}
 %{_sbindir}/shorewall-lite
 %dir %{_sysconfdir}/shorewall-lite
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall-lite
 %{_sysconfdir}/shorewall-lite/Makefile
 %{_datadir}/shorewall-lite
 %{_libexecdir}/shorewall-lite
@@ -265,11 +271,13 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %dir %{_localstatedir}/lib/shorewall-lite
 
 %files -n shorewall6
-%doc shorewall6-%{version}/{COPYING,changelog.txt,releasenotes.txt,Samples6}
+%license shorewall6-%{version}/COPYING
+%doc shorewall6-%{version}/{changelog.txt,releasenotes.txt,Samples6}
 %{_sbindir}/shorewall6
 %dir %{_sysconfdir}/shorewall6
 %config(noreplace) %{_sysconfdir}/shorewall6/*
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall6
 %{_mandir}/man5/shorewall6*
 %exclude %{_mandir}/man5/shorewall6-lite*
 %{_mandir}/man8/shorewall6*
@@ -279,11 +287,13 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %dir %{_localstatedir}/lib/shorewall6
 
 %files -n shorewall6-lite
-%doc shorewall6-lite-%{version}/{COPYING,changelog.txt,releasenotes.txt}
+%license shorewall6-lite-%{version}/COPYING
+%doc shorewall6-lite-%{version}/{changelog.txt,releasenotes.txt}
 %{_sbindir}/shorewall6-lite
 %dir %{_sysconfdir}/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6-lite
+%config(noreplace) %{_sysconfdir}/sysconfig/shorewall6-lite
 %{_sysconfdir}/shorewall6-lite/Makefile
 %{_mandir}/man5/shorewall6-lite*
 %{_mandir}/man8/shorewall6-lite*
@@ -293,7 +303,8 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %dir %{_localstatedir}/lib/shorewall6-lite
 
 %files core
-%doc shorewall-core-%{version}/{COPYING,changelog.txt,releasenotes.txt}
+%license shorewall-core-%{version}/COPYING
+%doc shorewall-core-%{version}/{changelog.txt,releasenotes.txt}
 %dir %{_datadir}/shorewall/
 %{_datadir}/shorewall/coreversion
 %{_datadir}/shorewall/functions
@@ -305,7 +316,8 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %{_libexecdir}/shorewall/wait4ifup
 
 %files init
-%doc shorewall-init-%{version}/{COPYING,changelog.txt,releasenotes.txt}
+%license shorewall-init-%{version}/COPYING
+%doc shorewall-init-%{version}/{changelog.txt,releasenotes.txt}
 %{_sbindir}/shorewall-init
 %{_sysconfdir}/NetworkManager/dispatcher.d/01-shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-init
@@ -317,6 +329,10 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Tue Feb 09 2016 Michele Baldessari <michele@acksyn.org> - 5.0.4-1
+- Update to 5.0.4
+- Move license to %license tag
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.13.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
@@ -326,7 +342,7 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 * Wed Sep 9 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.13-1
 - Update to 4.6.13
 
-* Mon Aug 23 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.12.1-1
+* Sun Aug 23 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.12.1-1
 - Update to 4.6.12.1
 
 * Mon Jul 13 2015 Orion Poplawski <orion@cora.nwra.com> - 4.6.11.1-2
