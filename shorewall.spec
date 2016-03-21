@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -27,7 +27,9 @@ BuildRequires:  systemd
 BuildArch:      noarch
 
 Requires:         shorewall-core = %{version}-%{release}
-Requires:         iptables iproute
+Requires:         iproute
+Requires:         iptables
+Requires:         sed
 Requires(post):   sed
 Requires(post):   systemd
 Requires(preun):  systemd
@@ -47,6 +49,7 @@ Provides:       shorewall(firewall) = %{version}-%{release}
 Requires:         shorewall-core = %{version}-%{release}
 Requires:         iptables-ipv6 iproute
 Requires:         perl(Socket6)
+Requires:         sed
 Requires(post):   sed
 Requires(post):   systemd
 Requires(preun):  systemd
@@ -329,6 +332,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Mon Mar 21 2016 Michele Baldessari <michele@acksyn.org> - 5.0.6.2-1
+- Add 'sed' requires. Fixes BZ#1319139
+
 * Thu Mar 17 2016 Michele Baldessari <michele@acksyn.org> - 5.0.6.2-1
 - Update to 5.0.6.2
 
