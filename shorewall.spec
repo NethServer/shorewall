@@ -1,4 +1,4 @@
-%global mainver 5.0.7
+%global mainver 5.0.8
 %global baseurl http://www.shorewall.net/pub/shorewall/5.0/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
@@ -332,6 +332,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Tue May 03 2016 Michele Baldessari <michele@acksyn.org> - 5.0.8.2-1
+- Update to 5.0.8.2
+
 * Sat Apr 02 2016 Michele Baldessari <michele@acksyn.org> - 5.0.7.2-1
 - Update to 5.0.7.2
 
