@@ -237,6 +237,7 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %{_datadir}/shorewall/actions.std
 %{_datadir}/shorewall/configfiles/
 %{_datadir}/shorewall/configpath
+%{_datadir}/shorewall/deprecated/
 %{_datadir}/shorewall/helpers
 %{_datadir}/shorewall/lib.cli-std
 %{_datadir}/shorewall/lib.core
