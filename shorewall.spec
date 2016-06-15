@@ -1,4 +1,4 @@
-%global mainver 5.0.8
+%global mainver 5.0.9
 %global baseurl http://www.shorewall.net/pub/shorewall/5.0/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
@@ -240,7 +240,7 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %{_datadir}/shorewall/deprecated/
 %{_datadir}/shorewall/helpers
 %{_datadir}/shorewall/lib.cli-std
-%{_datadir}/shorewall/lib.core
+%{_datadir}/shorewall/lib.runtime
 %{_datadir}/shorewall/macro.*
 %{_datadir}/shorewall/modules*
 %{_datadir}/shorewall/prog.*
@@ -333,6 +333,12 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Wed Jun 15 2016 Michele Baldessari <michele@acksyn.org> - 5.0.9.2-1
+- Update to 5.0.9.2
+
+* Sun Jun 05 2016 Michele Baldessari <michele@acksyn.org> - 5.0.9-1
+- Update to 5.0.9
+
 * Tue May 03 2016 Michele Baldessari <michele@acksyn.org> - 5.0.8.2-1
 - Update to 5.0.8.2
 
