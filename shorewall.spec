@@ -21,6 +21,7 @@ Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
 
 BuildRequires:  perl
+BuildRequires:  perl-generators
 BuildRequires:  perl(Digest::SHA)
 BuildRequires:  systemd
 
