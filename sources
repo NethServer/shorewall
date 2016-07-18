@@ -1,6 +1,7 @@
-e818b7edc8acd685fdd44bcd3b82b964  shorewall-5.0.10.tar.bz2
-c05fab6ce5bcf5f393aa44a42335d11c  shorewall6-5.0.10.tar.bz2
-a44c288ba3fcb333de68aee3a775e5b4  shorewall6-lite-5.0.10.tar.bz2
-4d4ce97b1e1df0536ab0fe5df80f015e  shorewall-core-5.0.10.tar.bz2
-fac8df878df53d6b1e537eb19affc6e3  shorewall-init-5.0.10.tar.bz2
-ff9fbeef97e28aef01e8535a98636797  shorewall-lite-5.0.10.tar.bz2
+5758e81b8869741972b6dfb0f8d5fe45  sources
+747e8f138bcd9e690dfb668d21fee7f9  shorewall-5.0.10.1.tar.bz2
+287a842bab001d8e6689e982741f4aeb  shorewall6-5.0.10.1.tar.bz2
+cb21c3b1fd6e8740a9fc5de75884847f  shorewall6-lite-5.0.10.1.tar.bz2
+6c195d6364f8d675559ebf83449ad655  shorewall-core-5.0.10.1.tar.bz2
+815f3d245f21bb71d2f7adb5942a063b  shorewall-init-5.0.10.1.tar.bz2
+8d68f15732a8a0fae9f1fc6fd5364fe7  shorewall-lite-5.0.10.1.tar.bz2
