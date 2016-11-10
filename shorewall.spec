@@ -1,11 +1,11 @@
-%global mainver 5.0.13
+%global mainver 5.0.14
 %global baseurl http://www.shorewall.net/pub/shorewall/5.0/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}
+Version:        %{mainver}.1
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -334,6 +334,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Thu Nov 10 2016 Michele Baldessari <michele@acksyn.org> - 5.0.14.1-1
+- Update to 5.0.14.1
+
 * Tue Oct 18 2016 Michele Baldessari <michele@acksyn.org> - 5.0.13-1
 - Update to 5.0.13
 
