@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -232,6 +232,7 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %{_sbindir}/shorewall
 %dir %{_sysconfdir}/shorewall
 %config(noreplace) %{_sysconfdir}/shorewall/*
+%ghost %attr(600,root,root) %{_sysconfdir}/shorewall/masq
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall
 %{_datadir}/shorewall/action.*
@@ -334,6 +335,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Wed Dec 21 2016 Michele Baldessari <michele@acksyn.org> - 5.0.14.1-2
+- Fix upgrade of masq files from versions by ghosting any existing file < 5.0.14
+
 * Thu Nov 10 2016 Michele Baldessari <michele@acksyn.org> - 5.0.14.1-1
 - Update to 5.0.14.1
 
