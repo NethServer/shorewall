@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -48,7 +48,7 @@ Group:          Applications/System
 Provides:       shorewall(firewall) = %{version}-%{release}
 
 Requires:         shorewall-core = %{version}-%{release}
-Requires:         iptables-ipv6 iproute
+Requires:         iptables iproute
 Requires:         perl(Socket6)
 Requires:         sed
 Requires(post):   sed
@@ -66,7 +66,7 @@ Summary:        Shorewall firewall for compiled rulesets
 Provides:       shorewall(firewall) = %{version}-%{release}
 
 Requires:         shorewall-core = %{version}-%{release}
-Requires:         iptables-ipv6 iproute
+Requires:         iptables iproute
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
@@ -84,7 +84,7 @@ Summary:        Shorewall firewall for compiled IPV6 rulesets
 Provides:       shorewall(firewall) = %{version}-%{release}
 
 Requires:         shorewall-core = %{version}-%{release}
-Requires:         iptables-ipv6 iproute
+Requires:         iptables iproute
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
@@ -111,7 +111,7 @@ Summary:        Initialization functionality and NetworkManager integration for 
 Requires:         shorewall(firewall) = %{version}-%{release}
 Requires:         NetworkManager
 Requires:         shorewall = %{version}-%{release}
-Requires:         iptables-ipv6 iproute logrotate
+Requires:         iptables iproute logrotate
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
@@ -335,6 +335,10 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Mon Dec 26 2016 Michele Baldessari <michele@acksyn.org> - 5.0.14.1-3
+- Drop iptables-ipv6 requires as the provides for it in the iptables
+  package is gone.
+
 * Wed Dec 21 2016 Michele Baldessari <michele@acksyn.org> - 5.0.14.1-2
 - Fix upgrade of masq files from versions by ghosting any existing file < 5.0.14
 
