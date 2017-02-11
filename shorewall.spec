@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -335,6 +335,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.14.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Mon Dec 26 2016 Michele Baldessari <michele@acksyn.org> - 5.0.14.1-3
 - Drop iptables-ipv6 requires as the provides for it in the iptables
   package is gone.
