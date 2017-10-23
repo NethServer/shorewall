@@ -1,12 +1,12 @@
-%global mainver 5.0.14
-%global baseurl http://www.shorewall.net/pub/shorewall/5.0/shorewall-%{mainver}/
+%global mainver 5.1.8
+%global baseurl http://www.shorewall.net/pub/shorewall/5.1/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.1
-Release:        5%{?dist}
+Version:        %{mainver}
+Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -268,7 +268,6 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %config(noreplace) %{_sysconfdir}/shorewall-lite/shorewall-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall-lite
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall-lite
-%{_sysconfdir}/shorewall-lite/Makefile
 %{_datadir}/shorewall-lite
 %{_libexecdir}/shorewall-lite
 %{_mandir}/man5/shorewall-lite*
@@ -300,7 +299,6 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %config(noreplace) %{_sysconfdir}/shorewall6-lite/shorewall6-lite.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/shorewall6-lite
 %config(noreplace) %{_sysconfdir}/sysconfig/shorewall6-lite
-%{_sysconfdir}/shorewall6-lite/Makefile
 %{_mandir}/man5/shorewall6-lite*
 %{_mandir}/man8/shorewall6-lite*
 %{_datadir}/shorewall6-lite
@@ -317,6 +315,7 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 %{_datadir}/shorewall/lib.base
 %{_datadir}/shorewall/lib.cli
 %{_datadir}/shorewall/lib.common
+%{_datadir}/shorewall/lib.core
 %{_datadir}/shorewall/shorewallrc
 %dir %{_libexecdir}/shorewall
 %{_libexecdir}/shorewall/wait4ifup
@@ -335,6 +334,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Mon Oct 23 2017 Michele Baldessari <michele@acksyn.org> - 5.1.8-1
+- New upstream release
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.14.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
