@@ -5,7 +5,7 @@
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}
+Version:        %{mainver}.2
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
@@ -334,6 +334,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Mon Jan 08 2018 Michele Baldessari <michele@acksyn.org> - 5.1.10.2-1
+- New upstream release
+
 * Wed Dec 27 2017 Michele Baldessari <michele@acksyn.org> - 5.1.10-1
 - New upstream release
 
