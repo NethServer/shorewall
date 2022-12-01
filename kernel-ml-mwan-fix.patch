@@ -1,0 +1,21 @@
+diff -Naur shorewall-5.1.10.2.ori/Perl/lib.runtime shorewall-5.1.10.2/Perl/lib.runtime
+--- shorewall-5.1.10.2.ori/Perl/lib.runtime	2022-12-01 09:14:02.950235968 +0100
++++ shorewall-5.1.10.2/Perl/lib.runtime	2022-12-01 09:25:07.980925071 +0100
+@@ -959,7 +959,7 @@
+     local delta
+     local dev
+ 
+-    route=`$IP -4 -o route ls table $2 | grep ^default | sed 's/default //; s/[\]//g'`
++    route=`$IP -4 -o route ls table $2 | grep ^default | sed 's/default //; s/linkdown//g; s/[\]//g'`
+ 
+     if [ -z "$route" ]; then
+ 	run_ip route add default scope global table $2 $1
+@@ -993,7 +993,7 @@
+     local gateway
+     local dev
+ 
+-    route=`$IP -4 -o route ls table $2 | grep ^default | sed 's/[\]//g'`
++    route=`$IP -4 -o route ls table $2 | grep ^default | sed 's/linkdown//g; s/[\]//g'`
+     gateway=$1
+ 
+     if [ -n "$route" ]; then

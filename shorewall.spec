@@ -6,7 +6,7 @@
 
 Name:           shorewall
 Version:        %{mainver}.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An iptables front end for firewall configuration
 Group:          Applications/System
 License:        GPLv2+
@@ -19,6 +19,7 @@ Source2:        %{baseurl}/%{name}6-%{version}.tar.bz2
 Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
+Patch0:         kernel-ml-mwan-fix.patch
 
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
@@ -126,6 +127,7 @@ for 'event-driven' startup and shutdown.
 
 %prep
 %setup -q -c -n %{name}-%{version} -T -a0 -a1 -a2 -a3 -a4 -a5
+%patch0 -p0
 # Remove hash-bang from files which are not directly executed as shell
 # scripts. This silences some rpmlint errors.
 find . -name "lib.*" -exec sed -i -e '/\#\!\/bin\/sh/d' {} \;
@@ -334,6 +336,9 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Thu Dec 01 2022 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 5.1.10.2-3
+- Apply mwan patch for mainline kernel
+
 * Mon Jan 08 2018 Michele Baldessari <michele@acksyn.org> - 5.1.10.2-1
 - New upstream release
 
